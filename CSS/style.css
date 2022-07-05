@@ -4,9 +4,24 @@
 
 body{
 
+    margin: 0;
     background-color: rgb(37, 36, 41);
     overflow: hidden;
 
+}
+
+.navigation{
+    
+    width: 100%;
+    background-color: rgb(84, 107, 240);
+    height: 3rem;
+    color: aliceblue;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
 
 .hidden {

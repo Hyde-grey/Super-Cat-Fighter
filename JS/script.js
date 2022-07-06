@@ -3,9 +3,9 @@ var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
 
-var selectors = document.querySelectorAll(".selector");
-
 var bgmStart = document.querySelector(".startBGM");
+
+var current = 1;
 
 function load(){
 
@@ -24,15 +24,7 @@ function startGame(){
 
 }
 
-function selectCharacter(){
 
-  for( selector of selectors ){
-
-    console.log(selector);
-
-  }
-
-}
 
 
 loadGame.addEventListener('click', load);  

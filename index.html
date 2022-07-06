@@ -7,13 +7,12 @@
 
     <title>Super Cat Fighter</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="https://muzika-senpai.github.io/Super-Cat-Fighter//apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://muzika-senpai.github.io/Super-Cat-Fighter//favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://muzika-senpai.github.io/Super-Cat-Fighter//favicon-16x16.png">
+
+
     <link rel="stylesheet" href="CSS/style.css">
 
 </head>
@@ -46,11 +45,11 @@
 
                 <div class="flex">
     
-                    <img src="IMG/Miko.png" alt="character 1">
+                    <img class="character" src="IMG/Miko.png" alt="Miko">
     
-                    <img src="IMG/Jack.png" alt="character 2">
+                    <img class="character" src="IMG/Jack.png" alt="Jack">
     
-                    <img src="IMG/Tiger.png" alt="character 3">
+                    <img class="character" src="IMG/Tiger.png" alt="Tiger">
     
                     <audio src="BGM/selection.mp3" id="selection" loop="loop" ></audio> 
 
@@ -58,7 +57,7 @@
     
                 <div class="selectors">
 
-                    <div class="selector hidden">
+                    <div class="selector hide">
                         <img src="IMG/selector.png" alt="selector">
                     </div>
 
@@ -66,12 +65,13 @@
                         <img src="IMG/selector.png" alt="selector">
                     </div>
 
-                    <div class="selector hidden">
+                    <div class="selector hide">
                         <img src="IMG/selector.png" alt="selector">
                     </div>
 
                 </div>
 
+                <script src="JS/selectionScreen.js"></script>
             </div>
     
             <div class="fight container">

@@ -10,6 +10,13 @@ body{
 
 }
 
+.body-container {
+
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .navigation{
     
     width: 100%;
@@ -30,42 +37,60 @@ body{
 
 }
 
-.body-container {
-
-    width: 65%;
-    margin: 0 auto;
-    text-align: center;
-}
-
 .container {
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    width: 100%;
+    width: 65%;
     margin: 0 auto;
-    height: auto;
-
+    
 }
 
 .character-selection{
-
-    background-image: url('../IMG/selection_background.gif');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-
-    height: 1080px;
-    width: 100%;
-
+    
     position: relative;
+
+    width: 100%;
+    
+}
+
+.flex{
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 70%;
+
+}
+
+.flex img{
+
+    width: 35%;
+
+}
+
+.selectors{
+
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 15%;
+    width: 70%;
+
 }
 
 .selector {
 
-    position: absolute;
-    bottom: 15%;
+
     width: 100px;
     animation: bounce 2s ease-in-out 2s infinite normal forwards;
 
@@ -105,21 +130,7 @@ body{
 	}
 }
 
-.flex{
 
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    overflow: hidden;
-
-}
-
-.flex img{
-
-    width: 35%;
-
-}
 
 #start {
 

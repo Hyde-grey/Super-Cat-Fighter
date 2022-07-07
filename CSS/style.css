@@ -1,5 +1,13 @@
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.debug{
+
+    border: 10px solid red;
+
 }
 
 body{
@@ -7,6 +15,7 @@ body{
     margin: 0;
     background-color: rgb(0, 0, 0);
     overflow: hidden;
+    height: 100VH;
 
 }
 
@@ -38,10 +47,25 @@ body{
 
 }
 
+.header{
+
+    position: relative;
+    
+
+}
+
+.fade-out{
+
+    transition: all 2s ease;
+    opacity: 0;
+    z-index: -999;
+    
+}
+
 .hide {
 
     opacity: 0;
-
+    z-index: -999;
 }
 
 .container {
@@ -51,16 +75,31 @@ body{
     align-items: center;
 
     width: 65%;
-    margin: 0 auto;
+    margin: 50px auto;
+    height: 85vh;
     
+}
+
+.intro {
+
+    width: 80%;
+    margin: 0 auto;
+
 }
 
 .character-selection{
     
     position: relative;
 
-    width: 100%;
+    width: 65%;
     
+}
+
+.selection-background{
+
+    
+    height: 85VH;
+
 }
 
 .character{
@@ -89,7 +128,7 @@ body{
 .flex img{
 
     width: 35%;
-    
+    margin: 0 auto;
 
 }
 
@@ -160,6 +199,21 @@ body{
     cursor: pointer;
 
 }
+
+.fight-loading{
+
+    transform: translateX(110%);
+    transition: all 5s ease;
+
+}
+
+.translate-left{
+
+    transform: translateX(110%);
+
+}
+
+
 
 
 

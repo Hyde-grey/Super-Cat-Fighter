@@ -30,7 +30,7 @@
 
             <div class="console-start container">
 
-                <video class="intro" controls>
+                <video class="intro">
 
                     <source src="IMG/Console_Start.MP4" type="video/mp4">
     
@@ -38,7 +38,7 @@
 
             </div>
 
-            <div class="container start-container hidden">
+            <div class="container start-container hide">
     
                 <img src="IMG/start.png" id="start" alt="Starting screen">
                 <audio src="BGM/start.mp3" id="main-bgm" loop="loop" ></audio>
@@ -81,11 +81,19 @@
 
                 </div>
 
-                <script src="JS/selectionScreen.js"></script>
+                
+            </div>
+
+            <div class="fight-loading">
+                <img src="IMG/fight-loading.png" alt="FIGHT!">
             </div>
     
-            <div class="fight container">
+            <div class="fight container hide">
     
+                <div class="fight-background">
+                    <img src="IMG/fight-background.png" alt="">
+                </div>
+
                 <div class="npc-container">
     
                     <div id="npc-health">
@@ -128,5 +136,6 @@
 
     </div>
     <script src="JS/script.js"></script>
+    <script src="JS/selectionScreen.js"></script>
 </body>
 </html>

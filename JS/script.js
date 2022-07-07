@@ -1,20 +1,35 @@
+///DOM ELEMENT///
+
 var consoleStart = document.querySelector(".console-start");
 var loadGame = document.querySelector(".navigation");
 var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
-var bgmStart = document.getElementById("main-bgm");
+
+///BGM and FX///
+
 var intro = document.querySelector(".intro");
+var bgmStart = document.getElementById("main-bgm");
+
+///FX///
+
+var startSound = new Audio('BGM/FX/game-start.wav');
+var selectionBGM = document.getElementById("selection");
 
 var nIntervID;
 
 var current = 1;
 
+
 function loadBGM(){
 
   bgmStart.play();
-  consoleStart.classList.add("hidden");
-  start.classList.remove("hidden");
+  bgmStart.volume = 0.50;
+  // consoleStart.classList.add("hidden");
+  consoleStart.classList.add("fade-out");
+  start.classList.remove("hide");
+  start.style.transform = "translateY(-105%)";
+  start.style.transition = "all 3s ease";
 
 }
 
@@ -30,11 +45,14 @@ function load(){
 
 function startGame(){
 
+  startSound.play();
+
   header.classList.add('hidden');
   main.classList.remove('hidden');
 
   bgmStart.pause();
-  document.getElementById("selection").play();
+  selectionBGM.play();
+  selectionBGM.volume = 0.50;
 
   clearInterval(nIntervID);
   nIntervID = null;

@@ -5,7 +5,7 @@
 body{
 
     margin: 0;
-    background-color: rgb(37, 36, 41);
+    background-color: rgb(0, 0, 0);
     overflow: hidden;
 
 }
@@ -34,7 +34,7 @@ body{
 
 .hidden {
 
-    display: none;
+    display: none !important;
 
 }
 
@@ -66,6 +66,7 @@ body{
 .character{
 
     transition: all 0.5s ease;
+    cursor: pointer;
 
 }
 
@@ -94,7 +95,7 @@ body{
 
 .selected {
 
-    transform: scale(1.2);
+    transform: scale(1.1);
 
 }
 

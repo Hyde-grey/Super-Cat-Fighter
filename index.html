@@ -7,7 +7,10 @@
 
     <title>Super Cat Fighter</title>
 
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+        
     <link rel="apple-touch-icon" sizes="180x180" href="https://muzika-senpai.github.io/Super-Cat-Fighter//apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="https://muzika-senpai.github.io/Super-Cat-Fighter//favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://muzika-senpai.github.io/Super-Cat-Fighter//favicon-16x16.png">
@@ -63,6 +66,8 @@
     
                     <audio src="BGM/selection.mp3" id="selection" loop="loop" ></audio> 
 
+                    
+
                 </div>
     
                 <div class="selectors">
@@ -80,7 +85,6 @@
                     </div>
 
                 </div>
-
                 
             </div>
 
@@ -88,40 +92,86 @@
                 <img src="IMG/fight-loading.png" alt="FIGHT!">
             </div>
     
-            <div class="fight container hide">
+            <div class="fight container">
     
                 <div class="fight-background">
-                    <img src="IMG/fight-background.png" alt="">
-                </div>
 
-                <div class="npc-container">
+                    <img class="fight-background-img" src="IMG/fight-background.png" alt="">
+
+                    <div class="npc-container">
     
-                    <div id="npc-health">
-    
+                        <div id="npc-health">
+        
+                        </div>
+
+                        <div class="npc-info">
+
+                            <div class="npc-name">
+
+                            </div>
+
+                            <div class="npc-hp">
+
+                                
+                            </div>
+
+                        </div>
+        
+                        <div class="npc">
+
+                            <img src="IMG/mr-mustache.png" alt="">
+
+                        </div>
+        
                     </div>
-    
-                    <div class="npc">
+        
+                    <div class="player-container">
+        
+                        <div id="player-health">
+        
+                        </div>
+
+                        <div class="player-info">
+
+                            <div class="character-name">
+
+                            </div>
+
+                            <div class="player-hp">
+
+                                
+                            </div>
+
+                        </div>
+        
+                        <div class="player">
+                             
+                            <img class="miko_stance hidden " src="IMG/miko_stance.png" alt="Miko">
+                            <img class="jack_stance hidden " src="IMG/jack_stance.png" alt="Jack">
+                            <img class="tiger_stance hidden " src="IMG/tiger_stance.png" alt="Tiger">
                         
+                            <div class="menu">
+        
+                                <div class="start-fight">
+                                    <button id="draw">DRAW</button> 
+                                </div>
+
+                                <div class="drawnCards">
+                                   
+
+
+                                </div>
+            
+                            </div>
+
+                        
+
+                        </div>
+        
+                       
+        
                     </div>
-    
-                </div>
-    
-                <div class="player-container">
-    
-                    <div id="player-health">
-    
-                    </div>
-    
-                    <div class="player">
-    
-                    </div>
-    
-                    <div class="menu">
-    
-    
-    
-                    </div>
-    
+
                 </div>
     
             </div>
@@ -135,7 +185,12 @@
         </footer>
 
     </div>
+
+    
+    
     <script src="JS/script.js"></script>
     <script src="JS/selectionScreen.js"></script>
+    <script src="JS/fightScreen.js"></script>
+    
 </body>
 </html>

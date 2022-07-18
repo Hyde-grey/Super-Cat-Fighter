@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    
 }
 
 .debug{
@@ -16,6 +17,8 @@ body{
     background-color: rgb(0, 0, 0);
     overflow: hidden;
     height: 100VH;
+    color: aliceblue;
+    font-family: 'Rubik', sans-serif;
 
 }
 
@@ -203,18 +206,135 @@ body{
 .fight-loading{
 
     transform: translateX(110%);
-    transition: all 5s ease;
+    opacity: 0;
+    transition: all 3s ease;
 
 }
 
-.translate-left{
+.npc , .player{
 
-    transform: translateX(110%);
+    transition: all 1.5s ease-in;
 
 }
 
 
+.fight-background{
 
+    position: relative;
+    margin-top: 100px;
+    
+
+}
+
+.fight-background-img{
+
+    opacity: 0;
+    transition: all 3s ease-out;
+
+}
+
+.npc-container{
+
+    position: absolute;
+    top: 0;
+    left: -50%;
+
+    transition: all 0.5s ease;
+
+}
+
+.player-container{
+
+    position: absolute;
+    top: 0;
+    right: -50%;
+
+    transition: all 0.5s ease;
+    
+
+}
+
+.npc-info{
+
+    position: absolute;
+    top: 85px;
+    right: 0;
+
+}
+
+.player-info{
+
+    position: absolute;
+    bottom: 300px;
+    left: 0;
+
+}
+
+.menu{
+
+    position: absolute;
+    bottom: 15%;
+    right: 15%;
+    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    border: 2px solid whitesmoke;
+    cursor: pointer;    
+
+}
+
+.drawnCards{
+
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.card{
+
+    margin: 5px;
+
+}
+
+.selected-card{
+
+    transform: scale(1.1);
+    transform: translateY(10px);
+    transition: all 0.5s ease-out;
+
+}
+
+#npc-health {
+
+    position: absolute;
+    top: 65px;
+    right: -25px;
+
+    height: 15px;
+    width: 650px;
+
+    border-radius: 5px;
+    background-color: aliceblue;
+
+}
+
+#player-health {
+
+    position: absolute;
+    bottom: 345px;
+    left: -45px;
+
+    height: 15px;
+    width: 650px;
+
+    border-radius: 5px;
+    background-color: aliceblue;
+
+}
 
 
 @media only screen and (max-width: 600px) {

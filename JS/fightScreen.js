@@ -67,7 +67,14 @@ var cardList = [atkCard,defCard,evaCard,healCard,specialAtk];
 function submitCardsSelection(){
 
     var pHealth = whatCharacter.hp;
-    
+    let npcMaxHealth = npcArr[0].hp;
+
+    var pCard = threeCards[current].cardName;
+    var npcCard = npcCards[current].cardName;
+
+    var pHitpoints = threeCards[current].hitPoints;
+    var npcHitpoints = npcCards[current].hitPoints;
+
         switch(threeCards[current].cardName){
 
             case "Attack":
@@ -286,11 +293,69 @@ function submitCardsSelection(){
 
             case "Heal":
 
-                pHealth += threeCards[current].hitPoints;
+                let pMaxHealth = whatCharacter.hp;
 
-                console.log("You healed by + " + threeCards[current].hitPoints + " HP.");
+                if(pHealth < pMaxHealth){
 
-                pHPBlock.innerHTML = pHealth;
+                    pHealth += threeCards[current].hitPoints;
+
+                    if( pHealth > pMaxHealth ){
+
+                        pHealth = pMaxHealth;
+                        pHPBlock.innerHTML = pHealth;
+
+                        console.log("You healed and reached your max HP.");
+                    }else{
+
+                        pHPBlock.innerHTML = pHealth;
+                        console.log("You healed for " + threeCards[current].hitPoints);
+
+                    }
+
+                }
+
+                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
+
+                    pHealth -= npcCards[current].hitPoints;
+                    pHPBlock.innerHTML = pHealth;
+
+                }else if(npcCards[current].cardName === "Defence"){
+
+                    console.log("You too the chance while you enemy is blocking to heal by " + pHitpoints + "HP.")
+
+                }else if(npcCards[current].cardName === "Evasion"){
+
+                    console.log("The enemy though you were about the strike but you healed instead");
+
+                }else if(npcCards[current].cardName === "Heal"){
+
+                    console.log("Looks like you both needed a heal");
+
+                    if(npcCards[current].cardName === "Heal"){
+    
+                        if(npcHPBlock.innerHTML == npcMaxHealth){
+    
+                            console.log("The enemy tries to heal but nothing happened");
+    
+                        }else if(npcHPBlock.innerHTML < npcMaxHealth){
+    
+                            npcHealth += npcCards[current].hitPoints;
+    
+                            if(npcHealth <= npcsArr[0].hp){
+    
+                                npcHPBlock.innerHTML = npcHealth;
+                                console.log("The enemy feinted an attack and healed");
+    
+                            }else{
+    
+                                npcHPBlock.innerHTML = npcsArr[0].hp;
+                                console.log("The enemy feinted an attack and healed");
+    
+                            }
+                        }
+
+                    }
+                }    
 
             break;
             
@@ -309,24 +374,27 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "special"){
 
-                    console.log("You both launch a ki blast!");
+                    console.log("You both launch a ki blast! ===o)(o=== ");
 
                     var hitChance = Math.floor(Math.random() * ( 10 - 0));
 
                     if(hitChance > 5){
 
-                        npcHealth -= threeCards[current].hitPoints;
+                        pHealth -= npcCards[current].hitPoints;
                         pHPBlock.innerHTML = pHealth;
+                        console.log("Your ki blast ====O) was stronger and the anemy took 25 points of DMG!!")
 
                     }else if(hitChance == 5){
 
                         console.log("You both attacked with equal amount of force and no one took DMG !");
 
-                    }else{
+                    }else if(hitChance < 5){
 
-                        pHealth -= npcCards[current].hitPoints;
+                        npcHealth -= threeCards[current].hitPoints;
                     
                         npcHPBlock.innerHTML = npcHealth;
+
+                        console.log("Your Ki blast was weaker you ended up taking the enemy's attack T.T");
 
                     }
 
@@ -381,6 +449,8 @@ function submitCardsSelection(){
             break;
 
         }
+
+        
 
         if(current <= 1){
 

@@ -67,7 +67,7 @@ var cardList = [atkCard,defCard,evaCard,healCard,specialAtk];
 function submitCardsSelection(){
 
     var pHealth = whatCharacter.hp;
-    let npcMaxHealth = npcArr[0].hp;
+    let npcMaxHealth = 40;
 
     var pCard = threeCards[current].cardName;
     var npcCard = npcCards[current].cardName;
@@ -460,6 +460,8 @@ function submitCardsSelection(){
         }else{
 
             current = 0;
+            threeCards = [];
+            npcCard = [];
             draw.disabled = false;
             console.log("time to draw new cards");
             

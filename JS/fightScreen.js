@@ -372,6 +372,8 @@ function submitCardsSelection(){
                     }
                     
                 }else if( npcCards[current].cardName === "Heal"){
+
+                    playerDodge();
   
                     if(npcHPBlock.innerHTML >= npcMaxHealth){
 
@@ -402,6 +404,7 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "Defence"){
 
+                    playerDodge();
                     console.log("You moved while the enemy puts his guard up.");
 
                 }       

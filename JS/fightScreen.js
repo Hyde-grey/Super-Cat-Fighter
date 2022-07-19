@@ -113,21 +113,32 @@ var nspecialAtk = {
 var cardList = [atkCard,defCard,evaCard,healCard,specialAtk]; 
 var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
+
+///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
+
 function npcDodge(){
 
     npcSprite.animate([
 
         { transform: "translatex(50%)" },
-        { transform: "translatex(55%)" }
-    ],
-    {duration: 300});
-
-    npcSprite.animate([
-
         { transform: "translatex(55%)" },
         { transform: "translatex(50%)" }
+        
     ],
-    {duration: 500});
+    {duration: 400});
+
+// setTimeout(function(){
+
+//     npcSprite.animate([
+
+//         { transform: "translatex(55%)" },
+//         { transform: "translatex(50%)" }
+//     ],
+//     {duration: 500});
+
+
+// }, 1000);
+
 
 }
 
@@ -136,18 +147,15 @@ function playerDodge(){
     currentCharacter.animate([
 
         { transform: "translatex(-50%)" },
-        { transform: "translatex(-55%)" }
-    ],
-    {duration: 300});
-
-    currentCharacter.animate([
-
         { transform: "translatex(-55%)" },
-        { transform: "translatex(-50%)"}
+        { transform: "translatex(-50%)" }
     ],
     {duration: 500});
 
+
 }
+
+////////////////////////////////////////END OF DODGING ANIMATION/////////////////////////////////////
 
 function submitCardsSelection(){
 

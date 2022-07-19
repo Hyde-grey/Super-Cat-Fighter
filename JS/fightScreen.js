@@ -309,6 +309,7 @@ function submitCardsSelection(){
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     console.log("You feinted an attack and made the enemy flinch.")
+                    npcDodge();
 
                 }else if( npcCards[current].cardName === "Heal"){
 
@@ -462,6 +463,8 @@ function submitCardsSelection(){
                     }
 
                 }else if(npcCards[current].cardName === "Evasion"){
+
+                    npcDodge();
    
                     if(pHPBlock.innerHTML == pMaxHealth){
 
@@ -621,6 +624,7 @@ function submitCardsSelection(){
 
                     if(calcEvaChance > successRate){
 
+                        npcDodge();
                         console.log("The enemy evades your attack !");
 
                     }else{

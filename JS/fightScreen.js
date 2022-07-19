@@ -1,9 +1,13 @@
 
 var draw = document.getElementById("draw");
 var drawnCards = document.querySelector(".drawnCards");
+var submitSelection = document.querySelector(".submit-selection");
 
 var pHPBlock = document.querySelector(".player-hp");
 var npcHPBlock = document.querySelector(".npc-hp");
+var npcSprite = document.querySelector(".npc");
+var currentCharacter = document.querySelector(".player");
+
 
 var threeCards = [];
 var selectedCards = [];
@@ -11,6 +15,8 @@ var selectedCards = [];
 
 var current = 0; 
 var npcHealth = npcsArr[0].hp;
+var pHealth = whatCharacter.hp;
+
 
 
 
@@ -20,11 +26,13 @@ var max = 10;
 var playerCards = [];
 var npcCards = [];
 
+/////////////////////////////////////////PLAYER CARDS/////////////////////////////////
+
 var atkCard = {
 
     cardName : "Attack",
 
-    hitPoints :  Math.round(Math.random() * (10 - 0)) + 0
+    hitPoints :  0
 
 }
 
@@ -32,7 +40,7 @@ var defCard = {
 
     cardName : "Defence",
 
-    hitPoints : Math.round(Math.random() * (10 - 0)) + 0
+    hitPoints : 0
 
 }
 
@@ -40,7 +48,7 @@ var evaCard = {
 
     cardName : "Evasion",
 
-    hitPoints : Math.round(Math.random() * (10 - 3)) + 3
+    hitPoints : 0
 
 }
 
@@ -48,7 +56,7 @@ var healCard = {
 
     cardName : "Heal",
 
-    hitPoints : Math.round(Math.random() * (10 - 5)) + 5
+    hitPoints : 0
 
 }
 
@@ -60,20 +68,90 @@ var specialAtk = {
 
 }
 
+//////////////////////////////NPCCARDS///////////////////////////////////////////////
 
-var cardList = [atkCard,defCard,evaCard,healCard,specialAtk];
+var natkCard = {
 
+    cardName : "Attack",
+
+    hitPoints :  0
+
+}
+
+var ndefCard = {
+
+    cardName : "Defence",
+
+    hitPoints : 0
+
+}
+
+var nevaCard = {
+
+    cardName : "Evasion",
+
+    hitPoints : 0
+
+}
+
+var nhealCard = {
+
+    cardName : "Heal",
+
+    hitPoints : 0
+
+}
+
+var nspecialAtk = {
+
+    cardName : "special",
+
+    hitPoints : 25
+
+}
+
+var cardList = [atkCard,defCard,evaCard,healCard,specialAtk]; 
+var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
+
+function npcDodge(){
+
+    npcSprite.animate([
+
+        { transform: "translatex(50%)" },
+        { transform: "translatex(55%)" }
+    ],
+    {duration: 300});
+
+    npcSprite.animate([
+
+        { transform: "translatex(55%)" },
+        { transform: "translatex(50%)" }
+    ],
+    {duration: 500});
+
+}
+
+function playerDodge(){
+
+    currentCharacter.animate([
+
+        { transform: "translatex(-50%)" },
+        { transform: "translatex(-55%)" }
+    ],
+    {duration: 300});
+
+    currentCharacter.animate([
+
+        { transform: "translatex(-55%)" },
+        { transform: "translatex(-50%)"}
+    ],
+    {duration: 500});
+
+}
 
 function submitCardsSelection(){
 
-    var pHealth = whatCharacter.hp;
-    let npcMaxHealth = 40;
-
-    var pCard = threeCards[current].cardName;
-    var npcCard = npcCards[current].cardName;
-
-    var pHitpoints = threeCards[current].hitPoints;
-    var npcHitpoints = npcCards[current].hitPoints;
+    let npcMaxHealth = npcsArr[0].hp;
 
         switch(threeCards[current].cardName){
 
@@ -113,7 +191,7 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.");
+                    console.log("You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.");
 
                     let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
 
@@ -128,45 +206,59 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    let max =npcCards[current].hitPoints;
-                    let success = Math.floor(Math.random() * ( max - min));
+                    console.log("the enemy attemps to evade your attack with " + npcCards[current].hitPoints + "0% chance of success.")
 
-                    if(success > npcCards[current].hitPoints){
+                    let successRate = 10 - npcCards[current].hitPoints;
 
-                        console.log("The enemy tries to evade but was too slow !");
+                    if(npcCards[current].hitPoints >= 10){
 
-                        npcHealth -= threeCards[current].hitPoints;
-                        npcHPBlock.innerHTML = npcHealth;
+                        successRate = 10;
+
+                    }
+
+                    let calcEvaChance = Math.floor(Math.random() * ( max - 1) +1);
+
+                    console.log(" npc rolled " + calcEvaChance);
+
+                    if(calcEvaChance >= successRate){
+
+                        npcDodge();
+                        console.log("The enemy evades your attack !");
 
                     }else{
 
-                        console.log("The enemy evaded your attack !");
+                        console.log("The enemy was too slow !");
+
+                        npcHealth -= threeCards[current].hitPoints;
+                        npcHPBlock.innerHTML = npcHealth;
 
                     }
                     
                 }else if( npcCards[current].cardName === "Heal"){
 
+                    console.log("You deal " + threeCards[current].hitPoints + " hitpoints.");
+
                     npcHealth -= threeCards[current].hitPoints;
-                    
                     npcHPBlock.innerHTML = npcHealth;
 
-                    if(npcHPBlock.innerHTML > npcsArr[0].hp){
+                    if(npcHPBlock.innerHTML >= npcMaxHealth){
 
                         console.log("The enemy tries to heal but nothing happened");
 
-                    }else if(npcHPBlock.innerHTML < npcsArr[0].hp){
+                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
 
                         npcHealth += npcCards[current].hitPoints;
 
-                        if(npcHealth <= npcsArr[0].hp){
+                        if(npcHealth <= npcMaxHealth){
 
                             npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy feinted an attack and healed");
+                            console.log("The enemy healed right after you attacked.");
+                            
 
                         }else{
 
-                            npcHPBlock.innerHTML = npcsArr[0].hp;
-                            console.log("The enemy feinted an attack and healed");
+                            npcHPBlock.innerHTML = npcMaxHealth;
+                            console.log("The enemy healed after you attacked and reached max HP.");
 
                         }
 
@@ -186,7 +278,7 @@ function submitCardsSelection(){
 
                         pHealth -= dmg;
 
-                        console.log("The enemy attacks you for " + npcCards[current].hitPoints + "You've blocked " + threeCards[current].hitPoints + " of DMG ");
+                        console.log("The enemy attacks you for " + npcCards[current].hitPoints + " hitpoints but you've blocked " + threeCards[current].hitPoints + " of DMG ");
 
                         pHPBlock.innerHTML = pHealth;
 
@@ -212,31 +304,27 @@ function submitCardsSelection(){
 
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    if(npcHPBlock.innerHTML > npcsArr[0].hp){
+                    if(npcHPBlock.innerHTML > npcHealth){
 
                         console.log("The enemy tries to heal but nothing happened");
 
-                    }else if(npcHPBlock.innerHTML < npcsArr[0].hp){
+                    }else if(npcHPBlock.innerHTML < npcHealth){
 
                         npcHealth += npcCards[current].hitPoints;
 
-                        if(npcHealth <= npcsArr[0].hp){
+                        if(npcHealth <= npcHealth){
 
                             npcHPBlock.innerHTML = npcHealth;
                             console.log("The enemy feinted an attack and healed");
 
                         }else{
 
-                            npcHPBlock.innerHTML = npcsArr[0].hp;
+                            npcHPBlock.innerHTML = npcHealth;
                             console.log("The enemy feinted an attack and healed");
 
                         }
 
                     }
-
-
-                }else{
-
 
                 }
 
@@ -245,48 +333,68 @@ function submitCardsSelection(){
             case "Evasion":
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
+    
+                    console.log("The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success.")
 
-                    if(threeCards[current].cardName === "Evasion"){
+                    let successRate = 10 - threeCards[current].hitPoints;
 
-                        let max = threeCards[current].hitPoints;
-                        let success = Math.floor(Math.random() * ( max - min));
-    
-                        if(success > threeCards[current].hitPoints){
-    
-                            pHealth -= npcCards[current].hitPoints;
-                            pHPBlock.innerHTML = pHealth;
-    
-                        }else{
-    
-                            console.log("You've dodged the npc's atk !");
-    
-                        }
-                        
-                    }   
+                    if(threeCards[current].hitPoints >= 10){
+
+                        successRate = 10;
+
+                    }
+
+                    let calcEvaChance = Math.floor(Math.random() * ( 10 - 1) +1);
+
+                    console.log(" You rolled " + calcEvaChance);
+
+                    if(calcEvaChance > successRate){
+
+                        console.log("You evade the attack !");
+                        playerDodge();
+
+                    }else{
+
+                        console.log("You were too slow and took the attack !");
+
+                        pHealth -= npcCards[current].hitPoints;
+                        pHPBlock.innerHTML = pHealth;
+
+                    }
                     
                 }else if( npcCards[current].cardName === "Heal"){
-
-                            
-                    if(npcHPBlock.innerHTML > npcsArr[0].hp){
+  
+                    if(npcHPBlock.innerHTML >= npcMaxHealth){
 
                         console.log("The enemy tries to heal but nothing happened");
 
-                    }else if(npcHPBlock.innerHTML < npcsArr[0].hp){
+                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
 
-                        npcHealth += npcCards[current].hitPoints;
+                        npcHealth += (npcHPBlock.innerHTML - npcCards[current].hitPoints);
 
-                        if(npcHealth <= npcsArr[0].hp){
+                        if(npcHealth <= npcMaxHealth){
 
                             npcHPBlock.innerHTML = npcHealth;
                             console.log("The enemy feinted an attack and healed");
 
                         }else{
 
-                            npcHPBlock.innerHTML = npcsArr[0].hp;
+                            npcHPBlock.innerHTML = npcMaxHealth;
                             console.log("The enemy feinted an attack and healed");
 
                         }
                     }
+
+                }else if(npcCards[current].cardName === "Evasion"){
+
+                    console.log("You both though the other was going to attack and moved to dodge.");
+                    npcDodge();
+                    playerDodge();
+
+                }else if(npcCards[current].cardName === "Defence"){
+
+                    console.log("You moved while the enemy puts his guard up.");
+
                 }       
 
             break;
@@ -295,37 +403,78 @@ function submitCardsSelection(){
 
                 let pMaxHealth = whatCharacter.hp;
 
-                if(pHealth < pMaxHealth){
-
-                    pHealth += threeCards[current].hitPoints;
-
-                    if( pHealth > pMaxHealth ){
-
-                        pHealth = pMaxHealth;
-                        pHPBlock.innerHTML = pHealth;
-
-                        console.log("You healed and reached your max HP.");
-                    }else{
-
-                        pHPBlock.innerHTML = pHealth;
-                        console.log("You healed for " + threeCards[current].hitPoints);
-
-                    }
-
-                }
-
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
 
                     pHealth -= npcCards[current].hitPoints;
                     pHPBlock.innerHTML = pHealth;
 
-                }else if(npcCards[current].cardName === "Defence"){
+                    if(pHPBlock.innerHTML == pMaxHealth){
 
-                    console.log("You too the chance while you enemy is blocking to heal by " + pHitpoints + "HP.")
+                        console.log("You tried to heal but nothing happened...");
+
+                    }else if(pHPBlock.innerHTML < pMaxHealth){
+
+                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
+
+                        if(pHealth < pMaxHealth){
+
+                            pHPBlock.innerHTML = pHealth;
+                            console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints but you healed for " + threeCards[current].hitPoints + " HP." );
+
+                        }else{
+
+                            pHPBlock.innerHTML = pMaxHealth;
+                            console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints but You healed and reached your max HP." );
+
+                        }
+                    }
+
+                }else if(npcCards[current].cardName === "Defence"){
+                    
+                    if(pHPBlock.innerHTML == pMaxHealth){
+
+                        console.log("You tried to heal but nothing happened...");
+
+                    }else if(pHPBlock.innerHTML < pMaxHealth){
+
+
+                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
+
+                        if(pHealth < pMaxHealth){
+
+                            pHPBlock.innerHTML = pHealth;
+                            console.log("You took the chance while you enemy is blocking to heal by " + threeCards[current].hitPoints + "HP.")
+
+                        }else{
+
+                            pHPBlock.innerHTML = pMaxHealth;
+                            console.log("You took the chance while you enemy is blocking to heal and reached your max HP.")
+
+                        }
+                    }
 
                 }else if(npcCards[current].cardName === "Evasion"){
+   
+                    if(pHPBlock.innerHTML == pMaxHealth){
 
-                    console.log("The enemy though you were about the strike but you healed instead");
+                        console.log("You tried to heal but nothing happened...");
+
+                    }else if(pHPBlock.innerHTML < pMaxHealth){
+
+                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
+
+                        if(pHealth < pMaxHealth){
+
+                            pHPBlock.innerHTML = pHealth;
+                            console.log("The enemy flinched while you healed for " + threeCards[current].hitPoints);
+
+                        }else{
+
+                            pHPBlock.innerHTML = pMaxHealth;
+                            console.log("The enemy flinched while you healed and reached your max HP.");
+
+                        }
+                    }
 
                 }else if(npcCards[current].cardName === "Heal"){
 
@@ -339,17 +488,38 @@ function submitCardsSelection(){
     
                         }else if(npcHPBlock.innerHTML < npcMaxHealth){
     
-                            npcHealth += npcCards[current].hitPoints;
+                            npcHealth += (npcHPBlock.innerHTML - npcCards[current].hitPoints);
     
-                            if(npcHealth <= npcsArr[0].hp){
+                            if(npcHealth < npcMaxHealth){
     
                                 npcHPBlock.innerHTML = npcHealth;
                                 console.log("The enemy feinted an attack and healed");
     
                             }else{
     
-                                npcHPBlock.innerHTML = npcsArr[0].hp;
+                                npcHPBlock.innerHTML = npcMaxHealth;
                                 console.log("The enemy feinted an attack and healed");
+    
+                            }
+                        }
+
+                        if(pHPBlock.innerHTML == pMaxHealth){
+
+                            console.log("You tried to heal but nothing happened...");
+    
+                        }else if(pHPBlock.innerHTML < pMaxHealth){
+    
+                            pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
+    
+                            if(pHealth < pMaxHealth){
+    
+                                pHPBlock.innerHTML = pHealth;
+                                console.log("You healed for " + threeCards[current].hitPoints);
+    
+                            }else{
+    
+                                pHPBlock.innerHTML = pMaxHealth;
+                                console.log("You healed and reached your max HP.");
     
                             }
                         }
@@ -363,14 +533,15 @@ function submitCardsSelection(){
 
                 if(npcCards[current].cardName === "Attack"){
 
-                    console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints.");
-                    console.log("You hit the enemy with a Special attack " + threeCards[current].hitPoints + " hitpoints.");
+                    console.log("The enemy hits you with " + npcCards[current].hitPoints + " hitpoints.");
+                    console.log("You hit the enemy with a Ki Blast ===o) dealing " + threeCards[current].hitPoints + " hitpoints.");
 
                     pHealth -= npcCards[current].hitPoints;
-                    npcHealth -= threeCards[current].hitPoints;
-                    
-                    npcHPBlock.innerHTML = npcHealth;
                     pHPBlock.innerHTML = pHealth;
+
+                    npcHealth -= threeCards[current].hitPoints;
+                    npcHPBlock.innerHTML = npcHealth;
+                    
 
                 }else if(npcCards[current].cardName === "special"){
 
@@ -382,7 +553,7 @@ function submitCardsSelection(){
 
                         pHealth -= npcCards[current].hitPoints;
                         pHPBlock.innerHTML = pHealth;
-                        console.log("Your ki blast ====O) was stronger and the anemy took 25 points of DMG!!")
+                        console.log("Your ki blast ====O) was stronger and the enemy took 25 points of DMG!!")
 
                     }else if(hitChance == 5){
 
@@ -394,14 +565,14 @@ function submitCardsSelection(){
                     
                         npcHPBlock.innerHTML = npcHealth;
 
-                        console.log("Your Ki blast was weaker you ended up taking the enemy's attack T.T");
+                        console.log("Your Ki blast was weaker =o)(O=== and you ended up taking the enemy's attack T.T");
 
                     }
 
                     
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints < threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.");
+                    console.log("You're attacking with a Ki blast ===o) and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points some of the dammage was negated.");
 
                     let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;
 
@@ -411,7 +582,7 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.");
+                    console.log("You're attacking with a Ki blast ===o) " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.");
 
                     let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
 
@@ -426,23 +597,62 @@ function submitCardsSelection(){
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    let max =npcCards[current].hitPoints;
-                    let success = Math.floor(Math.random() * ( max - min));
+                    console.log("the enemy attemps to evade your Ki blast ===o) with " + npcCards[current].hitPoints + "0% chance of success.")
 
-                    if(success > npcCards[current].hitPoints){
+                    let successRate = 10 - npcCards[current].hitPoints;
 
-                        console.log("The enemy tries to evade but was too slow !");
+                    if(npcCards[current].hitPoints >= 10){
+
+                        successRate = 10;
+
+                    }
+
+                    let calcEvaChance = Math.floor(Math.random() * ( max - 1));
+
+                    console.log(" npc rolled " + calcEvaChance);
+
+                    if(calcEvaChance > successRate){
+
+                        console.log("The enemy evades your attack !");
+
+                    }else{
+
+                        console.log("The enemy was too slow !");
 
                         npcHealth -= threeCards[current].hitPoints;
                         npcHPBlock.innerHTML = npcHealth;
 
                     }
                     
-                }else{
+                }else if( npcCards[current].cardName === "Heal"){
+
+                    console.log("You're attacking with a Ki blast ===o)");
 
                     npcHealth -= threeCards[current].hitPoints;
-                    
                     npcHPBlock.innerHTML = npcHealth;
+
+                    if(npcHPBlock.innerHTML >= npcMaxHealth){
+
+                        console.log("The enemy tries to heal but nothing happened");
+
+                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
+
+                        npcHealth += npcCards[current].hitPoints;
+
+                        if(npcHealth < npcMaxHealth){
+
+                            npcHPBlock.innerHTML = npcHealth;
+                            console.log("The enemy healed right after you attacked.");
+                            
+
+                        }else{
+
+                            npcHPBlock.innerHTML = npcMaxHealth;
+                            console.log("The enemy healed after you attacked and reached max HP.");
+
+                        }
+
+                    }
 
                 }
 
@@ -450,20 +660,81 @@ function submitCardsSelection(){
 
         }
 
+
+        ///////////Get Health from each turn and display it on screen///////////
+
+        let pMaxHealth = whatCharacter.hp;
+
+         
+        var npchpDecrease =  npcMaxHealth - npcHPBlock.innerHTML;
+        // console.log("current health on screen is " + npcHPBlock.innerHTML + " the max health is " + npcMaxHealth);
+        var npcPercentage = (npchpDecrease/npcMaxHealth) * 100;
+
+        var npcBar = document.getElementById("npc-health");
+        npcBar.style.width = (100 - npcPercentage) +"%";
+
+        var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
+        var pPercentage = (phpDecrease/pMaxHealth) * 100;
         
+
+        var pBar = document.getElementById("player-health");
+        pBar.style.width = (100 - pPercentage) +"%";
+
+        //////////////////////////////////////////////////////////////////////
+
+        if(pHPBlock.innerHTML <= 0){
+
+            console.log("Your health reached 0...");
+            pHPBlock.innerHTML = 0;
+            pBar.style.width = "0%";
+            alert("Game Over You Lose...");
+
+        }else if(npcHPBlock.innerHTML <= 0){
+
+            console.log("The enemy's health reached 0.")
+            npcHPBlock.innerHTML = 0;
+            npcBar.style.width = "0%";
+            alert("Game Over You Win !!!");
+
+        }
 
         if(current <= 1){
 
+           
+            
+            switch(current){
+
+                case 0:
+
+                    submitSelection.innerHTML = "Submit your first Card";
+
+                break;    
+
+                case 1:
+
+                    submitSelection.innerHTML = "Submit your second Card";
+                    
+                break;  
+
+                case 2:
+
+                    submitSelection.innerHTML = "Submit your third Card";
+                    
+                break;  
+
+            }
+            
             current ++;
-            console.log("Card " + (current+1));
+            console.log("Card " + (current + 1));
 
         }else{
 
             current = 0;
             threeCards = [];
-            npcCard = [];
+            npcCards = [];
+
             draw.disabled = false;
-            console.log("time to draw new cards");
+            alert("time to draw new cards");
             
         }
 
@@ -502,7 +773,7 @@ function cardChance (){
     let max = 100; 
     var cardType;
 
-    var result = Math.floor(Math.random() * ( max - min))
+    var result = Math.floor(Math.random() * ( max - min));
 
     if(result <= 10){
 
@@ -531,6 +802,41 @@ function cardChance (){
 
 }
 
+function npcCardChance (){
+
+    let min = 1;
+    let max = 100; 
+    var cardType;
+
+    var result = Math.floor(Math.random() * ( max - min))
+
+    if(result <= 10){
+
+        cardType = nhealCard;
+
+    }else if(result > 10 && result <= 35){
+
+        cardType = nevaCard;
+
+    }else if(result > 35 && result <= 65){
+
+        cardType = ndefCard;
+
+    }else if(result > 65 && result <= 95){
+
+        cardType = natkCard;
+    
+    }else{
+
+        cardType = nspecialAtk;
+
+    }
+
+    return cardType;
+            
+
+}
+
 function playerRandomCards(){
 
     console.log(whatCharacter.firstName + " was selected");
@@ -543,54 +849,107 @@ function playerRandomCards(){
 
     playerCards.length = 0;
 
-    let max = cardList.length;
-    let min = 0;
+    var characterBonus = whatCharacter.bonus;
+    var characterWeakness = whatCharacter.weakness;
+
+    var atkBonus = 0;
+    var defBonus = 0;
+    var evaBonus = 0;
+    var defDebuf = 0;
+    var healDebuf = 0;
+    var evaDebuf = 0;
+
+    switch(whatCharacter.firstName){
+
+        case "Miko":
+
+           evaBonus = characterBonus;
+           healDebuf = characterWeakness;
+
+        break;  
+        
+        case "Jack":
+
+           atkBonus = characterBonus;
+           defDebuf = characterWeakness;
+           
+        break;
+
+        case "Tiger":
+
+           defBonus = characterBonus;
+           evaDebuf = characterWeakness;
+           
+        break;
+
+    }
+
 
     for( i = 0 ; i <= 4 ; i++ ){
-
  
-        let card = cardChance();
+        const playerCard = cardChance();
         
-        switch(card.cardName){
+        switch(playerCard.cardName){
 
             case "Attack" :
 
-            card.hitPoints = Math.round(Math.random() * (10 - 0)) + 0;
-            playerCards.push(card);
+            playerCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
+            playerCard.hitPoints += atkBonus;
+
+            
+
+            playerCards.push(playerCard);
 
             break;
 
             case "Defence" : 
 
-            card.hitPoints = Math.round(Math.random() * (10 - 0)) + 0;
-            playerCards.push(card);
+            playerCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
+            playerCard.hitPoints += defBonus;
+            playerCard.hitPoints -= defDebuf;
+
+            
+
+            playerCards.push(playerCard);
 
             break;
 
             case "Heal" : 
 
-            card.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
-            playerCards.push(card);
+            playerCard.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
+            playerCard.hitPoints -= healDebuf;
+
+            
+
+            playerCards.push(playerCard);
 
             break;
 
             case "Evasion" : 
 
-            card.hitPoints = Math.round(Math.random() * (10 - 3)) + 3;
-            playerCards.push(card);
+            playerCard.hitPoints = Math.round(Math.random() * (10 - 3)) + 3;
+
+            playerCard.hitPoints += evaBonus;
+            playerCard.hitPoints -= evaDebuf;
+
+            
+
+            playerCards.push(playerCard);
 
             break;
 
             case "special" : 
 
-            playerCards.push(card);
+            
+
+            playerCards.push(playerCard);
 
             break;
 
 
         }
         
-        console.log(card);
+        console.log(playerCard);
         
 
         let selector = document.createElement("div");
@@ -631,34 +990,67 @@ function npcRandomCards(){
 
     npcCards.length = 0;
 
-    let max = cardList.length;
-    let min = 0;
-
     for( i = 0 ; i <= 2 ; i++ ){
 
-        let card = cardChance();
+ 
+        const npcCard = npcCardChance();
+        
+        switch(npcCard.cardName){
 
-        if(card.cardName != "special"){
+            case "Attack" :
 
-            card.hitPoints = Math.round(Math.random() * (10 - 0)) + 0;
+            npcCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
 
-            npcCards.push(card);
+            
 
-            console.log("Enemy cards are " + npcCards[i].cardName + " with  " + npcCards[i].hitPoints + " hitPoints");
+            npcCards.push(npcCard);
 
+            break;
 
-        }else{
+            case "Defence" : 
 
-            npcCards.push(card);
+            npcCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
 
-            console.log("Enemy cards are " + npcCards[i].cardName + " with  " + npcCards[i].hitPoints + " hitPoints");
+            
+
+            npcCards.push(npcCard);
+
+            break;
+
+            case "Heal" : 
+
+            npcCard.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
+
+            
+
+            npcCards.push(npcCard);
+
+            break;
+
+            case "Evasion" : 
+
+            npcCard.hitPoints = Math.round(Math.random() * (10 - 3)) + 3;
+
+            
+
+            npcCards.push(npcCard);
+
+            break;
+
+            case "special" : 
+
+           
+
+            npcCards.push(npcCard);
+
+            break;
+
 
         }
-
-        
+    
+        console.log(npcCard);
 
     }
-    
 
 }
 

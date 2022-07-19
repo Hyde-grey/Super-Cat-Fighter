@@ -308,21 +308,32 @@ body{
 
 }
 
-#npc-health {
+.npc-health-container{
 
     position: absolute;
     top: 65px;
     right: -25px;
 
-    height: 15px;
+    
     width: 650px;
+
+
+
+}
+
+#npc-health {
+
+    height: 15px;
+    width: 100%;
 
     border-radius: 5px;
     background-color: aliceblue;
 
+    transition: all 0.5 ease-out;
+
 }
 
-#player-health {
+.player-health-container {
 
     position: absolute;
     bottom: 345px;
@@ -330,11 +341,22 @@ body{
 
     height: 15px;
     width: 650px;
+  
+
+}
+
+#player-health {
+
+    height: 15px;
+    width: 100%;
 
     border-radius: 5px;
     background-color: aliceblue;
+    transition: all 0.5 ease-out;
 
 }
+
+
 
 
 @media only screen and (max-width: 600px) {

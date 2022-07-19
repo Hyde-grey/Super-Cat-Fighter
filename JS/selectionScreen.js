@@ -31,17 +31,27 @@
     
     const miko = {
         firstName: "Miko",
-        hp: 35
+        hp: 35,
+        bonus: 3,
+        weakness: 2
     };
 
     const jack = {
+
         firstName: "Jack",
-        hp: 45
+        hp: 45,
+        bonus: 2,
+        weakness: 2
+
     };
 
     const tiger = {
+
         firstName: "Tiger",
-        hp: 55
+        hp: 55,
+        bonus: 2,
+        weakness: 2
+
     };
 
     var characterArr = [miko, jack, tiger];

@@ -20,6 +20,7 @@ var pHealth = whatCharacter.hp;
 
 
 
+
 var min = 0;
 var max = 10;
 
@@ -155,11 +156,32 @@ function playerDodge(){
 
 }
 
+function playerTakesDMG(npcCard){
+
+    pHealth -= npcCard;
+    
+    pHPBlock.innerHTML = pHealth;
+    console.log("The enemy hits you with " + npcCard + " hitpoints.");
+
+}
+
+function npcTakesDMG(pCard){
+
+    npcHealth -= pCard;
+    npcHPBlock.innerHTML = npcHealth;
+    console.log("You hit the enemy with " + pCard + " hitpoints.");
+
+}
+
 ////////////////////////////////////////END OF DODGING ANIMATION/////////////////////////////////////
 
 function submitCardsSelection(){
 
+    let pMaxHealth = whatCharacter.hp;
     let npcMaxHealth = npcsArr[0].hp;
+
+    console.log("Current NPC card is " + npcCards[current].cardName + " with " + npcCards[current].hitPoints + ".");
+    console.log("Current Players card is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + ".");
 
         switch(threeCards[current].cardName){
 
@@ -167,14 +189,8 @@ function submitCardsSelection(){
             
                 if(npcCards[current].cardName === "Attack"){
 
-                    console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints.");
-                    console.log("You hit the enemy with " + threeCards[current].hitPoints + " hitpoints.");
-
-                    pHealth -= npcCards[current].hitPoints;
-                    npcHealth -= threeCards[current].hitPoints;
-                    
-                    npcHPBlock.innerHTML = npcHealth;
-                    pHPBlock.innerHTML = pHealth;
+                    npcTakesDMG(threeCards[current].hitPoints)
+                    playerTakesDMG(npcCards[current].hitPoints);
 
                 }else if(npcCards[current].cardName === "special"){
 
@@ -228,7 +244,7 @@ function submitCardsSelection(){
 
                     console.log(" npc rolled " + calcEvaChance);
 
-                    if(calcEvaChance >= successRate){
+                    if(calcEvaChance > successRate || calcEvaChance == 10){
 
                         npcDodge();
                         console.log("The enemy evades your attack !");
@@ -413,8 +429,6 @@ function submitCardsSelection(){
 
             case "Heal":
 
-                let pMaxHealth = whatCharacter.hp;
-
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
 
                     pHealth -= npcCards[current].hitPoints;
@@ -551,10 +565,10 @@ function submitCardsSelection(){
                     console.log("You hit the enemy with a Ki Blast ===o) dealing " + threeCards[current].hitPoints + " hitpoints.");
 
                     pHealth -= npcCards[current].hitPoints;
-                    pHPBlock.innerHTML = pHealth;
-
                     npcHealth -= threeCards[current].hitPoints;
+                    
                     npcHPBlock.innerHTML = npcHealth;
+                    pHPBlock.innerHTML = pHealth;
                     
 
                 }else if(npcCards[current].cardName === "special"){
@@ -678,20 +692,17 @@ function submitCardsSelection(){
 
         ///////////Get Health from each turn and display it on screen///////////
 
-        let pMaxHealth = whatCharacter.hp;
-
-         
+        console.log("The current NPC health is " + npcHPBlock.innerHTML);         
         var npchpDecrease =  npcMaxHealth - npcHPBlock.innerHTML;
-        // console.log("current health on screen is " + npcHPBlock.innerHTML + " the max health is " + npcMaxHealth);
         var npcPercentage = (npchpDecrease/npcMaxHealth) * 100;
 
         var npcBar = document.getElementById("npc-health");
         npcBar.style.width = (100 - npcPercentage) +"%";
 
+        console.log("The current Player health is " + pHPBlock.innerHTML);  
         var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
         var pPercentage = (phpDecrease/pMaxHealth) * 100;
         
-
         var pBar = document.getElementById("player-health");
         pBar.style.width = (100 - pPercentage) +"%";
 

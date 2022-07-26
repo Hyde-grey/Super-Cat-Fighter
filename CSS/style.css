@@ -487,16 +487,16 @@ body{
 
     .npc-health-container{
 
-        top: 5%;
+        top: 6%;
         right: -2%;
-        width: 50%;
+        width: 49%;
         z-index: -999;
     }
 
     .npc-info{
 
-        top: 4%;
-        right: -2%;
+        top: 5%;
+        right: -1%;
         display: flex;
         justify-content: space-between;
         color: black;
@@ -520,7 +520,7 @@ body{
 
         display: flex;
         width: 50%;
-        bottom: 28%;
+        bottom: 28.5%;
 
         color: black;
 
@@ -528,9 +528,9 @@ body{
 
     .player-health-container{
 
-        width: 50%;
-        left: -5%;
-        bottom: 30%;
+        width: 49%;
+        left: -4%;
+        bottom: 29%;
         z-index: -999;
 
     }

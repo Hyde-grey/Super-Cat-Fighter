@@ -25,8 +25,9 @@ body{
 .body-container {
 
     width: 100%;
-    margin: 0 auto;
+    margin:  auto;
     text-align: center;
+
 }
 
 .navigation{
@@ -83,6 +84,23 @@ body{
     
 }
 
+.flex-container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+   
+
+
+}
+
 .intro {
 
     width: 80%;
@@ -92,9 +110,8 @@ body{
 
 .character-selection{
     
-    position: relative;
-
-    width: 65%;
+    
+    width: 100%;
     
 }
 
@@ -119,12 +136,7 @@ body{
     align-items: center;
     overflow: hidden;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 70%;
+    width: 100%;
 
 }
 
@@ -145,9 +157,7 @@ body{
 
     display: flex;
     justify-content: space-around;
-    position: absolute;
-    bottom: 15%;
-    width: 70%;
+    width: 100%;
 
 }
 
@@ -254,6 +264,17 @@ body{
 
 }
 
+.effect-sprites{
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    transition: all 0.5s ease;
+
+
+}
+
 .npc-info{
 
     position: absolute;
@@ -273,8 +294,8 @@ body{
 .menu{
 
     position: absolute;
-    bottom: 15%;
-    right: 15%;
+    bottom: 10%;
+    right: 4%;
     
 
     display: flex;
@@ -284,6 +305,28 @@ body{
     padding: 20px;
     border: 2px solid whitesmoke;
     cursor: pointer;    
+
+    width: 50%;
+   
+   
+   justify-content: space-around;
+   flex-direction: column;
+
+}
+
+
+.drawnCards{
+
+    width: 100%;
+    margin: 5PX;
+
+}
+
+.submit-selection{
+
+    margin-top: 20px;
+    display: block;
+    text-transform: capitalize;
 
 }
 
@@ -329,7 +372,7 @@ body{
     border-radius: 5px;
     background-color: aliceblue;
 
-    transition: all 0.5 ease-out;
+    transition: all ease-out;
 
 }
 
@@ -359,10 +402,173 @@ body{
 
 
 
-@media only screen and (max-width: 600px) {
-    .body-container{
+@media only screen and (max-width: 1180px) {
+
+
+    *{
+
+        /* border: 1px solid red; */
+
+    }
+
+    .intro{
 
         width: 100%;
 
     }
+
+    body{
+
+        height: auto;
+        width: 100%;
+
+    }
+
+    .container {
+
+        width: 100%;
+        margin: 0!important;
+
+    }
+
+    .main{
+
+        width: 100%;
+
+
+    }
+
+    .selection-background{
+
+
+        height: 35VH;
+
+    }
+
+    .selector img {
+
+        width: 50%;
+
+    }
+
+    .selectors {
+
+        bottom: 35%
+
+    }
+
+    .fight-loading img{
+
+        margin: 50% à;
+        width: 100%;
+
+    }
+
+    .fight-background{
+
+        height: 45VH;
+
+    }
+
+    .fight-background-img{
+        width: 100%;
+    }
+
+    .npc-container{
+
+        right: 50%;
+
+
+    }
+
+    .npc{
+        width: 100%;
+    }
+
+    .npc-health-container{
+
+        top: 5%;
+        right: -2%;
+        width: 50%;
+        z-index: -999;
+    }
+
+    .npc-info{
+
+        top: 4%;
+        right: -2%;
+        display: flex;
+        justify-content: space-between;
+        color: black;
+
+    }
+
+    .player-container{
+
+        width: 100%;
+        position: absolute;
+
+
+    }
+    .player{
+
+        width: 100%;
+
+    }
+
+    .player-info{
+
+        display: flex;
+        width: 50%;
+        bottom: 28%;
+
+        color: black;
+
+    }
+
+    .player-health-container{
+
+        width: 50%;
+        left: -5%;
+        bottom: 30%;
+        z-index: -999;
+
+    }
+
+    .npc img{
+        width: 100%;
+    }
+
+    .player img{
+        width: 100%;
+    }
+
+    .menu{
+
+        bottom: -46%;
+        right: 0;
+
+       width: 100%;
+       display: flex;
+       justify-content: space-around;
+       flex-direction: column;
+
+
+    }
+
+    .drawnCards{
+
+        width: 100%;
+        margin: 5PX;
+
+    }
+
+    .submit-selection{
+
+        margin: 5px;
+        display: block;
+
+    }
+
+
   }

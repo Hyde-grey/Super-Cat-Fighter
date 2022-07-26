@@ -101,7 +101,67 @@
         for (character of characters) {
 
             character.addEventListener('click', selected);
+            character.addEventListener('mouseover', function(event){
 
+
+                selectSound.play();
+                selectSound.volume = 0.20;
+
+                for(character of characters){
+
+                    character.classList.remove("selected");
+
+                }
+
+                for(selector of selectors){
+
+                    selector.classList.add("hide");
+
+                }
+
+                event.target.classList.add("selected");
+                
+
+                for( i = 0 ; i < selectors.length ; i++){
+
+                    if(characters[i].classList.contains("selected")){
+
+                        selectors[i].classList.remove("hide");
+                        charactersInfoDisplay(i);
+
+                    }
+
+                }
+
+
+            })
+
+        }
+
+
+    }
+
+    function charactersInfoDisplay(number){
+
+        switch(number){
+
+            case 0:
+
+                document.querySelector(".characters-infos").innerHTML ="Miko has higher evade chance but lower health."
+
+            break;
+
+            case 1:
+
+                document.querySelector(".characters-infos").innerHTML ="Jack has higher ATK but weaker DEF."
+
+            break;
+
+            case 2:
+
+                document.querySelector(".characters-infos").innerHTML ="Tiger has higher DEF and health but lower ATK."
+
+            break;
         }
 
 
@@ -109,13 +169,16 @@
 
     function prevCharacter() {
 
+
         selectSound.play();
+        selectSound.volume = 0.20;
 
         for (i = 0; i < characters.length; i++) {
 
             if (characters[i].classList.contains('selected')) {
 
                 current = i;
+                charactersInfoDisplay(i);
 
             }
 
@@ -125,6 +188,7 @@
         characters[current].classList.remove("selected");
 
         current--;
+        charactersInfoDisplay(current);
 
 
         if (current < 0) {
@@ -133,11 +197,13 @@
 
             characters[current].classList.add("selected");
             selectors[current].classList.remove("hide");
+            charactersInfoDisplay(current);
 
         } else if (current >= characters.length) {
 
             current = 0;
 
+            charactersInfoDisplay(current);
             characters[current].classList.remove("selected");
             selectors[current].classList.add("hide");
 
@@ -153,6 +219,7 @@
     function nextCharacter() {
 
         selectSound.play();
+        selectSound.volume = 0.20;
 
         for (i = 0; i < characters.length; i++) {
 
@@ -168,18 +235,21 @@
         characters[current].classList.remove("selected");
 
         current++;
+        charactersInfoDisplay(current);
 
         if (current >= characters.length) {
 
             current = 0;
             characters[current].classList.add("selected");
             selectors[current].classList.remove("hide");
+            charactersInfoDisplay(current);
 
         }
 
         whatCharacter = characterArr[current];
         characters[current].classList.add("selected");
         selectors[current].classList.remove("hide");
+        charactersInfoDisplay(current);
 
     }
 
@@ -234,7 +304,10 @@
 
     function toFightScreen(whatCharacter) {
 
+        startSound.play();
+        startSound.volume = 0.20;
         fight.play();
+        fight.volume = 0.20;
         characterSelection.remove();
         header.remove();
         fightLoading.style.transform = "translateX(0%)";
@@ -252,7 +325,7 @@
                 this.currentTime = 0;
                 this.play();
             }, false);
-            firstFight.volume = 0.50;
+            firstFight.volume = 0.10;
 
             loadNPC();
 

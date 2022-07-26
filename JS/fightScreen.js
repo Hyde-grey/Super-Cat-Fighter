@@ -4,21 +4,28 @@ var drawnCards = document.querySelector(".drawnCards");
 var submitSelection = document.querySelector(".submit-selection");
 
 var pHPBlock = document.querySelector(".player-hp");
+var pBar = document.getElementById("player-health");
 var npcHPBlock = document.querySelector(".npc-hp");
+var npcBar = document.getElementById("npc-health");
 var npcSprite = document.querySelector(".npc");
 var currentCharacter = document.querySelector(".player");
+var charactersSprites = document.querySelectorAll(".character-sprite");
+var menuContent = document.querySelector(".menu-content");
+var fightDialogue = document.querySelector(".fight-dialogue");
 
 
 var threeCards = [];
 var selectedCards = [];
 
-
+var turns = 0;
 var current = 0; 
 var npcHealth = npcsArr[0].hp;
-var pHealth = whatCharacter.hp;
 
+var pHealth;
+var pMaxHealth;
+var npcMaxHealth;
 
-
+var currentCharacter;
 
 
 var min = 0;
@@ -117,6 +124,59 @@ var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 
+function playerAtk(){
+
+    console.log("Atk animation function launched the current character is " + whatCharacter.firstName + ".")
+
+    let elem;
+
+    switch(whatCharacter.firstName){
+
+        case "Miko":
+        console.log("Miko is attaking");
+        elem = document.querySelector(".miko_stance");
+        elem.src = "IMG/miko_atk.png";
+
+        setTimeout(function(){
+
+            elem.src = "IMG/miko_stance.png"
+
+        },700);
+
+        break;
+
+        case "Jack" :
+            console.log("Jack is attaking");
+            elem = document.querySelector(".jack_stance");
+            elem.src = "IMG/jack_atk.png";
+    
+            setTimeout(function(){
+    
+                elem.src = "IMG/jack_stance.png"
+    
+            },1000);
+
+        break;
+
+        case "Tiger" : 
+        console.log("tiger is attaking");
+        elem = document.querySelector(".tiger_stance");
+        elem.src = "IMG/tiger_atk.png";
+
+        setTimeout(function(){
+
+            elem.src = "IMG/tiger_stance.png"
+
+        },1000);
+
+        break;
+
+    }
+
+
+}
+
+
 function npcDodge(){
 
     npcSprite.animate([
@@ -127,19 +187,6 @@ function npcDodge(){
         
     ],
     {duration: 400});
-
-// setTimeout(function(){
-
-//     npcSprite.animate([
-
-//         { transform: "translatex(55%)" },
-//         { transform: "translatex(50%)" }
-//     ],
-//     {duration: 500});
-
-
-// }, 1000);
-
 
 }
 
@@ -158,83 +205,300 @@ function playerDodge(){
 
 function playerTakesDMG(npcCard){
 
+    playerTakesDMGAnimation();
+
     pHealth -= npcCard;
     
     pHPBlock.innerHTML = pHealth;
-    console.log("The enemy hits you with " + npcCard + " hitpoints.");
+    
 
 }
 
 function npcTakesDMG(pCard){
 
+    npcTakesDMGAnimation();
+
     npcHealth -= pCard;
     npcHPBlock.innerHTML = npcHealth;
-    console.log("You hit the enemy with " + pCard + " hitpoints.");
+    
+
+}
+
+function playerHeal(){
+
+    function addHealSprite(){
+
+        var elem = document.createElement("img");
+        elem.classList.add("effect-sprites");
+        elem.src = 'IMG/player_healing.png';
+        currentCharacter.appendChild(elem);
+
+        setTimeout(function(){
+
+            elem.remove();
+            console.log("Elem has been removed.")
+            
+        }, 1000)
+
+    }
+
+    if(pHPBlock.innerHTML >= pMaxHealth){
+
+        fightDialogue.innerHTML = "The enemy tries to heal but nothing happened";
+
+    }else if(pHPBlock.innerHTML < pMaxHealth){
+
+        pHealth += threeCards[current].hitPoints;
+
+        if(pHealth <= pMaxHealth){
+
+            pHPBlock.innerHTML = pHealth;
+            fightDialogue.innerHTML = "You healed for " + threeCards[current].hitPoints + " HP.";
+            addHealSprite();
+            
+
+        }else if(pHealth > pMaxHealth){
+
+            pHPBlock.innerHTML = pMaxHealth;
+            fightDialogue.innerHTML = "You healed and reached max HP.";
+            addHealSprite();
+
+        }
+
+    }
+
+
+
+
+}
+
+function npcHeal(){
+
+    if(npcHPBlock.innerHTML >= npcMaxHealth){
+
+        fightDialogue.innerHTML = "The enemy tries to heal but nothing happened";
+
+    }else if(npcHPBlock.innerHTML < npcMaxHealth){
+
+        npcHealth += npcCards[current].hitPoints;
+
+        if(npcHealth <= npcMaxHealth){
+
+            npcHPBlock.innerHTML = npcHealth;
+            fightDialogue.innerHTML ="The enemy healed for " + npcCards[current].hitPoints + " HP.";
+            
+
+        }else if(npcHealth > npcMaxHealth){
+
+            npcHPBlock.innerHTML = npcMaxHealth;
+            fightDialogue.innerHTML = "The enemy healed and reached max HP.";
+
+        }
+
+    }
 
 }
 
 ////////////////////////////////////////END OF DODGING ANIMATION/////////////////////////////////////
 
+/////////////////////////////////////////////GETTING HIT ANIMATION///////////////////////////////////////
+
+function playerTakesDMGAnimation(){
+
+    currentCharacter.animate([
+
+        { transform: "translatex(-50%)" },
+        { transform: "translatex(-51%)" },
+        { transform: "translatex(-49%)" },
+        { transform: "translatex(-51%)" },
+        { transform: "translatex(-49%)" },
+        { transform: "translatex(-50%)" },
+    ],
+    {duration: 500});
+
+}
+
+function npcTakesDMGAnimation(){
+
+    npcSprite.animate([
+
+        { transform: "translatex(50%)" },
+        { transform: "translatex(51%)" },
+        { transform: "translatex(49%)" },
+        { transform: "translatex(51%)" },
+        { transform: "translatex(49%)" },
+        { transform: "translatex(50%)" },
+    ],
+    {duration: 500});
+
+}
+
+/////////////////////////////////////////////GETTING HIT ANIMATION END///////////////////////////////////////
+
+function startRound(){
+
+    menuContent.classList.add("hidden");
+    fightDialogue.classList.remove("hidden");
+
+    submitCardsSelection();
+    turns ++;
+
+    let nIntervID = setInterval(function(){
+
+        
+        if( turns < 3){
+
+            submitCardsSelection();
+            turns ++;
+            console.log("interval is launched");
+            console.log("turn is " + turns);
+            nIntervID;
+    
+        }else if(turns == 3){
+    
+            console.log("interval was stopped");
+           
+            clearInterval(nIntervID);
+            turns = 0;
+            menuContent.classList.remove("hidden");
+            fightDialogue.classList.add("hidden");
+           
+
+    
+        }
+
+        if(npcHPBlock.innerHTML <= 0){
+
+            clearInterval(nIntervID);
+            console.log("interval was stopped");
+
+        }
+    
+    }, 4000);
+
+}
+
+function playerHealthChange(){
+
+    console.log("The current Player health is " + pHPBlock.innerHTML);  
+    var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
+    var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
+    
+    
+    var newHP = (100 - pPercentage) +"%";
+   
+    pBar.style.width = newHP;
+
+    // pBar.animate(
+    //     [
+    //         {width: currentHP, easing: 'ease-out' },
+    //         {width: newHP, easing: 'ease-out'},
+
+    //     ],{duration: 1000});
+
+
+
+}
+
+function npcHealthChange(){
+
+    
+    console.log("The current NPC health is " + npcHPBlock.innerHTML);         
+    var npchpDecrease =  npcMaxHealth - npcHPBlock.innerHTML;
+    var npcPercentage = (npchpDecrease/npcMaxHealth) * 100;
+
+    // let currentHP = npcHPBlock.innerHTML + "%";
+    // let newHP = (100 - npcPercentage) +"%";
+
+    npcBar.style.width = (100 - npcPercentage) +"%";
+
+    // npcBar.animate(
+    // [
+    //     {width: current, easing: 'ease-out'},
+    //     {width: newHP, easing: 'ease-out'},
+
+    // ],{duration: 1000});
+
+}
+
+
+
 function submitCardsSelection(){
 
-    let pMaxHealth = whatCharacter.hp;
-    let npcMaxHealth = npcsArr[0].hp;
+    pHealth = pHPBlock.innerHTML;
+    pMaxHealth = whatCharacter.hp;
+    npcMaxHealth = npcsArr[0].hp;
 
-    console.log("Current NPC card is " + npcCards[current].cardName + " with " + npcCards[current].hitPoints + ".");
-    console.log("Current Players card is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + ".");
+    function getCurrentPhp(){
+
+     
+        var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
+        var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
+        
+        var currentHP = (100 - pPercentage) +"%";
+    
+        console.log("The current Player health is " + currentHP + " HP."); 
+    
+        return currentHP;
+    
+    }
+
+    let currentHP = getCurrentPhp();
+
+    // console.log("Current NPC card is " + npcCards[current].cardName + " with " + npcCards[current].hitPoints + ".");
+    // console.log("Current Players card is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + ".");
 
         switch(threeCards[current].cardName){
 
             case "Attack":
             
+                playerAtk();
+
                 if(npcCards[current].cardName === "Attack"){
 
-                    npcTakesDMG(threeCards[current].hitPoints)
+                    npcTakesDMG(threeCards[current].hitPoints);
                     playerTakesDMG(npcCards[current].hitPoints);
+
+                    fightDialogue.innerHTML = "The enemy hits you with " + npcCards[current].hitPoints + " hitpoints. <br> And you hit the enemy with " + threeCards[current].hitPoints + "  hitpoints";
 
                 }else if(npcCards[current].cardName === "special"){
 
-                    console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints.");
-                    console.log("You hit the enemy with " + threeCards[current].hitPoints + " hitpoints.");
+                    fightDialogue.innerHTML ="The Enemy hits you with a Ki blast of " + npcCards[current].hitPoints + " hitpoints. </br> You hit the enemy with " + threeCards[current].hitPoints + " hitpoints.";
 
-                    pHealth -= npcCards[current].hitPoints;
-                    npcHealth -= threeCards[current].hitPoints;
-                    
-                    npcHPBlock.innerHTML = npcHealth;
-                    pHPBlock.innerHTML = pHealth;
+                    playerTakesDMG(npcCards[current].hitPoints);
+                    npcTakesDMG(threeCards[current].hitPoints);
 
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints < threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.");
+                    fightDialogue.innerHTML = "You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.";
 
                     let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;
 
-                    npcHealth -= dmg;
-
-                    npcHPBlock.innerHTML = npcHealth;
+                    npcTakesDMG(dmg);
+                    
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.");
+                    fightDialogue.innerHTML = "You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.";
 
                     let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
 
-                    pHealth -= dmg;
-
-                    pHPBlock.innerHTML = pHealth;
+                    playerTakesDMG(dmg);
 
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
 
-                    console.log("The enemy has successfully blocked your attack no DMG was dealt !")
+                    fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
 
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    console.log("the enemy attemps to evade your attack with " + npcCards[current].hitPoints + "0% chance of success.")
+                    fightDialogue.innerHTML = "the enemy attemps to evade your attack with " + npcCards[current].hitPoints + "0% chance of success.";
 
-                    let successRate = 10 - npcCards[current].hitPoints;
+                    let successRate = npcCards[current].hitPoints;
+                    let max = 10;
+                    let evadeChance = max - successRate;
 
-                    if(npcCards[current].hitPoints >= 10){
+                    if(npcCards[current].hitPoints > 10){
 
                         successRate = 10;
 
@@ -244,49 +508,28 @@ function submitCardsSelection(){
 
                     console.log(" npc rolled " + calcEvaChance);
 
-                    if(calcEvaChance > successRate || calcEvaChance == 10){
+                    if(calcEvaChance >= evadeChance){
 
                         npcDodge();
-                        console.log("The enemy evades your attack !");
+                        fightDialogue.innerHTML = "The enemy evades your attack !";
 
+                        
                     }else{
 
-                        console.log("The enemy was too slow !");
-
-                        npcHealth -= threeCards[current].hitPoints;
-                        npcHPBlock.innerHTML = npcHealth;
+                       
+                        fightDialogue.innerHTML = "The enemy was too slow and took " + threeCards[current].hitpoints + "!";
+                        npcTakesDMG(threeCards[current].hitPoints);
+                      
 
                     }
                     
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    console.log("You deal " + threeCards[current].hitPoints + " hitpoints.");
+                    fightDialogue.innerHTML = "You deal " + threeCards[current].hitPoints + " hitpoints.";
 
-                    npcHealth -= threeCards[current].hitPoints;
-                    npcHPBlock.innerHTML = npcHealth;
+                    npcTakesDMG(threeCards[current].hitPoints);
 
-                    if(npcHPBlock.innerHTML >= npcMaxHealth){
-
-                        console.log("The enemy tries to heal but nothing happened");
-
-                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
-
-                        npcHealth += npcCards[current].hitPoints;
-
-                        if(npcHealth <= npcMaxHealth){
-
-                            npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy healed right after you attacked.");
-                            
-
-                        }else{
-
-                            npcHPBlock.innerHTML = npcMaxHealth;
-                            console.log("The enemy healed after you attacked and reached max HP.");
-
-                        }
-
-                    }
+                    npcHeal();
 
                 }
 
@@ -302,7 +545,7 @@ function submitCardsSelection(){
 
                         pHealth -= dmg;
 
-                        console.log("The enemy attacks you for " + npcCards[current].hitPoints + " hitpoints but you've blocked " + threeCards[current].hitPoints + " of DMG ");
+                        fightDialogue.innerHTML = "The enemy attacks you for " + npcCards[current].hitPoints + " hitpoints but you've blocked " + threeCards[current].hitPoints + " of DMG ";
 
                         pHPBlock.innerHTML = pHealth;
 
@@ -310,46 +553,26 @@ function submitCardsSelection(){
 
                         let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;;
 
-                        npcHealth -= dmg;
+                        npcTakesDMG(dmg);
 
-                        console.log("You've managed to counter the enemy some of the dmg is returned!");
+                        fightDialogue.innerHTML = "You've managed to counter the enemy some of the dmg is returned!";
 
-                        npcHPBlock.innerHTML = npcHealth;
+                        
 
                     }
                     
                 }else if(npcCards[current].cardName === "Defence"){
 
-                    console.log("You both put up your guards");
+                    fightDialogue.innerHTML = "You both put up your guards";
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    console.log("You feinted an attack and made the enemy flinch.")
+                    fightDialogue.innerHTML ="You feinted an attack and made the enemy flinch.";
                     npcDodge();
 
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    if(npcHPBlock.innerHTML > npcHealth){
-
-                        console.log("The enemy tries to heal but nothing happened");
-
-                    }else if(npcHPBlock.innerHTML < npcHealth){
-
-                        npcHealth += npcCards[current].hitPoints;
-
-                        if(npcHealth <= npcHealth){
-
-                            npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy feinted an attack and healed");
-
-                        }else{
-
-                            npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy feinted an attack and healed");
-
-                        }
-
-                    }
+                    npcHeal();
 
                 }
 
@@ -359,7 +582,7 @@ function submitCardsSelection(){
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
     
-                    console.log("The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success.")
+                    fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success.";
 
                     let successRate = 10 - threeCards[current].hitPoints;
 
@@ -373,17 +596,16 @@ function submitCardsSelection(){
 
                     console.log(" You rolled " + calcEvaChance);
 
-                    if(calcEvaChance > successRate){
+                    if(calcEvaChance >= successRate){
 
-                        console.log("You evade the attack !");
+                        fightDialogue.innerHTML = "You evade the attack !";
                         playerDodge();
 
                     }else{
 
-                        console.log("You were too slow and took the attack !");
+                        fightDialogue.innerHTML = "You were too slow and took the attack !";
 
-                        pHealth -= npcCards[current].hitPoints;
-                        pHPBlock.innerHTML = pHealth;
+                        playerTakesDMG(npcCards[current].hitPoints);
 
                     }
                     
@@ -391,37 +613,18 @@ function submitCardsSelection(){
 
                     playerDodge();
   
-                    if(npcHPBlock.innerHTML >= npcMaxHealth){
-
-                        console.log("The enemy tries to heal but nothing happened");
-
-                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
-
-                        npcHealth += (npcHPBlock.innerHTML - npcCards[current].hitPoints);
-
-                        if(npcHealth <= npcMaxHealth){
-
-                            npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy feinted an attack and healed");
-
-                        }else{
-
-                            npcHPBlock.innerHTML = npcMaxHealth;
-                            console.log("The enemy feinted an attack and healed");
-
-                        }
-                    }
+                    npcHeal();
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    console.log("You both though the other was going to attack and moved to dodge.");
+                    fightDialogue.innerHTML = "You both though the other was going to attack and moved to dodge.";
                     npcDodge();
                     playerDodge();
 
                 }else if(npcCards[current].cardName === "Defence"){
 
                     playerDodge();
-                    console.log("You moved while the enemy puts his guard up.");
+                    fightDialogue.innerHTML = "You moved while the enemy puts his guard up.";
 
                 }       
 
@@ -431,127 +634,33 @@ function submitCardsSelection(){
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
 
-                    pHealth -= npcCards[current].hitPoints;
-                    pHPBlock.innerHTML = pHealth;
-
-                    if(pHPBlock.innerHTML == pMaxHealth){
-
-                        console.log("You tried to heal but nothing happened...");
-
-                    }else if(pHPBlock.innerHTML < pMaxHealth){
-
-                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
-
-                        if(pHealth < pMaxHealth){
-
-                            pHPBlock.innerHTML = pHealth;
-                            console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints but you healed for " + threeCards[current].hitPoints + " HP." );
-
-                        }else{
-
-                            pHPBlock.innerHTML = pMaxHealth;
-                            console.log("The Enemy hits you with " + npcCards[current].hitPoints + " hitpoints but You healed and reached your max HP." );
-
-                        }
-                    }
+                    playerTakesDMG(npcCards[current].hitPoints);
+                    playerHeal();
+                    
 
                 }else if(npcCards[current].cardName === "Defence"){
                     
-                    if(pHPBlock.innerHTML == pMaxHealth){
-
-                        console.log("You tried to heal but nothing happened...");
-
-                    }else if(pHPBlock.innerHTML < pMaxHealth){
+                    playerHeal();
 
 
-                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
-
-                        if(pHealth < pMaxHealth){
-
-                            pHPBlock.innerHTML = pHealth;
-                            console.log("You took the chance while you enemy is blocking to heal by " + threeCards[current].hitPoints + "HP.")
-
-                        }else{
-
-                            pHPBlock.innerHTML = pMaxHealth;
-                            console.log("You took the chance while you enemy is blocking to heal and reached your max HP.")
-
-                        }
-                    }
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     npcDodge();
+                    playerHeal();
    
-                    if(pHPBlock.innerHTML == pMaxHealth){
-
-                        console.log("You tried to heal but nothing happened...");
-
-                    }else if(pHPBlock.innerHTML < pMaxHealth){
-
-                        pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
-
-                        if(pHealth < pMaxHealth){
-
-                            pHPBlock.innerHTML = pHealth;
-                            console.log("The enemy flinched while you healed for " + threeCards[current].hitPoints);
-
-                        }else{
-
-                            pHPBlock.innerHTML = pMaxHealth;
-                            console.log("The enemy flinched while you healed and reached your max HP.");
-
-                        }
-                    }
 
                 }else if(npcCards[current].cardName === "Heal"){
 
-                    console.log("Looks like you both needed a heal");
+                    fightDialogue.innerHTML = "Looks like you both needed a heal";
 
                     if(npcCards[current].cardName === "Heal"){
     
-                        if(npcHPBlock.innerHTML == npcMaxHealth){
-    
-                            console.log("The enemy tries to heal but nothing happened");
-    
-                        }else if(npcHPBlock.innerHTML < npcMaxHealth){
-    
-                            npcHealth += (npcHPBlock.innerHTML - npcCards[current].hitPoints);
-    
-                            if(npcHealth < npcMaxHealth){
-    
-                                npcHPBlock.innerHTML = npcHealth;
-                                console.log("The enemy feinted an attack and healed");
-    
-                            }else{
-    
-                                npcHPBlock.innerHTML = npcMaxHealth;
-                                console.log("The enemy feinted an attack and healed");
-    
-                            }
-                        }
+                        npcHeal();
 
-                        if(pHPBlock.innerHTML == pMaxHealth){
+                        playerHeal();
 
-                            console.log("You tried to heal but nothing happened...");
-    
-                        }else if(pHPBlock.innerHTML < pMaxHealth){
-    
-                            pHealth += (pHPBlock.innerHTML - threeCards[current].hitPoints);
-    
-                            if(pHealth < pMaxHealth){
-    
-                                pHPBlock.innerHTML = pHealth;
-                                console.log("You healed for " + threeCards[current].hitPoints);
-    
-                            }else{
-    
-                                pHPBlock.innerHTML = pMaxHealth;
-                                console.log("You healed and reached your max HP.");
-    
-                            }
-                        }
-
+                        
                     }
                 }    
 
@@ -561,71 +670,59 @@ function submitCardsSelection(){
 
                 if(npcCards[current].cardName === "Attack"){
 
-                    console.log("The enemy hits you with " + npcCards[current].hitPoints + " hitpoints.");
-                    console.log("You hit the enemy with a Ki Blast ===o) dealing " + threeCards[current].hitPoints + " hitpoints.");
+                    fightDialogue.innerHTML ="The enemy hits you with " + npcCards[current].hitPoints + " hitpoints. <br> You hit the enemy with a Ki Blast ===o) dealing " + threeCards[current].hitPoints + " hitpoints.";
 
-                    pHealth -= npcCards[current].hitPoints;
-                    npcHealth -= threeCards[current].hitPoints;
-                    
-                    npcHPBlock.innerHTML = npcHealth;
-                    pHPBlock.innerHTML = pHealth;
-                    
+                    npcTakesDMG(threeCards[current].hitPoints);
+                    playerTakesDMG(npcCards[current].hitPoints);
 
                 }else if(npcCards[current].cardName === "special"){
 
-                    console.log("You both launch a ki blast! ===o)(o=== ");
+                    fightDialogue.innerHTML = "You both launch a ki blast! ===o)(o=== ";
 
                     var hitChance = Math.floor(Math.random() * ( 10 - 0));
 
                     if(hitChance > 5){
 
-                        pHealth -= npcCards[current].hitPoints;
-                        pHPBlock.innerHTML = pHealth;
-                        console.log("Your ki blast ====O) was stronger and the enemy took 25 points of DMG!!")
+                        npcTakesDMG(threeCards[current].hitPoints);
+                        fightDialogue.innerHTML = "Your ki blast ====O) was stronger and the enemy took 25 points of DMG!!";
 
                     }else if(hitChance == 5){
 
-                        console.log("You both attacked with equal amount of force and no one took DMG !");
+                        fightDialogue.innerHTML = "You both attacked with equal amount of force and no one took DMG !";
 
                     }else if(hitChance < 5){
 
-                        npcHealth -= threeCards[current].hitPoints;
-                    
-                        npcHPBlock.innerHTML = npcHealth;
-
-                        console.log("Your Ki blast was weaker =o)(O=== and you ended up taking the enemy's attack T.T");
+                        
+                        playerTakesDMG(npcCards[current].hitPoints);
+                        fightDialogue.innerHTML = "Your Ki blast was weaker =o)(O=== and you ended up taking the enemy's attack T.T";
 
                     }
 
                     
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints < threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with a Ki blast ===o) and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points some of the dammage was negated.");
+                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points some of the dammage was negated.";
 
                     let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;
 
-                    npcHealth -= dmg;
-
-                    npcHPBlock.innerHTML = npcHealth;
+                    npcTakesDMG(dmg);
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
 
-                    console.log("You're attacking with a Ki blast ===o) " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.");
+                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.";
 
                     let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
 
-                    pHealth -= dmg;
-
-                    pHPBlock.innerHTML = pHealth;
+                    playerTakesDMG(dmg);
 
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
 
-                    console.log("The enemy has successfully blocked your attack no DMG was dealt !")
+                    fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
 
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
-                    console.log("the enemy attemps to evade your Ki blast ===o) with " + npcCards[current].hitPoints + "0% chance of success.")
+                    fightDialogue.innerHTML = "the enemy attemps to evade your Ki blast ===o) with " + npcCards[current].hitPoints + "0% chance of success.";
 
                     let successRate = 10 - npcCards[current].hitPoints;
 
@@ -639,49 +736,28 @@ function submitCardsSelection(){
 
                     console.log(" npc rolled " + calcEvaChance);
 
-                    if(calcEvaChance > successRate){
+                    if(calcEvaChance >= successRate){
+
 
                         npcDodge();
-                        console.log("The enemy evades your attack !");
+                        fightDialogue.innerHTML = "The enemy evades your attack !";
 
+                        
                     }else{
 
-                        console.log("The enemy was too slow !");
-
-                        npcHealth -= threeCards[current].hitPoints;
-                        npcHPBlock.innerHTML = npcHealth;
+                        fightDialogue.innerHTML ="The enemy was too slow !";
+                        npcTakesDMG(threeCards[current].hitPoints);
 
                     }
                     
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    console.log("You're attacking with a Ki blast ===o)");
+                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o)";
 
                     npcHealth -= threeCards[current].hitPoints;
                     npcHPBlock.innerHTML = npcHealth;
 
-                    if(npcHPBlock.innerHTML >= npcMaxHealth){
-
-                        console.log("The enemy tries to heal but nothing happened");
-
-                    }else if(npcHPBlock.innerHTML < npcMaxHealth){
-
-                        npcHealth += npcCards[current].hitPoints;
-
-                        if(npcHealth < npcMaxHealth){
-
-                            npcHPBlock.innerHTML = npcHealth;
-                            console.log("The enemy healed right after you attacked.");
-                            
-
-                        }else{
-
-                            npcHPBlock.innerHTML = npcMaxHealth;
-                            console.log("The enemy healed after you attacked and reached max HP.");
-
-                        }
-
-                    }
+                    npcHeal();
 
                 }
 
@@ -692,66 +768,65 @@ function submitCardsSelection(){
 
         ///////////Get Health from each turn and display it on screen///////////
 
-        console.log("The current NPC health is " + npcHPBlock.innerHTML);         
-        var npchpDecrease =  npcMaxHealth - npcHPBlock.innerHTML;
-        var npcPercentage = (npchpDecrease/npcMaxHealth) * 100;
 
-        var npcBar = document.getElementById("npc-health");
-        npcBar.style.width = (100 - npcPercentage) +"%";
 
-        console.log("The current Player health is " + pHPBlock.innerHTML);  
-        var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
-        var pPercentage = (phpDecrease/pMaxHealth) * 100;
+       
+        playerHealthChange();
+        npcHealthChange();
+
         
-        var pBar = document.getElementById("player-health");
-        pBar.style.width = (100 - pPercentage) +"%";
-
         //////////////////////////////////////////////////////////////////////
 
         if(pHPBlock.innerHTML <= 0){
 
-            console.log("Your health reached 0...");
+            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
             pHPBlock.innerHTML = 0;
             pBar.style.width = "0%";
-            alert("Game Over You Lose...");
+    
+
+            setTimeout(function(){
+
+                location.reload();
+
+            },10000)
+            
 
         }else if(npcHPBlock.innerHTML <= 0){
 
-            console.log("The enemy's health reached 0.")
+            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";
             npcHPBlock.innerHTML = 0;
             npcBar.style.width = "0%";
-            alert("Game Over You Win !!!");
+            
+
+            setTimeout(function(){
+
+                location.reload();
+
+            },10000)
 
         }
 
         if(current <= 1){
-
-           
             
             switch(current){
+   
 
                 case 0:
 
-                    submitSelection.innerHTML = "Submit your first Card";
-
-                break;    
-
-                case 1:
-
-                    submitSelection.innerHTML = "Submit your second Card";
+                    submitSelection.innerHTML = "Second cards";
                     
                 break;  
 
-                case 2:
+                case 1:
 
-                    submitSelection.innerHTML = "Submit your third Card";
+                    submitSelection.innerHTML = "Third Card";
                     
                 break;  
 
             }
             
             current ++;
-            console.log("Card " + (current + 1));
+            console.log("Card " + (current));
 
         }else{
 
@@ -760,7 +835,7 @@ function submitCardsSelection(){
             npcCards = [];
 
             draw.disabled = false;
-            alert("time to draw new cards");
+            submitSelection.innerHTML = "Time to draw new cards";
             
         }
 
@@ -779,6 +854,12 @@ function addToSelection(value){
     selectedCards.push(value);
     threeCards.push(playerCards[index]);
 
+    if(threeCards.length === 3){
+
+        submitSelection.classList.remove("hidden");
+
+    }
+
 }
 
 function removeFromSelection(value){
@@ -790,6 +871,12 @@ function removeFromSelection(value){
     selectedCards.splice(index,1);
     threeCards.splice(index,1);
     console.log("threeCrads length is " + threeCards.length)
+
+    if(threeCards.length < 3){
+
+        submitSelection.classList.add("hidden");
+
+    }
 
 }
 
@@ -1087,11 +1174,13 @@ function drawCards(){
     npcRandomCards();
     playerRandomCards();
 
-    var submitSelection = document.createElement("div");
-    drawnCards.appendChild(submitSelection);
-    submitSelection.classList.add("submit-selection");
+    // var submitSelection = document.createElement("div");
+    // drawnCards.appendChild(submitSelection);
+    // submitSelection.classList.add("submit-selection");
+    var submitSelection = document.querySelector(".submit-selection")
     submitSelection.innerHTML = "Submit";
-    submitSelection.addEventListener("click", submitCardsSelection);
+    submitSelection.classList.add("hidden");
+    submitSelection.addEventListener("click", startRound);
     draw.disabled = true;
 
 }

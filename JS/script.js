@@ -24,7 +24,7 @@ var current = 1;
 function loadBGM(){
 
   bgmStart.play();
-  bgmStart.volume = 0.50;
+  bgmStart.volume = 0.20;
   // consoleStart.classList.add("hidden");
   consoleStart.classList.add("fade-out");
   start.classList.remove("hide");
@@ -38,6 +38,7 @@ function load(){
   header.classList.remove("hidden");
   loadGame.classList.add("hidden");
   intro.play();
+  intro.volume = 0.20;
   nIntervID = setInterval(loadBGM, 3000);
   
 
@@ -46,13 +47,14 @@ function load(){
 function startGame(){
 
   startSound.play();
+  startSound.volume = 0.20;
 
   header.classList.add('hidden');
   main.classList.remove('hidden');
 
   bgmStart.pause();
   selectionBGM.play();
-  selectionBGM.volume = 0.50;
+  selectionBGM.volume = 0.20;
 
   clearInterval(nIntervID);
   nIntervID = null;

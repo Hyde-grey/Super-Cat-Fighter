@@ -56,32 +56,41 @@
     
                 <img class="selection-background" src="IMG/selection_background.png" alt="selection screen">
 
-                <div class="flex">
-    
-                    <img class="character" src="IMG/Miko.png" alt="Miko">
-    
-                    <img class="character selected" src="IMG/Jack.png" alt="Jack">
-    
-                    <img class="character" src="IMG/Tiger.png" alt="Tiger">
-    
-                    <audio src="BGM/selection.mp3" id="selection" loop="loop" ></audio> 
+                <div class="flex-container">
 
-                    
-
-                </div>
+                    <div class="flex">
     
-                <div class="selectors">
-
-                    <div class="selector hide">
-                        <img src="IMG/selector.png" alt="selector">
+                        <img class="character" src="IMG/Miko.png" alt="Miko">
+        
+                        <img class="character selected" src="IMG/Jack.png" alt="Jack">
+        
+                        <img class="character" src="IMG/Tiger.png" alt="Tiger">
+        
+                        <audio src="BGM/selection.mp3" id="selection" loop="loop" ></audio> 
+    
+    
                     </div>
-
-                    <div class="selector">
-                        <img src="IMG/selector.png" alt="selector">
+        
+                    <div class="selectors">
+    
+                        <div class="selector hide">
+                            <img src="IMG/selector.png" alt="selector">
+                        </div>
+    
+                        <div class="selector">
+                            <img src="IMG/selector.png" alt="selector">
+                        </div>
+    
+                        <div class="selector hide">
+                            <img src="IMG/selector.png" alt="selector">
+                        </div>
+    
                     </div>
-
-                    <div class="selector hide">
-                        <img src="IMG/selector.png" alt="selector">
+    
+                    <div class="characters-infos">
+    
+    
+    
                     </div>
 
                 </div>
@@ -92,7 +101,7 @@
                 <img src="IMG/fight-loading.png" alt="FIGHT!">
             </div>
     
-            <div class="fight container">
+            <div class="fight container hide">
     
                 <div class="fight-background">
 
@@ -153,22 +162,36 @@
                         </div>
         
                         <div class="player">
+
+                            <!-- <img class="effect-sprites" src="IMG/player_healing.png" alt=""> -->
                              
-                            <img class="miko_stance hidden " src="IMG/miko_stance.png" alt="Miko">
-                            <img class="jack_stance hidden " src="IMG/jack_stance.png" alt="Jack">
-                            <img class="tiger_stance hidden " src="IMG/tiger_stance.png" alt="Tiger">
+                            <img class="miko_stance hidden character-sprite" src="IMG/miko_stance.png" alt="Miko">
+                            <img class="jack_stance hidden character-sprite" src="IMG/jack_stance.png" alt="Jack">
+                            <img class="tiger_stance hidden character-sprite" src="IMG/tiger_stance.png" alt="Tiger">
                         
                             <div class="menu">
         
-                                <div class="start-fight">
-                                    <button id="draw">DRAW</button> 
+                                <div class="menu-content">
+
+                                    <div class="start-fight">
+                                        <button id="draw">DRAW</button> 
+                                    </div>
+
+                                    <div class="drawnCards">
+                                    
+                                        
+
+                                    </div>
+
+                                    <div class="submit-selection">
+                                            
+                                    </div>
+
                                 </div>
 
-                                <div class="drawnCards">
-                                   
-                                    <div class="submit-selection">
-                                        
-                                    </div>
+                                <div class="fight-dialogue hidden">
+
+
 
                                 </div>
             

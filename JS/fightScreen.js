@@ -254,7 +254,7 @@ function npcDef(){
 
         elem.src = "IMG/mr-mustache.png"
 
-    },1000);
+    },600);
 
 }
 

@@ -27,8 +27,15 @@ function loadBGM(){
   bgmStart.volume = 0.20;
   // consoleStart.classList.add("hidden");
   consoleStart.classList.add("fade-out");
+
+  setTimeout(function(){
+
+    intro.remove();
+
+  },3000)
+
   start.classList.remove("hide");
-  start.style.transform = "translateY(-105%)";
+  start.style.transform = "translateY(-110%)";
   start.style.transition = "all 3s ease";
 
 }
@@ -36,7 +43,7 @@ function loadBGM(){
 function load(){
 
   header.classList.remove("hidden");
-  loadGame.classList.add("hidden");
+  loadGame.remove();
   intro.play();
   intro.volume = 0.20;
   nIntervID = setInterval(loadBGM, 3000);
@@ -49,7 +56,7 @@ function startGame(){
   startSound.play();
   startSound.volume = 0.20;
 
-  header.classList.add('hidden');
+  header.remove();
   main.classList.remove('hidden');
 
   bgmStart.pause();

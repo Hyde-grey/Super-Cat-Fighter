@@ -310,7 +310,7 @@
         fight.volume = 0.20;
         characterSelection.remove();
         header.remove();
-        fightLoading.style.transform = "translateX(0%)";
+        fightLoading.style.transform = "translate(0,0)";
         fightLoading.style.opacity = "1";
 
         setTimeout(function () {

@@ -215,7 +215,8 @@ body{
 
 .fight-loading{
 
-    transform: translateX(110%);
+    
+    transform: translateY(50%);
     opacity: 0;
     transition: all 3s ease;
 
@@ -414,6 +415,13 @@ body{
     .intro{
 
         width: 100%;
+        
+    }
+
+    .console-start{
+
+        margin-top: 20px;
+
 
     }
 
@@ -427,13 +435,23 @@ body{
     .container {
 
         width: 100%;
-        margin: 0!important;
+        margin: 40px auto !important;
+        height: 100VH;
+        align-items: flex-start;
+
+    }
+
+    .flex-container{
+
+        top: 12%;
 
     }
 
     .main{
 
         width: 100%;
+        position: absolute;
+        top: -90px;
 
 
     }
@@ -442,6 +460,7 @@ body{
 
 
         height: 35VH;
+        margin-top: 50px;
 
     }
 
@@ -450,7 +469,6 @@ body{
         width: 50%;
 
     }
-
     .selectors {
 
         bottom: 35%
@@ -459,7 +477,6 @@ body{
 
     .fight-loading img{
 
-        margin: 50% à;
         width: 100%;
 
     }

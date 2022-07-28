@@ -625,7 +625,7 @@ function submitCardsSelection(){
                     }else{
 
                        
-                        fightDialogue.innerHTML = "The enemy was too slow and took " + threeCards[current].hitPoints + "!";
+                        fightDialogue.innerHTML = "The enemy was too slow and took " + threeCards[current].hitPoints + " hitpoints !";
                         npcTakesDMG(threeCards[current].hitPoints);
                       
 
@@ -694,8 +694,6 @@ function submitCardsSelection(){
             case "Evasion":
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
-    
-                    fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success.";
 
                     npcAtk();
 
@@ -713,12 +711,12 @@ function submitCardsSelection(){
 
                     if(calcEvaChance >= successRate){
 
-                        fightDialogue.innerHTML = "You evade the attack !";
+                        fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You evade the attack !";
                         playerDodge();
 
                     }else{
 
-                        fightDialogue.innerHTML = "You were too slow and took the attack !";
+                        fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You were too slow and took the attack !";
 
                         playerTakesDMG(npcCards[current].hitPoints);
 

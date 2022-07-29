@@ -124,9 +124,19 @@ var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 
+function atkSound(){
+
+    let punch = new Audio('BGM/FX/punch.mp3')
+    punch.volume = 0.30;
+    punch.play();
+
+}
+
 function playerAtk(){
 
     console.log("Atk animation function launched the current character is " + whatCharacter.firstName + ".")
+
+  
 
     let elem;
 
@@ -136,6 +146,8 @@ function playerAtk(){
         console.log("Miko is attaking");
         elem = document.querySelector(".miko_stance");
         elem.src = "IMG/miko_atk.png";
+
+        atkSound();
 
         setTimeout(function(){
 
@@ -149,6 +161,14 @@ function playerAtk(){
             console.log("Jack is attaking");
             elem = document.querySelector(".jack_stance");
             elem.src = "IMG/jack_atk.png";
+
+            atkSound();
+
+            setTimeout(function(){
+
+                atkSound();
+
+            },600);
     
             setTimeout(function(){
     
@@ -163,6 +183,8 @@ function playerAtk(){
         elem = document.querySelector(".tiger_stance");
         elem.src = "IMG/tiger_atk.png";
 
+        atkSound();
+
         setTimeout(function(){
 
             elem.src = "IMG/tiger_stance.png"
@@ -173,6 +195,35 @@ function playerAtk(){
 
     }
 
+
+}
+
+function playerKiBlast(){
+
+
+    playerAtk();
+    let elem = document.createElement("img");
+    elem.classList.add("effect-sprites");
+    elem.src = "IMG/player-ki-blast.png";
+
+    currentCharacter.appendChild(elem);
+    let kiBlast = new Audio('BGM/FX/Ki-Blast.mp3');
+    kiBlast.volume = 0.30;
+    kiBlast.play();
+
+    setTimeout(function(){
+
+        elem.remove();
+
+    },500);
+
+
+
+
+
+    
+
+    
 
 }
 
@@ -228,6 +279,10 @@ function playerDef(){
 
 function npcAtk(){
 
+    let punch = new Audio('BGM/FX/punch.mp3')
+    punch.volume = 0.30;
+    punch.play();
+
     let elem;
 
     elem = document.querySelector(".mr-mustache");
@@ -261,6 +316,10 @@ function npcDef(){
 
 function npcDodge(){
 
+    let woosh = new Audio('BGM/FX/woosh.mp3')
+    woosh.volume = 0.30;
+    woosh.play();
+
     npcSprite.animate([
 
         { transform: "translatex(50%)" },
@@ -273,6 +332,10 @@ function npcDodge(){
 }
 
 function playerDodge(){
+
+    let woosh = new Audio('BGM/FX/woosh.mp3')
+    woosh.volume = 0.30;
+    woosh.play();
 
     currentCharacter.animate([
 
@@ -314,6 +377,10 @@ function playerHeal(){
         elem.classList.add("effect-sprites");
         elem.src = 'IMG/player_healing.png';
         currentCharacter.appendChild(elem);
+
+        let healing = new Audio('BGM/FX/healing.mp3')
+        healing.volume = 0.30;
+        healing.play();
 
         setTimeout(function(){
 
@@ -360,6 +427,10 @@ function addNpcHealingSprite(){
         elem.classList.add("effect-sprites");
         elem.src = 'IMG/npc_healing.png';
         npcSprite.appendChild(elem);
+
+        let healing = new Audio('BGM/FX/healing.mp3')
+        healing.volume = 0.30;
+        healing.play();
 
         setTimeout(function(){
 
@@ -782,6 +853,8 @@ function submitCardsSelection(){
             break;
             
             case "special":
+
+                playerKiBlast();
 
                 if(npcCards[current].cardName === "Attack"){
 

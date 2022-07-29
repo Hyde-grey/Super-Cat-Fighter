@@ -104,6 +104,9 @@ body{
 .intro {
 
     width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0 auto;
 
 }
@@ -308,6 +311,7 @@ body{
     cursor: pointer;    
 
     width: 50%;
+    height: 150px;
    
    
    justify-content: space-around;
@@ -412,19 +416,6 @@ body{
 
     }
 
-    .intro{
-
-        width: 100%;
-        
-    }
-
-    .console-start{
-
-        margin-top: 20px;
-
-
-    }
-
     body{
 
         height: auto;
@@ -432,10 +423,28 @@ body{
 
     }
 
+    .console-start{
+
+        margin-top: 20px;
+
+    }
+
+    .intro{
+
+        width: 100%;
+
+    }
+
+    .intro img{
+
+        width: 100%;
+        
+    }
+
     .container {
 
         width: 100%;
-        margin: 40px auto !important;
+        margin: 50px auto !important;
         height: 100VH;
         align-items: flex-start;
 
@@ -451,7 +460,7 @@ body{
 
         width: 100%;
         position: absolute;
-        top: -90px;
+        top: -10px;
 
 
     }
@@ -459,7 +468,8 @@ body{
     .selection-background{
 
 
-        height: 35VH;
+        width: 100%;
+        height: auto;
         margin-top: 50px;
 
     }
@@ -483,7 +493,9 @@ body{
 
     .fight-background{
 
-        height: 45VH;
+        /* height: 45VH; */
+        height: auto;
+        width: 100%;
 
     }
 
@@ -566,6 +578,7 @@ body{
         right: 0;
 
        width: 100%;
+       height: 150PX;
        display: flex;
        justify-content: space-around;
        flex-direction: column;

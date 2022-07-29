@@ -8,7 +8,7 @@ var main = document.querySelector(".main");
 
 ///BGM and FX///
 
-var intro = document.querySelector(".intro");
+var intro = new Audio('BGM/FX/gameboy_start_up.mp3');
 var bgmStart = document.getElementById("main-bgm");
 
 ///FX///
@@ -44,8 +44,14 @@ function load(){
 
   header.classList.remove("hidden");
   loadGame.remove();
+
+ setTimeout(function(){
+
   intro.play();
   intro.volume = 0.20;
+
+ },1100);
+
   nIntervID = setInterval(loadBGM, 3000);
   
 

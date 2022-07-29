@@ -11,7 +11,7 @@
 
     /// BGM / FX ///
     var fight = new Audio('BGM/FX/fight.mp3');
-    var selectSound = new Audio('BGM/FX/select.wav');
+    var selectSound = new Audio('BGM/FX/select.mp3');
     var startSound = new Audio('BGM/FX/game-start.wav');
     var firstFight = new Audio('BGM/mr_mustache.mp3');
 

@@ -255,7 +255,7 @@ function playerDef(){
     
                 elem.src = "IMG/jack_stance.png"
     
-            },1000);
+            },700);
 
         break;
 

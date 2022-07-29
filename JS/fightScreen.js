@@ -167,6 +167,7 @@ function playerAtk(){
             setTimeout(function(){
 
                 atkSound();
+                npcTakesDMGAnimation();
 
             },600);
     

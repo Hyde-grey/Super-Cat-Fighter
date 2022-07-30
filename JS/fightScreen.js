@@ -394,13 +394,13 @@ function playerHeal(){
 
     if(pHPBlock.innerHTML >= pMaxHealth){
 
-        fightDialogue.innerHTML = "The enemy tries to heal but nothing happened";
+        fightDialogue.innerHTML = "You tried to heal but nothing happened";
 
     }else if(pHPBlock.innerHTML < pMaxHealth){
 
         pHealth += threeCards[current].hitPoints;
 
-        if(pHealth <= pMaxHealth){
+        if(pHealth < pMaxHealth){
 
             pHPBlock.innerHTML = pHealth;
             fightDialogue.innerHTML = "You healed for " + threeCards[current].hitPoints + " HP.";

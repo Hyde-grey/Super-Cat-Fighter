@@ -1,4 +1,4 @@
-
+    
 var draw = document.getElementById("draw");
 var drawnCards = document.querySelector(".drawnCards");
 var submitSelection = document.querySelector(".submit-selection");
@@ -380,7 +380,7 @@ function npcTakesDMG(pCard){
 
 }
 
-function playerHeal(){
+function playerHeal(pCard){
 
     function addHealSprite(){
 
@@ -409,19 +409,20 @@ function playerHeal(){
 
     }else if(pHPBlock.innerHTML < pMaxHealth){
 
-        pHealth += threeCards[current].hitPoints;
+        pHealth = (pCard + parseInt(pHPBlock.innerHTML));
+        console.log("phealth is " + pHealth);
 
         if(pHealth < pMaxHealth){
 
             pHPBlock.innerHTML = pHealth;
-            fightDialogue.innerHTML = "You healed for " + threeCards[current].hitPoints + " HP.";
+            fightDialogue.innerHTML = "You healed for " + pCard + " HP.";
             addHealSprite();
             
 
-        }else if(pHealth > pMaxHealth){
+        }else if(pHealth >= pMaxHealth){
 
             pHPBlock.innerHTML = pMaxHealth;
-            fightDialogue.innerHTML = "You healed and reached max HP.";
+            fightDialogue.innerHTML = "You healed for " + pCard + " HP and reached max HP.";
             addHealSprite();
 
         }
@@ -461,7 +462,7 @@ function npcHeal(){
 
     }else if(npcHPBlock.innerHTML < npcMaxHealth){
 
-        npcHealth += npcCards[current].hitPoints;
+        npcHealth = (npcCards[current].hitPoints + parseInt(npcHPBlock.innerHTML));
 
         if(npcHealth < npcMaxHealth){
 
@@ -471,12 +472,12 @@ function npcHeal(){
             fightDialogue.innerHTML ="The enemy healed for " + npcCards[current].hitPoints + " HP.";
             
 
-        }else if(npcHealth > npcMaxHealth){
+        }else if(npcHealth >= npcMaxHealth){
 
             addNpcHealingSprite();
 
             npcHPBlock.innerHTML = npcMaxHealth;
-            fightDialogue.innerHTML = "The enemy healed and reached max HP.";
+            fightDialogue.innerHTML = "The enemy healed for      " + npcCards[current].hitPoints + " points and reached max HP.";
 
         }
 
@@ -833,19 +834,19 @@ function submitCardsSelection(){
                     npcAtk();
 
                     playerTakesDMG(npcCards[current].hitPoints);
-                    playerHeal();
+                    playerHeal(threeCards[current].hitPoints);
                     
 
                 }else if(npcCards[current].cardName === "Defence"){
                     
-                    playerHeal();
+                    playerHeal(threeCards[current].hitPoints);
                     npcDef();
 
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     npcDodge();
-                    playerHeal();
+                    playerHeal(threeCards[current].hitPoints);
    
 
                 }else if(npcCards[current].cardName === "Heal"){
@@ -856,7 +857,7 @@ function submitCardsSelection(){
     
                         npcHeal();
 
-                        playerHeal();
+                        playerHeal(threeCards[current].hitPoints);
 
                         
                     }

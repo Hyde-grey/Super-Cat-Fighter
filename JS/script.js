@@ -20,12 +20,99 @@ var nIntervID;
 
 var current = 1;
 
+var bgms = {
+  
+  startScreenBGM : new Howl({
+
+    src: ['BGM/start.mp3'],
+    loop: true,
+    volume: 0.20
+
+  }),
+
+  selectionScreenBGM : new Howl({
+
+    src: ['BGM/selection.mp3'],
+    loop: true,
+    volume: 0.20
+
+  }),
+
+  mrMustacheBGM : new Howl({
+
+    src: ['BGM/mr_mustache.mp3'],
+    loop: true,
+    volume : 0.20
+
+  })
+
+}
+
+var sfx = {
+
+  gameboyStart : new Howl({
+
+    src : ['BGM/SFX/gameboy_start_up.mp3'],
+    volume : 0.30
+
+  }),
+
+  startButtonSound : new Howl({
+
+    src: ['BGM/SFX/start-button.wav'],
+    volume : 0.30
+
+  }),
+
+  selectSound : new Howl({
+
+    src: ['BGM/SFX/select.wav'],
+    volume : 0.30
+
+  }),
+
+  punchSound : new Howl({
+
+    src: ['BGM/SFX/punch.mp3'],
+    volume : 0.30
+
+  }),
+
+  healingSound : new Howl({
+
+    src: ['BGM/SFX/healing.mp3'],
+    volume : 0.30
+
+  }),
+
+  dodgingSound : new Howl({
+
+    src: ['BGM/SFX/woosh.mp3'],
+    volume : 0.30
+
+  }),
+
+  kiBlastSound : new Howl({
+
+    src: ['BGM/SFX/Ki-Blast.mp3'],
+    volume : 0.30
+
+  }),
+
+  fightScream : new Howl({
+
+
+    src : ['BGM/SFX/fight.mp3'],
+    volume : 0.30
+
+  })
+
+}
 
 function loadBGM(){
 
-  bgmStart.play();
-  bgmStart.volume = 0.20;
-  // consoleStart.classList.add("hidden");
+
+  bgms.startScreenBGM.play();
   consoleStart.classList.add("fade-out");
 
   setTimeout(function(){
@@ -45,32 +132,36 @@ function load(){
   header.classList.remove("hidden");
   loadGame.remove();
 
+  let introPNG = document.createElement("img");
+  introPNG.src = "IMG/Not_Nintendo.png"
+
+  let intro = document.querySelector(".intro");
+
+  intro.appendChild(introPNG);
+
  setTimeout(function(){
 
-  intro.play();
-  intro.volume = 0.20;
+  // intro.play();
+  // intro.volume = 0.20;
+  sfx.gameboyStart.play();
 
  },1100);
 
-  nIntervID = setInterval(loadBGM, 3000);
+setTimeout(loadBGM, 3000);
   
 
 }
 
 function startGame(){
 
-  startSound.play();
-  startSound.volume = 0.20;
+  sfx.startButtonSound.play();
 
   header.remove();
   main.classList.remove('hidden');
 
-  bgmStart.pause();
-  selectionBGM.play();
-  selectionBGM.volume = 0.20;
-
-  clearInterval(nIntervID);
-  nIntervID = null;
+  bgms.startScreenBGM.stop();
+  bgms.selectionScreenBGM.play();
+  
 
 }
 

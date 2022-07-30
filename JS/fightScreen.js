@@ -126,9 +126,11 @@ var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 function atkSound(){
 
-    let punch = new Audio('BGM/FX/punch.mp3')
-    punch.volume = 0.30;
-    punch.play();
+    // let punch = new Audio('BGM/FX/punch.mp3')
+    // punch.volume = 0.30;
+    // punch.play();
+
+    sfx.punchSound.play();
 
 }
 
@@ -208,9 +210,11 @@ function playerKiBlast(){
     elem.src = "IMG/player-ki-blast.png";
 
     currentCharacter.appendChild(elem);
-    let kiBlast = new Audio('BGM/FX/Ki-Blast.mp3');
-    kiBlast.volume = 0.30;
-    kiBlast.play();
+    // let kiBlast = new Audio('BGM/FX/Ki-Blast.mp3');
+    // kiBlast.volume = 0.30;
+    // kiBlast.play();
+
+    sfx.kiBlastSound.play();
 
     setTimeout(function(){
 
@@ -280,9 +284,11 @@ function playerDef(){
 
 function npcAtk(){
 
-    let punch = new Audio('BGM/FX/punch.mp3')
-    punch.volume = 0.30;
-    punch.play();
+    // let punch = new Audio('BGM/FX/punch.mp3')
+    // punch.volume = 0.30;
+    // punch.play();
+
+    atkSound();
 
     let elem;
 
@@ -317,9 +323,11 @@ function npcDef(){
 
 function npcDodge(){
 
-    let woosh = new Audio('BGM/FX/woosh.mp3')
-    woosh.volume = 0.30;
-    woosh.play();
+    // let woosh = new Audio('BGM/FX/woosh.mp3')
+    // woosh.volume = 0.30;
+    // woosh.play();
+
+    sfx.dodgingSound.play();
 
     npcSprite.animate([
 
@@ -334,9 +342,11 @@ function npcDodge(){
 
 function playerDodge(){
 
-    let woosh = new Audio('BGM/FX/woosh.mp3')
-    woosh.volume = 0.30;
-    woosh.play();
+    // let woosh = new Audio('BGM/FX/woosh.mp3')
+    // woosh.volume = 0.30;
+    // woosh.play();
+
+    sfx.dodgingSound.play();
 
     currentCharacter.animate([
 
@@ -379,9 +389,10 @@ function playerHeal(){
         elem.src = 'IMG/player_healing.png';
         currentCharacter.appendChild(elem);
 
-        let healing = new Audio('BGM/FX/healing.mp3')
-        healing.volume = 0.30;
-        healing.play();
+        // let healing = new Audio('BGM/FX/healing.mp3')
+        // healing.volume = 0.30;
+        // healing.play();
+        sfx.healingSound.play();
 
         setTimeout(function(){
 
@@ -1038,6 +1049,8 @@ function submitCardsSelection(){
 
 function addToSelection(value){
 
+    sfx.selectSound.play();
+
     let cards = Array.from(document.querySelectorAll(".card"));
 
     const index = cards.findIndex(element => element == value);
@@ -1056,6 +1069,8 @@ function addToSelection(value){
 }
 
 function removeFromSelection(value){
+
+    sfx.selectSound.play();
     
     let cards = Array.from(document.querySelectorAll(".card"));
     
@@ -1363,6 +1378,8 @@ function npcRandomCards(){
 
 
 function drawCards(){
+
+    sfx.selectSound.play();
 
     npcRandomCards();
     playerRandomCards();

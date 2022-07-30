@@ -11,8 +11,7 @@
 
     /// BGM / FX ///
     var fight = new Audio('BGM/FX/fight.mp3');
-    var selectSound = new Audio('BGM/FX/select.mp3');
-    var startSound = new Audio('BGM/FX/game-start.wav');
+
     var firstFight = new Audio('BGM/mr_mustache.mp3');
 
     var current = 1;
@@ -67,7 +66,7 @@
         }
 
         event.target.classList.add("selected");
-        selectSound.play();
+        sfx.selectSound.play();
 
         for (selector of selectors) {
 
@@ -104,8 +103,7 @@
             character.addEventListener('mouseover', function(event){
 
 
-                selectSound.play();
-                selectSound.volume = 0.20;
+                sfx.selectSound.play();
 
                 for(character of characters){
 
@@ -170,8 +168,7 @@
     function prevCharacter() {
 
 
-        selectSound.play();
-        selectSound.volume = 0.20;
+        sfx.selectSound.play();
 
         for (i = 0; i < characters.length; i++) {
 
@@ -218,8 +215,7 @@
 
     function nextCharacter() {
 
-        selectSound.play();
-        selectSound.volume = 0.20;
+        sfx.selectSound.play();
 
         for (i = 0; i < characters.length; i++) {
 
@@ -304,10 +300,9 @@
 
     function toFightScreen(whatCharacter) {
 
-        startSound.play();
-        startSound.volume = 0.20;
-        fight.play();
-        fight.volume = 0.20;
+        sfx.startButtonSound.play();
+        bgms.selectionScreenBGM.stop();
+        sfx.fightScream.play();
         characterSelection.remove();
         header.remove();
         fightLoading.style.transform = "translate(0,0)";
@@ -320,12 +315,14 @@
             npcSprite.style.transform = "translateX(50%)";
             playerSprite.style.transform = "translateX(-50%)";
             fightBackground.style.opacity = "1";
-            firstFight.play();
-            firstFight.addEventListener('ended', function () {
-                this.currentTime = 0;
-                this.play();
-            }, false);
-            firstFight.volume = 0.10;
+
+            bgms.mrMustacheBGM.play();
+            // firstFight.play();
+            // firstFight.addEventListener('ended', function () {
+            //     this.currentTime = 0;
+            //     this.play();
+            // }, false);
+            // firstFight.volume = 0.10;
 
             loadNPC();
 

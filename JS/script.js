@@ -132,6 +132,13 @@ function load(){
   header.classList.remove("hidden");
   loadGame.remove();
 
+  let introPNG = document.createElement("img");
+  introPNG.src = "IMG/Not_Nintendo.png"
+
+  let intro = document.querySelector(".intro");
+
+  intro.appendChild(introPNG);
+
  setTimeout(function(){
 
   // intro.play();

@@ -5,6 +5,23 @@
     
 }
 
+.preloader {
+
+    height: 100VH;
+    width: 100%;
+    background-color: black; 
+    display:flex;
+    justify-content: center;
+    align-items: center; 
+
+}
+
+.preloader-gif{
+
+    width: 100%; 
+
+}
+
 .debug{
 
     border: 10px solid red;

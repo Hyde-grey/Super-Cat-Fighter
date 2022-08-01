@@ -109,6 +109,12 @@ var sfx = {
 
 }
 
+window.addEventListener("load", function(){
+
+  document.querySelector(".preloader").style.display = "none";
+
+})
+
 function loadBGM(){
 
 

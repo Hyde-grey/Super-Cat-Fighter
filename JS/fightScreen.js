@@ -570,7 +570,7 @@ function startRound(){
 function playerHealthChange(){
 
     console.log("The current Player health is " + pHPBlock.innerHTML);  
-    var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
+    var phpDecrease =  (pMaxHealth - parseInt(pHPBlock.innerHTML));
     var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
     
     
@@ -593,8 +593,8 @@ function npcHealthChange(){
 
     
     console.log("The current NPC health is " + npcHPBlock.innerHTML);         
-    var npchpDecrease =  npcMaxHealth - npcHPBlock.innerHTML;
-    var npcPercentage = (npchpDecrease/npcMaxHealth) * 100;
+    var npchpDecrease =  (npcMaxHealth - parseInt(npcHPBlock.innerHTML));
+    var npcPercentage = Math.floor((npchpDecrease/npcMaxHealth) * 100);
 
     // let currentHP = npcHPBlock.innerHTML + "%";
     // let newHP = (100 - npcPercentage) +"%";

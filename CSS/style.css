@@ -394,7 +394,7 @@ body{
     border-radius: 5px;
     background-color: aliceblue;
 
-    transition: all ease-out;
+    transition: all 2s ease-out;
 
 }
 
@@ -417,7 +417,7 @@ body{
 
     border-radius: 5px;
     background-color: aliceblue;
-    transition: all 0.5 ease-out;
+    transition: all 2s ease-out;
 
 }
 

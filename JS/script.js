@@ -5,7 +5,7 @@ var loadGame = document.querySelector(".navigation");
 var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
-
+var loader = document.querySelector(".preloader");
 ///BGM and FX///
 
 var intro = new Audio('BGM/FX/gameboy_start_up.mp3');
@@ -111,7 +111,7 @@ var sfx = {
 
 window.addEventListener("load", function(){
 
-  document.querySelector(".preloader").style.display = "none";
+  loader.style.display = "none";
 
 })
 

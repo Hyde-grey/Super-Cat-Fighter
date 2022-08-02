@@ -631,8 +631,14 @@ function npcHealthChange(){
     var npcPercentage = Math.floor((npchpDecrease/npcMaxHealth) * 100);
 
     let newHP = 100 - npcPercentage;
+    
+    if(newHP > 100){
+    
+    newHP = 100;
+    
+    }
 
-    npcBar.style.width = 100 - npcPercentage +"%";
+    npcBar.style.width = newHP +"%";
 
     if ( newHP < 20 ){
 
@@ -1063,7 +1069,7 @@ function submitCardsSelection(){
 
                 location.reload();
 
-            },10000)
+            },3000)
 
         }
 
@@ -1137,7 +1143,7 @@ function removeFromSelection(value){
 
     selectedCards.splice(index,1);
     threeCards.splice(index,1);
-    console.log("threeCrads length is " + threeCards.length)
+    console.log("ThreeCards length is " + threeCards.length)
 
     if(threeCards.length < 3){
 

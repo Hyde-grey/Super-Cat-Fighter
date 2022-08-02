@@ -691,9 +691,10 @@ function submitCardsSelection(){
                     if(npcCards[current].hitPoints > 10){
 
                         successRate = 10;
+                        npcDodge();
                         sfx.dodgingSound.play();
                         fightDialogue.innerHTML = "The enemy evades your attack !";
-                        return;
+                        break;
 
                     }
 
@@ -789,9 +790,10 @@ function submitCardsSelection(){
                     if(threeCards[current].hitPoints >= 10){
 
                         successRate = 10;
+                        playerDodge();
                         sfx.dodgingSound.play();
                         fightDialogue.innerHTML = "You dodged the enemy's attack !";
-                        return;
+                        break;
                         
 
                     }
@@ -804,6 +806,7 @@ function submitCardsSelection(){
 
                         fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You evade the attack !";
                         playerDodge();
+                        sfx.dodgingSound.play();
 
                     }else{
 

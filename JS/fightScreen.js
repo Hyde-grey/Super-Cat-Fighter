@@ -149,7 +149,7 @@ function playerAtk(){
         elem = document.querySelector(".miko_stance");
         elem.src = "IMG/miko_atk.png";
 
-        atkSound();
+        
 
         setTimeout(function(){
 
@@ -164,7 +164,7 @@ function playerAtk(){
             elem = document.querySelector(".jack_stance");
             elem.src = "IMG/jack_atk.png";
 
-            atkSound();
+            
 
             setTimeout(function(){
 
@@ -186,7 +186,7 @@ function playerAtk(){
         elem = document.querySelector(".tiger_stance");
         elem.src = "IMG/tiger_atk.png";
 
-        atkSound();
+        
 
         setTimeout(function(){
 
@@ -288,7 +288,7 @@ function npcAtk(){
     // punch.volume = 0.30;
     // punch.play();
 
-    atkSound();
+    
 
     let elem;
 
@@ -327,7 +327,7 @@ function npcDodge(){
     // woosh.volume = 0.30;
     // woosh.play();
 
-    sfx.dodgingSound.play();
+    
 
     npcSprite.animate([
 
@@ -346,7 +346,7 @@ function playerDodge(){
     // woosh.volume = 0.30;
     // woosh.play();
 
-    sfx.dodgingSound.play();
+    
 
     currentCharacter.animate([
 
@@ -361,6 +361,9 @@ function playerDodge(){
 
 function playerTakesDMG(npcCard){
 
+
+    atkSound();
+    
     playerTakesDMGAnimation();
 
     pHealth -= npcCard;
@@ -371,6 +374,8 @@ function playerTakesDMG(npcCard){
 }
 
 function npcTakesDMG(pCard){
+
+    atkSound();
 
     npcTakesDMGAnimation();
 
@@ -441,9 +446,7 @@ function addNpcHealingSprite(){
         elem.src = 'IMG/npc_healing.png';
         npcSprite.appendChild(elem);
 
-        let healing = new Audio('BGM/FX/healing.mp3')
-        healing.volume = 0.30;
-        healing.play();
+        sfx.healingSound.play();
 
         setTimeout(function(){
 
@@ -578,14 +581,6 @@ function playerHealthChange(){
    
     pBar.style.width = newHP;
 
-    // pBar.animate(
-    //     [
-    //         {width: currentHP, easing: 'ease-out' },
-    //         {width: newHP, easing: 'ease-out'},
-
-    //     ],{duration: 1000});
-
-
 
 }
 
@@ -666,6 +661,7 @@ function submitCardsSelection(){
 
                     npcDef();
                     npcTakesDMG(dmg);
+                    sfx.blockedSound.play();
                     
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
@@ -676,11 +672,13 @@ function submitCardsSelection(){
                     
                     npcDef();
                     playerTakesDMG(dmg);
+                    sfx.blockedSound.play();
 
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
 
                     fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
                     npcDef();
+                    sfx.blockedSound.play();
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
@@ -693,6 +691,9 @@ function submitCardsSelection(){
                     if(npcCards[current].hitPoints > 10){
 
                         successRate = 10;
+                        sfx.dodgingSound.play();
+                        fightDialogue.innerHTML = "The enemy evades your attack !";
+                        return;
 
                     }
 
@@ -703,6 +704,7 @@ function submitCardsSelection(){
                     if(calcEvaChance >= evadeChance){
 
                         npcDodge();
+                        sfx.dodgingSound.play();
                         fightDialogue.innerHTML = "The enemy evades your attack !";
 
                         
@@ -730,6 +732,7 @@ function submitCardsSelection(){
             case "Defence":
 
                 playerDef();
+                sfx.blockedSound.play();
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
 
@@ -786,6 +789,10 @@ function submitCardsSelection(){
                     if(threeCards[current].hitPoints >= 10){
 
                         successRate = 10;
+                        sfx.dodgingSound.play();
+                        fightDialogue.innerHTML = "You dodged the enemy's attack !";
+                        return;
+                        
 
                     }
 
@@ -809,6 +816,8 @@ function submitCardsSelection(){
                 }else if( npcCards[current].cardName === "Heal"){
 
                     playerDodge();
+                    sfx.dodgingSound.play();
+                    
   
                     npcHeal();
 
@@ -817,10 +826,15 @@ function submitCardsSelection(){
                     fightDialogue.innerHTML = "You both though the other was going to attack and moved to dodge.";
                     npcDodge();
                     playerDodge();
+                    
+                    sfx.dodgingSound.play();
 
                 }else if(npcCards[current].cardName === "Defence"){
 
                     playerDodge();
+                    
+                    sfx.dodgingSound.play();
+                    
                     fightDialogue.innerHTML = "You moved while the enemy puts his guard up.";
                     npcDef();
                 }       
@@ -846,6 +860,9 @@ function submitCardsSelection(){
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     npcDodge();
+                    
+                    
+                    sfx.dodgingSound.play();
                     playerHeal(threeCards[current].hitPoints);
    
 
@@ -910,6 +927,7 @@ function submitCardsSelection(){
 
                     npcDef();
                     npcTakesDMG(dmg);
+                    sfx.blockedSound.play();
 
                 }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
 
@@ -919,11 +937,13 @@ function submitCardsSelection(){
 
                     npcDef();
                     playerTakesDMG(dmg);
+                    sfx.blockedSound.play();
 
                 }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
 
                     fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
                     npcDef();
+                    sfx.blockedSound.play();
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
@@ -934,6 +954,11 @@ function submitCardsSelection(){
                     if(npcCards[current].hitPoints >= 10){
 
                         successRate = 10;
+                        
+                    sfx.dodgingSound.play();
+                    npcDodge();
+                    fightDialogue.innerHTML = "The enemy evades your attack !";
+                    return;
 
                     }
 

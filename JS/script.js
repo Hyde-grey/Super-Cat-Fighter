@@ -105,6 +105,14 @@ var sfx = {
     src : ['BGM/SFX/fight.mp3'],
     volume : 0.30
 
+  }),
+  
+  blockedSound : new Howl({
+  
+  src:['BGM/SFX/blocked-punch.wav'],
+  volume : 0.30
+  
+  
   })
 
 }

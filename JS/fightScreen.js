@@ -1270,10 +1270,12 @@ function playerRandomCards(){
 
     }
 
+let deepCopy;
 
     for( i = 0 ; i <= 4 ; i++ ){
  
         const playerCard = cardChance();
+        
         
         switch(playerCard.cardName){
 
@@ -1283,8 +1285,8 @@ function playerRandomCards(){
             playerCard.hitPoints += atkBonus;
 
             
-
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1296,7 +1298,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1307,7 +1310,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1320,7 +1324,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1328,7 +1333,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1336,7 +1342,7 @@ function playerRandomCards(){
         }
         
         
-        console.log(playerCard);
+        console.log(deepCopy);
         
 
         let selector = document.createElement("div");

@@ -9,7 +9,7 @@ var npcHPBlock = document.querySelector(".npc-hp");
 var npcBar = document.getElementById("npc-health");
 var npcSprite = document.querySelector(".npc");
 var currentCharacter = document.querySelector(".player");
-var charactersSprites = document.querySelectorAll(".character-sprite");
+var characterSprite = document.querySelector(".character-sprite");
 var menuContent = document.querySelector(".menu-content");
 var fightDialogue = document.querySelector(".fight-dialogue");
 
@@ -26,6 +26,7 @@ var pMaxHealth;
 var npcMaxHealth;
 
 var currentCharacter;
+var nIntervID;
 
 
 var min = 0;
@@ -126,19 +127,11 @@ var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 function atkSound(){
 
-    // let punch = new Audio('BGM/FX/punch.mp3')
-    // punch.volume = 0.30;
-    // punch.play();
-
     sfx.punchSound.play();
 
 }
 
 function playerAtk(){
-
-    console.log("Atk animation function launched the current character is " + whatCharacter.firstName + ".")
-
-  
 
     let elem;
 
@@ -170,6 +163,8 @@ function playerAtk(){
 
                 atkSound();
                 npcTakesDMGAnimation();
+                let extraHit =Math.round(Math.random() * (3 - 1)) + 1
+                npcTakesDMG(extraHit);
 
             },600);
     
@@ -210,9 +205,6 @@ function playerKiBlast(){
     elem.src = "IMG/player-ki-blast.png";
 
     currentCharacter.appendChild(elem);
-    // let kiBlast = new Audio('BGM/FX/Ki-Blast.mp3');
-    // kiBlast.volume = 0.30;
-    // kiBlast.play();
 
     sfx.kiBlastSound.play();
 
@@ -220,15 +212,7 @@ function playerKiBlast(){
 
         elem.remove();
 
-    },500);
-
-
-
-
-
-    
-
-    
+    },500);  
 
 }
 
@@ -284,12 +268,6 @@ function playerDef(){
 
 function npcAtk(){
 
-    // let punch = new Audio('BGM/FX/punch.mp3')
-    // punch.volume = 0.30;
-    // punch.play();
-
-    
-
     let elem;
 
     elem = document.querySelector(".mr-mustache");
@@ -323,12 +301,6 @@ function npcDef(){
 
 function npcDodge(){
 
-    // let woosh = new Audio('BGM/FX/woosh.mp3')
-    // woosh.volume = 0.30;
-    // woosh.play();
-
-    
-
     npcSprite.animate([
 
         { transform: "translatex(50%)" },
@@ -341,12 +313,6 @@ function npcDodge(){
 }
 
 function playerDodge(){
-
-    // let woosh = new Audio('BGM/FX/woosh.mp3')
-    // woosh.volume = 0.30;
-    // woosh.play();
-
-    
 
     currentCharacter.animate([
 
@@ -366,6 +332,25 @@ function playerTakesDMG(npcCard){
     
     playerTakesDMGAnimation();
 
+    let elem = document.createElement("div");
+    elem.classList.add("dmg-info");
+    elem.innerHTML = "-" + npcCard + "HP";
+    currentCharacter.appendChild(elem);
+    
+    elem.animate([
+
+        { transform: "translatey(-20%)" },
+        { opacity : 0 }
+    
+    ],
+    {duration: 2000});
+
+    setTimeout(function(){
+
+        elem.remove();
+
+    },2000)
+
     pHealth -= npcCard;
     
     pHPBlock.innerHTML = pHealth;
@@ -378,6 +363,25 @@ function npcTakesDMG(pCard){
     atkSound();
 
     npcTakesDMGAnimation();
+
+    let elem = document.createElement("div");
+    elem.classList.add("npc-dmg-info");
+    elem.innerHTML = "-" + pCard + "HP";
+    currentCharacter.appendChild(elem);
+    
+    elem.animate([
+
+        { transform: "translatey(-20%)" },
+        { opacity : 0 }
+    
+    ],
+    {duration: 2000});
+
+    setTimeout(function(){
+
+        elem.remove();
+
+    },2000)
 
     npcHealth -= pCard;
     npcHPBlock.innerHTML = npcHealth;
@@ -394,9 +398,6 @@ function playerHeal(pCard){
         elem.src = 'IMG/player_healing.png';
         currentCharacter.appendChild(elem);
 
-        // let healing = new Audio('BGM/FX/healing.mp3')
-        // healing.volume = 0.30;
-        // healing.play();
         sfx.healingSound.play();
 
         setTimeout(function(){
@@ -405,6 +406,25 @@ function playerHeal(pCard){
             console.log("Elem has been removed.")
             
         }, 1000)
+
+        let healElem = document.createElement("div");
+        healElem.classList.add("heal-info");
+        healElem.innerHTML = "-" + pCard + "HP";
+        currentCharacter.appendChild(healElem);
+        
+        healElem.animate([
+    
+            { transform: "translatey(-50%)" },
+            { opacity: "0"}
+        
+        ],
+        {duration: 2000});
+    
+        setTimeout(function(){
+    
+            healElem.remove();
+    
+        },2000)
 
     }
 
@@ -434,30 +454,47 @@ function playerHeal(pCard){
 
     }
 
-
-
-
 }
 
-function addNpcHealingSprite(){
+function npcHeal(npcCard){
 
-    var elem = document.createElement("img");
-        elem.classList.add("effect-sprites");
-        elem.src = 'IMG/npc_healing.png';
-        npcSprite.appendChild(elem);
+    function addNpcHealingSprite(){
 
-        sfx.healingSound.play();
-
-        setTimeout(function(){
-
-            elem.remove();
-            console.log("Elem has been removed.")
+        var elem = document.createElement("img");
+            elem.classList.add("effect-sprites");
+            elem.src = 'IMG/npc_healing.png';
+            npcSprite.appendChild(elem);
+    
+            sfx.healingSound.play();
+    
+            setTimeout(function(){
+    
+                elem.remove();
+                console.log("Elem has been removed.")
+                
+            }, 1000)
+    
+            let healElem = document.createElement("div");
+            healElem.classList.add("npc-heal-info");
+            healElem.innerHTML = "-" + npcCard + "HP";
+            npcSprite.appendChild(healElem);
             
-        }, 1000)
+            healElem.animate([
+        
+                { transform: "translatey(-30%)" },
+                { opacity: "0"}
+            
+            ],
+            {duration: 2000});
+        
+            setTimeout(function(){
+        
+                healElem.remove();
+        
+            },2000)
+    
+    }
 
-}
-
-function npcHeal(){
 
     if(npcHPBlock.innerHTML >= npcMaxHealth){
 
@@ -465,14 +502,14 @@ function npcHeal(){
 
     }else if(npcHPBlock.innerHTML < npcMaxHealth){
 
-        npcHealth = (npcCards[current].hitPoints + parseInt(npcHPBlock.innerHTML));
+        npcHealth = (npcCard + parseInt(npcHPBlock.innerHTML));
 
         if(npcHealth < npcMaxHealth){
 
             addNpcHealingSprite();
 
             npcHPBlock.innerHTML = npcHealth;
-            fightDialogue.innerHTML ="The enemy healed for " + npcCards[current].hitPoints + " HP.";
+            fightDialogue.innerHTML ="The enemy healed for " + npcCard + " HP.";
             
 
         }else if(npcHealth >= npcMaxHealth){
@@ -480,7 +517,7 @@ function npcHeal(){
             addNpcHealingSprite();
 
             npcHPBlock.innerHTML = npcMaxHealth;
-            fightDialogue.innerHTML = "The enemy healed for      " + npcCards[current].hitPoints + " points and reached max HP.";
+            fightDialogue.innerHTML = "The enemy healed for " + npcCard + " points and reached max HP.";
 
         }
 
@@ -532,7 +569,7 @@ function startRound(){
     submitCardsSelection();
     turns ++;
 
-    let nIntervID = setInterval(function(){
+    nIntervID = setInterval(function(){
 
         
         if( turns < 3){
@@ -558,13 +595,6 @@ function startRound(){
            
     
         }
-
-        if(npcHPBlock.innerHTML <= 0){
-
-            clearInterval(nIntervID);
-            console.log("interval was stopped");
-
-        }
     
     }, 4000);
 
@@ -577,10 +607,19 @@ function playerHealthChange(){
     var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
     
     
-    var newHP = (100 - pPercentage) +"%";
+    let newHP = 100 - pPercentage;
    
-    pBar.style.width = newHP;
+    pBar.style.width = newHP +"%";
 
+    if ( newHP < 20 ){
+
+        pBar.style.backgroundColor = "#f9332c";
+
+    }else if ( newHP > 20){
+
+        pBar.style.backgroundColor = "aliceblue";
+
+    }
 
 }
 
@@ -591,17 +630,20 @@ function npcHealthChange(){
     var npchpDecrease =  (npcMaxHealth - parseInt(npcHPBlock.innerHTML));
     var npcPercentage = Math.floor((npchpDecrease/npcMaxHealth) * 100);
 
-    // let currentHP = npcHPBlock.innerHTML + "%";
-    // let newHP = (100 - npcPercentage) +"%";
+    let newHP = 100 - npcPercentage;
 
-    npcBar.style.width = (100 - npcPercentage) +"%";
+    npcBar.style.width = 100 - npcPercentage +"%";
 
-    // npcBar.animate(
-    // [
-    //     {width: current, easing: 'ease-out'},
-    //     {width: newHP, easing: 'ease-out'},
+    if ( newHP < 20 ){
 
-    // ],{duration: 1000});
+        npcBar.style.backgroundColor = "#f9332c";
+
+    }else if ( newHP > 20){
+
+        npcBar.style.backgroundColor = "aliceblue";
+
+    }
+
 
 }
 
@@ -612,25 +654,6 @@ function submitCardsSelection(){
     pHealth = pHPBlock.innerHTML;
     pMaxHealth = whatCharacter.hp;
     npcMaxHealth = 40;
-
-    function getCurrentPhp(){
-
-     
-        var phpDecrease =  pMaxHealth - pHPBlock.innerHTML;
-        var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
-        
-        var currentHP = (100 - pPercentage) +"%";
-    
-        console.log("The current Player health is " + currentHP + " HP."); 
-    
-        return currentHP;
-    
-    }
-
-    let currentHP = getCurrentPhp();
-
-    // console.log("Current NPC card is " + npcCards[current].cardName + " with " + npcCards[current].hitPoints + ".");
-    // console.log("Current Players card is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + ".");
 
         switch(threeCards[current].cardName){
 
@@ -724,7 +747,7 @@ function submitCardsSelection(){
 
                     npcTakesDMG(threeCards[current].hitPoints);
 
-                    npcHeal();
+                    npcHeal(npcCards[current].hitPoints);
 
                 }
 
@@ -773,7 +796,7 @@ function submitCardsSelection(){
 
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    npcHeal();
+                    npcHeal(npcCards[current].hitPoints);
 
                 }
 
@@ -822,7 +845,7 @@ function submitCardsSelection(){
                     sfx.dodgingSound.play();
                     
   
-                    npcHeal();
+                    npcHeal(npcCards[current].hitPoints);
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
@@ -875,7 +898,7 @@ function submitCardsSelection(){
 
                     if(npcCards[current].cardName === "Heal"){
     
-                        npcHeal();
+                        npcHeal(npcCards[current].hitPoints);
 
                         playerHeal(threeCards[current].hitPoints);
 
@@ -990,7 +1013,7 @@ function submitCardsSelection(){
                     npcHealth -= threeCards[current].hitPoints;
                     npcHPBlock.innerHTML = npcHealth;
 
-                    npcHeal();
+                    npcHeal(npcCards[current].hitPoints);
 
                 }
 
@@ -1001,21 +1024,21 @@ function submitCardsSelection(){
 
         ///////////Get Health from each turn and display it on screen///////////
 
-
-
-       
         playerHealthChange();
         npcHealthChange();
-
         
         //////////////////////////////////////////////////////////////////////
 
         if(pHPBlock.innerHTML <= 0){
 
-            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
-            pHPBlock.innerHTML = 0;
+            pHPBlock.innerHTML = "0";
             pBar.style.width = "0%";
-    
+            characterSprite.style.opacity = "0";
+
+            clearInterval(nIntervID);
+            console.log("interval was stopped Game is over");
+
+            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
 
             setTimeout(function(){
 
@@ -1026,10 +1049,15 @@ function submitCardsSelection(){
 
         }else if(npcHPBlock.innerHTML <= 0){
 
-            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";
-            npcHPBlock.innerHTML = 0;
+            npcHPBlock.innerHTML = "0";
             npcBar.style.width = "0%";
-            
+
+            npcSprite.style.opacity = "0";
+
+            clearInterval(nIntervID);
+            console.log("interval was stopped Game is over");
+
+            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
 
             setTimeout(function(){
 
@@ -1082,9 +1110,11 @@ function addToSelection(value){
 
     let cards = Array.from(document.querySelectorAll(".card"));
 
-    const index = cards.findIndex(element => element == value);
+    const index = cards.indexOf(value);
 
     console.log(index);
+
+    console.log(playerCards);
 
     selectedCards.push(value);
     threeCards.push(playerCards[index]);
@@ -1103,7 +1133,7 @@ function removeFromSelection(value){
     
     let cards = Array.from(document.querySelectorAll(".card"));
     
-    const index = cards.findIndex(element => element == value);
+    const index = cards.indexOf(value);
 
     selectedCards.splice(index,1);
     threeCards.splice(index,1);
@@ -1299,6 +1329,7 @@ function playerRandomCards(){
 
         }
         
+        
         console.log(playerCard);
         
 
@@ -1310,11 +1341,13 @@ function playerRandomCards(){
             if(!event.target.classList.contains("selected-card") && threeCards.length < 3 ){
         
                 this.classList.add("selected-card");
+                console.log(this);
                 addToSelection(this);
         
             }else if(event.target.classList.contains("selected-card")){
         
                 this.classList.remove("selected-card");
+                console.log(this);
                 removeFromSelection(this);
 
             }else{
@@ -1330,8 +1363,11 @@ function playerRandomCards(){
         selector.innerHTML = playerCards[i].cardName + " " + playerCards[i].hitPoints;
         
         console.log( playerCards[i].cardName + " with  " + playerCards[i].hitPoints + " hitPoints" );
+
         
     }
+
+    console.log( playerCards);
 
     
 }

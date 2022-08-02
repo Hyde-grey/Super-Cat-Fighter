@@ -9,12 +9,6 @@
     var npcSprite = document.querySelector(".npc");
     var playerSprite = document.querySelector(".player");
 
-    /// BGM / FX ///
-    var fight = new Audio('BGM/FX/fight.mp3');
-
-    var firstFight = new Audio('BGM/mr_mustache.mp3');
-
-    var current = 1;
 
     ///Characters Specs///
     var characters = Array.from(document.querySelectorAll(".character"));
@@ -39,7 +33,7 @@
 
         firstName: "Jack",
         hp: 45,
-        bonus: 2,
+        bonus: 1,
         weakness: 2
 
     };
@@ -332,18 +326,21 @@
                     console.log("miko was selected");
                     loadCharacter(whatCharacter);
                     document.querySelector(".miko_stance").classList.remove("hidden");
+                    document.querySelector(".miko_stance").classList.add(".character-sprite");
                     break;
 
                 case "Jack":
                     console.log("Jack was selected");
                     loadCharacter(whatCharacter);
                     document.querySelector(".jack_stance").classList.remove("hidden");
+                    document.querySelector(".jack_stance").classList.add(".character-sprite");
                     break;
 
                 case "Tiger":
                     console.log("Tiger was selected");
                     loadCharacter(whatCharacter);
                     document.querySelector(".tiger_stance").classList.remove("hidden");
+                    document.querySelector(".tiger_stance").classList.add(".character-sprite");
                     break;
 
             }

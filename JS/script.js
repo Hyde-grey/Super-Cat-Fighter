@@ -6,19 +6,13 @@ var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
 var loader = document.querySelector(".preloader");
-///BGM and FX///
-
-var intro = new Audio('BGM/FX/gameboy_start_up.mp3');
-var bgmStart = document.getElementById("main-bgm");
-
-///FX///
-
-var startSound = new Audio('BGM/FX/game-start.wav');
-var selectionBGM = document.getElementById("selection");
 
 var nIntervID;
 
 var current = 1;
+
+
+///BGM and FX///
 
 var bgms = {
   
@@ -117,6 +111,8 @@ var sfx = {
 
 }
 
+/////////////////////////////////////////END OF BGMS and SFX ////////////////////////////////////////
+
 window.addEventListener("load", function(){
 
   loader.style.display = "none";
@@ -129,11 +125,11 @@ function loadBGM(){
   bgms.startScreenBGM.play();
   consoleStart.classList.add("fade-out");
 
-  setTimeout(function(){
+  // setTimeout(function(){
 
-    intro.remove();
+  //   intro.remove();
 
-  },3000)
+  // },3000)
 
   start.classList.remove("hide");
   start.style.transform = "translateY(-110%)";

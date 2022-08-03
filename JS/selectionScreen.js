@@ -311,12 +311,8 @@
             fightBackground.style.opacity = "1";
 
             bgms.mrMustacheBGM.play();
-            // firstFight.play();
-            // firstFight.addEventListener('ended', function () {
-            //     this.currentTime = 0;
-            //     this.play();
-            // }, false);
-            // firstFight.volume = 0.10;
+            
+            document.querySelector(".gamepad").style.transform = "translateY(150px)";
 
             loadNPC();
 

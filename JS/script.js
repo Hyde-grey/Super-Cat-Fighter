@@ -6,6 +6,7 @@ var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
 var loader = document.querySelector(".preloader");
+var footer = document.querySelector(".gamepad");
 
 var nIntervID;
 
@@ -131,9 +132,12 @@ function loadBGM(){
 
   // },3000)
 
+
   start.classList.remove("hide");
   start.style.transform = "translateY(-110%)";
   start.style.transition = "all 3s ease";
+  
+  footer.classList.remove("hidden");
 
 }
 

@@ -334,6 +334,14 @@ function playerTakesDMG(npcCard){
 
     let elem = document.createElement("div");
     elem.classList.add("dmg-info");
+    
+    let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        elem.style.bottom = y +"%";
+        elem.style.left = x +"%";
+    
+    
     elem.innerHTML = "-" + npcCard + "HP";
     currentCharacter.appendChild(elem);
     
@@ -366,6 +374,14 @@ function npcTakesDMG(pCard){
 
     let elem = document.createElement("div");
     elem.classList.add("npc-dmg-info");
+    
+    let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        elem.style.top = y +"%";
+        elem.style.right = x +"%";
+    
+    
     elem.innerHTML = "-" + pCard + "HP";
     currentCharacter.appendChild(elem);
     
@@ -409,7 +425,14 @@ function playerHeal(pCard){
 
         let healElem = document.createElement("div");
         healElem.classList.add("heal-info");
-        healElem.innerHTML = "-" + pCard + "HP";
+        
+        let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        healElem.style.bottom = y +"%";
+        healElem.style.left = x +"%";
+        
+        healElem.innerHTML = "+" + pCard + "HP";
         currentCharacter.appendChild(healElem);
         
         healElem.animate([
@@ -476,7 +499,14 @@ function npcHeal(npcCard){
     
             let healElem = document.createElement("div");
             healElem.classList.add("npc-heal-info");
-            healElem.innerHTML = "-" + npcCard + "HP";
+            
+            let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        healElem.style.top = y +"%";
+        healElem.style.right = x +"%";
+            
+            healElem.innerHTML = "+" + npcCard + "HP";
             npcSprite.appendChild(healElem);
             
             healElem.animate([
@@ -631,8 +661,14 @@ function npcHealthChange(){
     var npcPercentage = Math.floor((npchpDecrease/npcMaxHealth) * 100);
 
     let newHP = 100 - npcPercentage;
+    
+    if(newHP > 100){
+    
+    newHP = 100;
+    
+    }
 
-    npcBar.style.width = 100 - npcPercentage +"%";
+    npcBar.style.width = newHP +"%";
 
     if ( newHP < 20 ){
 
@@ -1063,7 +1099,7 @@ function submitCardsSelection(){
 
                 location.reload();
 
-            },10000)
+            },3000)
 
         }
 
@@ -1137,7 +1173,7 @@ function removeFromSelection(value){
 
     selectedCards.splice(index,1);
     threeCards.splice(index,1);
-    console.log("threeCrads length is " + threeCards.length)
+    console.log("ThreeCards length is " + threeCards.length)
 
     if(threeCards.length < 3){
 
@@ -1264,10 +1300,12 @@ function playerRandomCards(){
 
     }
 
+let deepCopy;
 
     for( i = 0 ; i <= 4 ; i++ ){
  
         const playerCard = cardChance();
+        
         
         switch(playerCard.cardName){
 
@@ -1277,8 +1315,8 @@ function playerRandomCards(){
             playerCard.hitPoints += atkBonus;
 
             
-
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1290,7 +1328,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1301,7 +1340,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1314,7 +1354,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1322,7 +1363,8 @@ function playerRandomCards(){
 
             
 
-            playerCards.push(playerCard);
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
 
             break;
 
@@ -1330,7 +1372,7 @@ function playerRandomCards(){
         }
         
         
-        console.log(playerCard);
+        console.log(deepCopy);
         
 
         let selector = document.createElement("div");

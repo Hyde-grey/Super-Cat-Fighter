@@ -8,9 +8,10 @@
     var fightBackground = document.querySelector(".fight-background-img");
     var npcSprite = document.querySelector(".npc");
     var playerSprite = document.querySelector(".player");
-
+    
 
     ///Characters Specs///
+    
     var characters = Array.from(document.querySelectorAll(".character"));
 
     const mrMustache = {
@@ -87,9 +88,27 @@
 
 
     }
+    
+function createStartbtn(){
+
+
+let startButton = document.createElement("div");
+        startButton.classList.add("start-button");
+        startButton.addEventListener('click',toFightScreen(whatCharacter.firstName)); 
+        gamePad.appendChild(startButton);
+
+};
 
     function selectingCharacter() {
+    
+    
+        
 
+
+        leftButton.addEventListener('click', prevCharacter);
+        
+        rightButton.addEventListener('click', nextCharacter);
+        
 
         for (character of characters) {
 
@@ -293,6 +312,10 @@
 
 
     function toFightScreen(whatCharacter) {
+    
+    
+    leftButton.removeEventListener('click', prevCharacter);
+        rightButton.removeEventListener('click', nextCharacter);
 
         sfx.startButtonSound.play();
         bgms.selectionScreenBGM.stop();
@@ -369,6 +392,7 @@
     characters.onload = function(){ 
         
         console.log(" characters has been loaded ");
+        
 
         characters.addEventListener('mouseover', function(event){
 
@@ -384,4 +408,5 @@
     }
     
     selectingCharacter();
-
+    
+    

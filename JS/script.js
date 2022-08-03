@@ -6,7 +6,14 @@ var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
 var loader = document.querySelector(".preloader");
-var footer = document.querySelector(".gamepad");
+
+
+    /////////GamePad//////////
+    
+var leftButton = document.querySelector(".left-button");
+var rightButton = document.querySelector(".right-button");
+var gamePad = document.querySelector(".gamepad");
+var startButton = document.querySelector(".start-button");
 
 var nIntervID;
 
@@ -137,11 +144,16 @@ function loadBGM(){
   start.style.transform = "translateY(-110%)";
   start.style.transition = "all 3s ease";
   
-  footer.classList.remove("hidden");
+  gamePad.classList.remove("hidden");
+  
 
 }
 
 function load(){
+
+
+  startButton.addEventListener('click', startGame);
+  start.addEventListener('click', startGame);
 
   header.classList.remove("hidden");
   loadGame.remove();
@@ -176,6 +188,8 @@ function startGame(){
   bgms.startScreenBGM.stop();
   bgms.selectionScreenBGM.play();
   
+  startButton.removeEventListener('click', startGame);
+  startButton.remove();
 
 }
 
@@ -183,4 +197,5 @@ function startGame(){
 
 
 loadGame.addEventListener('click', load);  
-start.addEventListener('click', startGame);
+
+ 

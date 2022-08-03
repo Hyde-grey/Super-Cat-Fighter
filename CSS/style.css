@@ -731,8 +731,7 @@ height: 100px;
     
     .gamepad{
    
-       z-index:999;
-       display: block;
+        z-index:2;
         width: 100%;
         height: 85vh;
         position: absolute;
@@ -742,21 +741,61 @@ height: 100px;
     
     }
     
+    .right-button{
+    
+        position: absolute;
+        
+        top: 14%;
+        left: 29%;
+        
+        border: solid 1px red;
+        width: 40px;
+        height: 40px;
+        z-index:3;
+    
+    }
+    
+    .left-button{
+    
+    position: absolute;
+        
+        top: 14%;
+        left: 10%;
+        
+        border: solid 1px red;
+        width: 40px;
+        height: 40px;
+        z-index:3;
+    
+    }
+    
+    .start-button{
+    
+        position: absolute;
+        
+        top: 34%;
+        right: 33%;
+        
+        border: solid 1px red;
+        width: 50px;
+        height: 10px;
+        z-index:3;
+    
+    }
+    
     .gamepad img{
     
-    
-    width:100%
+        width:100%
     
     }
     
     
     .fight-background{
 
-    position: relative;
-    margin-top: 0px;
+        position: relative;
+        margin-top: 0px;
     
-
-}
+    }
     
     
     

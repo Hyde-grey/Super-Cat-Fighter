@@ -36,7 +36,7 @@ var bgms = {
 
     src: ['BGM/mr_mustache.mp3'],
     loop: true,
-    volume : 0.20
+    volume : 0.10
 
   })
 

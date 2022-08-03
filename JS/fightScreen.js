@@ -334,6 +334,14 @@ function playerTakesDMG(npcCard){
 
     let elem = document.createElement("div");
     elem.classList.add("dmg-info");
+    
+    let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        elem.style.bottom = y +"%";
+        elem.style.left = x +"%";
+    
+    
     elem.innerHTML = "-" + npcCard + "HP";
     currentCharacter.appendChild(elem);
     
@@ -366,6 +374,14 @@ function npcTakesDMG(pCard){
 
     let elem = document.createElement("div");
     elem.classList.add("npc-dmg-info");
+    
+    let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        elem.style.top = y +"%";
+        elem.style.right = x +"%";
+    
+    
     elem.innerHTML = "-" + pCard + "HP";
     currentCharacter.appendChild(elem);
     
@@ -409,7 +425,14 @@ function playerHeal(pCard){
 
         let healElem = document.createElement("div");
         healElem.classList.add("heal-info");
-        healElem.innerHTML = "-" + pCard + "HP";
+        
+        let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        healElem.style.bottom = y +"%";
+        healElem.style.left = x +"%";
+        
+        healElem.innerHTML = "+" + pCard + "HP";
         currentCharacter.appendChild(healElem);
         
         healElem.animate([
@@ -476,7 +499,14 @@ function npcHeal(npcCard){
     
             let healElem = document.createElement("div");
             healElem.classList.add("npc-heal-info");
-            healElem.innerHTML = "-" + npcCard + "HP";
+            
+            let y = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-10));
+        
+        healElem.style.top = y +"%";
+        healElem.style.right = x +"%";
+            
+            healElem.innerHTML = "+" + npcCard + "HP";
             npcSprite.appendChild(healElem);
             
             healElem.animate([

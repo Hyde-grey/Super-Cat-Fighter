@@ -100,9 +100,6 @@ let startButton = document.createElement("div");
 };
 
     function selectingCharacter() {
-    
-    
-        
 
 
         leftButton.addEventListener('click', prevCharacter);

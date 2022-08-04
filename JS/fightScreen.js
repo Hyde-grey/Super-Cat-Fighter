@@ -336,7 +336,7 @@ function playerTakesDMG(npcCard){
     elem.classList.add("dmg-info");
     
     let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-10));
+    let x = Math.floor(Math.random()*(40-20));
         
         elem.style.bottom = y +"%";
         elem.style.left = x +"%";
@@ -376,7 +376,7 @@ function npcTakesDMG(pCard){
     elem.classList.add("npc-dmg-info");
     
     let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-20));
         
         elem.style.top = y +"%";
         elem.style.right = x +"%";
@@ -425,7 +425,7 @@ function addHealSprite(){
     healElem.classList.add("heal-info");
     
     let y = Math.floor(Math.random()*(40-10));
-    let x = Math.floor(Math.random()*(40-10));
+    let x = Math.floor(Math.random()*(70-50));
     
     healElem.style.bottom = y +"%";
     healElem.style.left = x +"%";
@@ -471,7 +471,7 @@ function playerHeal(pCard){
         healElem.classList.add("heal-info");
         
         let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-10));
+        let x = Math.floor(Math.random()*(40-20));
         
         healElem.style.bottom = y +"%";
         healElem.style.left = x +"%";

@@ -147,13 +147,7 @@ function loadBGM(){
   start.style.transform = "translateY(-100%)";
   start.style.transition = "all 3s ease";
   
-  if( viewportWidth < 600 ){
-
-    gamePad.classList.remove("hidden");
-
-  }
-  
-  
+  gamePad.classList.remove("hidden");
 
 }
 

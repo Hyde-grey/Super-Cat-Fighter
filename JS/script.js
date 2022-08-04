@@ -147,12 +147,18 @@ function loadBGM(){
   start.style.transform = "translateY(-100%)";
   start.style.transition = "all 3s ease";
   
-  gamePad.classList.remove("hidden");
 
 }
 
 function load(){
 
+  gamePad.classList.remove("hidden");
+  
+  setTimeout(function(){
+
+    gamePad.style.opacity = 1;
+
+  }, 500);
 
   startButton.addEventListener('click', startGame);
   start.addEventListener('click', startGame);

@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* border: 1px solid red; */
     
 }
 
@@ -28,6 +29,12 @@
 .debug{
 
     border: 10px solid red;
+
+}
+
+.gamepad{
+
+    display: none;
 
 }
 
@@ -99,7 +106,7 @@ body{
     align-items: center;
 
     width: 65%;
-    margin: 50px auto;
+    margin: 15px auto;
     height: 85vh;
     
 }
@@ -124,11 +131,16 @@ body{
 
 .intro {
 
-    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin-top: -20%;
+
+}
+
+.intro img{
+
+    width: 90%;
 
 }
 
@@ -143,8 +155,10 @@ body{
 
     
     height: 85VH;
+    padding-top: 20px;
 
 }
+
 
 .character{
 
@@ -153,11 +167,6 @@ body{
 
 }
 
-.characters-intos{
-
-height: 100px;
-
-}
 
 .flex{
 
@@ -165,7 +174,7 @@ height: 100px;
     justify-content: space-around;
     align-items: center;
     overflow: hidden;
-
+    margin-top: 50px;
     width: 100%;
 
 }
@@ -246,23 +255,56 @@ height: 100px;
 .fight-loading{
 
     
-    transform: translateY(50%);
+    transform: translateX(100%);
     opacity: 0;
-    transition: all 3s ease;
+    transition: all 5s ease;
+
+}
+
+.player{
+
+    transform: translateX(50%);
+    opacity: 0;
+
+}
+
+.npc{
+
+    transform: translateX(-50%);
+    opacity: 0;
 
 }
 
 .npc , .player{
 
     transition: all 1.5s ease-in;
+    width: 100%;
+    margin: 5% auto;
 
 }
 
+.npc img, .player img{
+
+    width: 60%;
+
+}
+
+.fight{
+
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+    
+
+}
 
 .fight-background{
 
     position: relative;
-    margin-top: 100px;
+    margin-top: -90px;
+    height: 100vh;
+    width: 100%;
     
 
 }
@@ -270,7 +312,10 @@ height: 100px;
 .fight-background-img{
 
     opacity: 0;
-    transition: all 3s ease-out;
+    width: 80%;
+    margin: 0px auto;
+
+    transition: all 2s ease-out;
 
 }
 
@@ -278,7 +323,8 @@ height: 100px;
 
     position: absolute;
     top: 0;
-    left: -50%;
+    right: -5%;
+    width: 100%;
 
     transition: all 0.5s ease;
 
@@ -288,7 +334,8 @@ height: 100px;
 
     position: absolute;
     top: 0;
-    right: -50%;
+    left: -5%;
+    width: 100%;
 
     transition: all 0.5s ease;
     
@@ -299,7 +346,7 @@ height: 100px;
 
     position: absolute;
     top: 0;
-    right: 0;
+    right: 20%;
 
     transition: all 1.5s ease;
 
@@ -310,7 +357,7 @@ height: 100px;
 
     position: absolute;
     top: 20%;
-    right: 20%;
+    right: 25%;
 
     font-size: 4.5REM;
 
@@ -354,7 +401,7 @@ height: 100px;
 
     position: absolute;
     bottom: 15%;
-    left: 15%;
+    left: 25%;
 
     font-size: 5REM;
 
@@ -369,24 +416,24 @@ height: 100px;
 .npc-info{
 
     position: absolute;
-    top: 85px;
-    right: 0;
+    top: 13%;
+    left: 45%;
 
 }
 
 .player-info{
 
     position: absolute;
-    bottom: 300px;
-    left: 0;
+    bottom: 30%;
+    right: 40%;
 
 }
 
 .menu{
 
     position: absolute;
-    bottom: 10%;
-    right: 4%;
+    bottom: 3%;
+    right: 0%;
     
 
     display: flex;
@@ -397,7 +444,7 @@ height: 100px;
     border: 2px solid whitesmoke;
     cursor: pointer;    
 
-    width: 50%;
+    width: 45%;
     height: 150px;
    
    
@@ -446,8 +493,8 @@ height: 100px;
 .npc-health-container{
 
     position: absolute;
-    top: 65px;
-    right: -25px;
+    top: 10%;
+    left: 10%;
 
     
     width: 650px;
@@ -464,6 +511,7 @@ height: 100px;
     border-radius: 5px;
     background-color: aliceblue;
 
+    transform: rotate(180deg);
     transition: all 2s ease-out;
 
 }
@@ -471,8 +519,8 @@ height: 100px;
 .player-health-container {
 
     position: absolute;
-    bottom: 345px;
-    left: -45px;
+    bottom: 35%;
+    right: 2%;
 
     height: 15px;
     width: 650px;
@@ -531,6 +579,7 @@ height: 100px;
     .intro img{
 
         width: 100%;
+        margin: 0 auto;
         
     }
 
@@ -584,33 +633,16 @@ height: 100px;
 
     }
 
-    .fight-background{
-
-        /* height: 45VH; */
-        height: auto;
-        width: 100%;
-
-    }
-
-    .fight-background-img{
-        width: 100%;
-    }
-
-    .npc-container{
-
-        right: 50%;
-
-
-    }
-
     .npc{
+
         width: 100%;
+
     }
 
     .npc-health-container{
 
         top: 6%;
-        right: -2%;
+        left: 0%;
         width: 49%;
         z-index: -999;
     }
@@ -618,7 +650,7 @@ height: 100px;
     .npc-info{
 
         top: 15%;
-        right: -1%;
+        left: 10%;
         width: 40%;
         display: flex;
 
@@ -629,11 +661,10 @@ height: 100px;
 
     .player-container{
 
-        width: 100%;
-        position: absolute;
-
+        left: 0;
 
     }
+
     .player{
 
         width: 100%;
@@ -646,20 +677,24 @@ height: 100px;
         justify-content: space-between;
         width: 40%;
         bottom: 20%;
+        right: 0;
 
         color: white;
 
     }
 
-    
-
     .player-health-container{
 
         width: 49%;
-        left: -4%;
+        right: -4%;
         bottom: 29%;
         z-index: -999;
 
+    }
+
+    .npc-container{
+
+        right: 0;
     }
 
     .npc img{
@@ -673,12 +708,12 @@ height: 100px;
     .menu{
 
         bottom: -46%;
-        right: 0;
+        left: 0;
 
        width: 100%;
-       height: 150PX;
+       height: 140PX;
        display: flex;
-       justify-content: space-around;
+       justify-content: space-between;
        flex-direction: column;
 
 
@@ -712,14 +747,14 @@ height: 100px;
     .container{
     
     height: 50vh;
-    margin: 20px auto !important;
+    margin: 10px auto !important;
     
     }
     
     
     .selection-background{
     
-    margin: 0 auto !important;
+        margin: 0 auto !important;
     
         width: 100%;
         height: 40vh;
@@ -731,11 +766,12 @@ height: 100px;
     
     .gamepad{
    
+        display: block;
         z-index:2;
         width: 100%;
         height: 85vh;
         position: absolute;
-        top: 50%;
+        top: 40%;
         left: 0; 
         transition: all 1s ease;
     
@@ -745,7 +781,7 @@ height: 100px;
     
         position: absolute;
         
-        top: 14%;
+        top: 14.5%;
         left: 29%;
         
         border: solid 1px red;
@@ -759,7 +795,7 @@ height: 100px;
     
     position: absolute;
         
-        top: 14%;
+        top: 14.5%;
         left: 10%;
         
         border: solid 1px red;
@@ -773,7 +809,7 @@ height: 100px;
     
         position: absolute;
         
-        top: 34%;
+        top: 35%;
         right: 33%;
         
         border: solid 1px red;

@@ -303,9 +303,9 @@ function npcDodge(){
 
     npcSprite.animate([
 
-        { transform: "translatex(50%)" },
-        { transform: "translatex(55%)" },
-        { transform: "translatex(50%)" }
+        { transform: "translatex(0)" },
+        { transform: "translatex(5%)" },
+        { transform: "translatex(0)" }
         
     ],
     {duration: 400});
@@ -316,9 +316,9 @@ function playerDodge(){
 
     currentCharacter.animate([
 
-        { transform: "translatex(-50%)" },
-        { transform: "translatex(-55%)" },
-        { transform: "translatex(-50%)" }
+        { transform: "translatex(0%)" },
+        { transform: "translatex(-5%)" },
+        { transform: "translatex(0%)" }
     ],
     {duration: 500});
 
@@ -347,7 +347,7 @@ function playerTakesDMG(npcCard){
     
     elem.animate([
 
-        { transform: "translatey(-20%)" },
+        { transform: "translatey(-30%)" },
         { opacity : 0 }
     
     ],
@@ -387,7 +387,7 @@ function npcTakesDMG(pCard){
     
     elem.animate([
 
-        { transform: "translatey(-20%)" },
+        { transform: "translatey(-30%)" },
         { opacity : 0 }
     
     ],
@@ -402,6 +402,50 @@ function npcTakesDMG(pCard){
     npcHealth -= pCard;
     npcHPBlock.innerHTML = npcHealth;
     
+
+}
+
+function addHealSprite(){
+
+    var elem = document.createElement("img");
+    elem.classList.add("effect-sprites");
+    elem.src = 'IMG/player_healing.png';
+    currentCharacter.appendChild(elem);
+
+    sfx.healingSound.play();
+
+    setTimeout(function(){
+
+        elem.remove();
+        console.log("Elem has been removed.")
+        
+    }, 1000)
+
+    let healElem = document.createElement("div");
+    healElem.classList.add("heal-info");
+    
+    let y = Math.floor(Math.random()*(40-10));
+    let x = Math.floor(Math.random()*(40-10));
+    
+    healElem.style.bottom = y +"%";
+    healElem.style.left = x +"%";
+    
+    healElem.innerHTML = "+" + pCard + "HP";
+    currentCharacter.appendChild(healElem);
+    
+    healElem.animate([
+
+        { transform: "translatey(30%)" },
+        { opacity: "0"}
+    
+    ],
+    {duration: 2000});
+
+    setTimeout(function(){
+
+        healElem.remove();
+
+    },2000)
 
 }
 
@@ -437,7 +481,7 @@ function playerHeal(pCard){
         
         healElem.animate([
     
-            { transform: "translatey(-50%)" },
+            { transform: "translatey(30%)" },
             { opacity: "0"}
         
         ],
@@ -511,7 +555,7 @@ function npcHeal(npcCard){
             
             healElem.animate([
         
-                { transform: "translatey(-30%)" },
+                { transform: "translatey(30%)" },
                 { opacity: "0"}
             
             ],
@@ -563,12 +607,12 @@ function playerTakesDMGAnimation(){
 
     currentCharacter.animate([
 
-        { transform: "translatex(-50%)" },
-        { transform: "translatex(-51%)" },
-        { transform: "translatex(-49%)" },
-        { transform: "translatex(-51%)" },
-        { transform: "translatex(-49%)" },
-        { transform: "translatex(-50%)" },
+        { transform: "translatex(0)" },
+        { transform: "translatex(1%)" },
+        { transform: "translatex(-1%)" },
+        { transform: "translatex(1%)" },
+        { transform: "translatex(-1%)" },
+        { transform: "translatex(0)" },
     ],
     {duration: 500});
 
@@ -578,12 +622,12 @@ function npcTakesDMGAnimation(){
 
     npcSprite.animate([
 
-        { transform: "translatex(50%)" },
-        { transform: "translatex(51%)" },
-        { transform: "translatex(49%)" },
-        { transform: "translatex(51%)" },
-        { transform: "translatex(49%)" },
-        { transform: "translatex(50%)" },
+        { transform: "translatex(0)" },
+        { transform: "translatex(1%)" },
+        { transform: "translatex(-1%)" },
+        { transform: "translatex(1%)" },
+        { transform: "translatex(-1%)" },
+        { transform: "translatex(0)" },
     ],
     {duration: 500});
 
@@ -690,6 +734,8 @@ function submitCardsSelection(){
     pHealth = pHPBlock.innerHTML;
     pMaxHealth = whatCharacter.hp;
     npcMaxHealth = 40;
+
+    console.log("The current card being read is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + " hitpoints.");
 
         switch(threeCards[current].cardName){
 
@@ -1150,10 +1196,10 @@ function addToSelection(value){
 
     console.log(index);
 
-    console.log(playerCards);
-
     selectedCards.push(value);
     threeCards.push(playerCards[index]);
+
+    console.log(threeCards);
 
     if(threeCards.length === 3){
 
@@ -1372,7 +1418,7 @@ let deepCopy;
         }
         
         
-        console.log(deepCopy);
+        // console.log(deepCopy);
         
 
         let selector = document.createElement("div");
@@ -1409,7 +1455,7 @@ let deepCopy;
         
     }
 
-    console.log( playerCards);
+    console.log(playerCards);
 
     
 }

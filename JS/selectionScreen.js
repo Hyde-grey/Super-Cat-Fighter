@@ -322,16 +322,18 @@ let startButton = document.createElement("div");
         sfx.fightScream.play();
         characterSelection.remove();
         header.remove();
-        fightLoading.style.transform = "translate(0,0)";
+        fightLoading.style.transform = "translateX(-100%)";
         fightLoading.style.opacity = "1";
 
         setTimeout(function () {
 
             fightLoading.remove();
             document.querySelector(".fight").classList.remove("hide");
-            npcSprite.style.transform = "translateX(50%)";
-            playerSprite.style.transform = "translateX(-50%)";
-            fightBackground.style.opacity = "1";
+            npcSprite.style.transform = "translateX(0)";
+            npcSprite.style.opacity = 1;
+            playerSprite.style.opacity = 1;
+            playerSprite.style.transform = "translateX(0)";
+            // fightBackground.style.opacity = "1";
 
             bgms.mrMustacheBGM.play();
             

@@ -6,7 +6,10 @@ var start = document.querySelector(".start-container");
 var header = document.querySelector(".header");
 var main = document.querySelector(".main");
 var loader = document.querySelector(".preloader");
+let viewportHeight = window.innerHeight;
+let viewportWidth = window.innerWidth;
 
+console.log(viewportHeight, viewportWidth);
 
     /////////GamePad//////////
     
@@ -141,10 +144,15 @@ function loadBGM(){
 
 
   start.classList.remove("hide");
-  start.style.transform = "translateY(-110%)";
+  start.style.transform = "translateY(-100%)";
   start.style.transition = "all 3s ease";
   
-  gamePad.classList.remove("hidden");
+  if( viewportWidth < 600 ){
+
+    gamePad.classList.remove("hidden");
+
+  }
+  
   
 
 }

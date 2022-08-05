@@ -111,14 +111,12 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 rightButton.addEventListener('click', nextCharacter);
                 
                 aButton.addEventListener("click", function(){
-                
-                   toFightScreen(whatCharacter.firstName);
+                toFightScreen(whatCharacter.firstName);
                 
                 });
                 
                 startButton.addEventListener("click", function(){
-                
-                   toFightScreen(whatCharacter.firstName);
+                toFightScreen(whatCharacter.firstName);
                 
                 });
                 
@@ -332,11 +330,17 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
             leftButton.removeEventListener('click', prevCharacter);
                 rightButton.removeEventListener('click', nextCharacter);
                 
-                aButton.removeEventListener('click', toFightScreen);
+                aButton.removeEventListener("click", function(){
+                toFightScreen(whatCharacter.firstName);
                 
-                startButton.removeEventListener('click', toFightScreen);
+                });
+                
+                startButton.removeEventListener("click", function(){
+                toFightScreen(whatCharacter.firstName);
+                
+                });
 
-        onSelectSceen = false;
+        onSelectScreen = false;
             
                 sfx.startButtonSound.play();
                 bgms.selectionScreenBGM.stop();

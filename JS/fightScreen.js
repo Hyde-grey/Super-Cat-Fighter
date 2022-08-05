@@ -128,6 +128,7 @@ function isOnFight(){
 
     if(onFightScreen === true){
     
+    console.log('onFightScreen is = ' + onFightScreen + ' you are now on the fight screen.');
 
 ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 

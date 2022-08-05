@@ -1,411 +1,437 @@
+function isOnSelect(){
 
-    ///ELEMENTS///
-    var characterSelection = document.querySelector(".character-selection");
-    var selectors = document.querySelectorAll(".selector");
-    var fightLoading = document.querySelector(".fight-loading");
-    var toFight = document.querySelector(".to-fight-screen");
+if(onSelectScreen === true){
 
-    var fightBackground = document.querySelector(".fight-background-img");
-    var npcSprite = document.querySelector(".npc");
-    var playerSprite = document.querySelector(".player");
-    
+console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select screen");
 
-    ///Characters Specs///
-    
-    var characters = Array.from(document.querySelectorAll(".character"));
+         ///ELEMENTS///
+            var characterSelection = document.querySelector(".character-selection");
+            var selectors = document.querySelectorAll(".selector");
+            var fightLoading = document.querySelector(".fight-loading");
+            var toFight = document.querySelector(".to-fight-screen");
 
-    const mrMustache = {
+            var fightBackground = document.querySelector(".fight-background-img");
+            var npcSprite = document.querySelector(".npc");
+            var playerSprite = document.querySelector(".player");
+            
 
-        firstName: "Mr Mustache",
-        hp: 40
+            ///Characters Specs///
+            
+            var characters = Array.from(document.querySelectorAll(".character"));
 
-    }
+            const mrMustache = {
 
-    var npcsArr = [mrMustache];
-    
-    const miko = {
-        firstName: "Miko",
-        hp: 35,
-        bonus: 3,
-        weakness: 2
-    };
-
-    const jack = {
-
-        firstName: "Jack",
-        hp: 45,
-        bonus: 1,
-        weakness: 2
-
-    };
-
-    const tiger = {
-
-        firstName: "Tiger",
-        hp: 55,
-        bonus: 2,
-        weakness: 2
-
-    };
-
-    var characterArr = [miko, jack, tiger];
-
-    var whatCharacter = characterArr[1];
-
-    function selected(event) {
-
-        for (character of characters) {
-
-            character.classList.remove('selected');
-
-        }
-
-        event.target.classList.add("selected");
-        sfx.selectSound.play();
-
-        for (selector of selectors) {
-
-            selector.classList.add("hide");
-
-        }
-
-        for (i = 0; i <= characters.length - 1; i++) {
-
-            if (characters[i].classList.contains("selected")) {
-
-                whatCharacter = characterArr[i];
-                selectors[i].classList.remove("hide");
+                firstName: "Mr Mustache",
+                hp: 40
 
             }
 
-        }
+            var npcsArr = [mrMustache];
+            
+            const miko = {
+                firstName: "Miko",
+                hp: 35,
+                bonus: 3,
+                weakness: 2
+            };
 
-        if (event.target.classList.contains("selected")) {
+            const jack = {
 
-            toFightScreen(whatCharacter.firstName);
+                firstName: "Jack",
+                hp: 45,
+                bonus: 1,
+                weakness: 2
 
-        }
+            };
 
+            const tiger = {
 
-    }
-    
-function createStartbtn(){
+                firstName: "Tiger",
+                hp: 55,
+                bonus: 2,
+                weakness: 2
 
+            };
 
-let startButton = document.createElement("div");
-        startButton.classList.add("start-button");
-        startButton.addEventListener('click',toFightScreen(whatCharacter.firstName)); 
-        gamePad.appendChild(startButton);
+            var characterArr = [miko, jack, tiger];
 
-};
+            var whatCharacter = characterArr[1];
+            
+            
 
-    function selectingCharacter() {
+            function selected(event) {
 
+                for (character of characters) {
 
-        leftButton.addEventListener('click', prevCharacter);
-        
-        rightButton.addEventListener('click', nextCharacter);
-        
-
-        for (character of characters) {
-
-            character.addEventListener('click', selected);
-            character.addEventListener('mouseover', function(event){
-
-
-                sfx.selectSound.play();
-
-                for(character of characters){
-
-                    character.classList.remove("selected");
+                    character.classList.remove('selected');
 
                 }
 
-                for(selector of selectors){
+                event.target.classList.add("selected");
+                sfx.selectSound.play();
+
+                for (selector of selectors) {
 
                     selector.classList.add("hide");
 
                 }
 
-                event.target.classList.add("selected");
+                for (i = 0; i <= characters.length - 1; i++) {
+
+                    if (characters[i].classList.contains("selected")) {
+
+                        whatCharacter = characterArr[i];
+                        selectors[i].classList.remove("hide");
+
+                    }
+
+                }
+
+                if (event.target.classList.contains("selected")) {
+
+                    toFightScreen(whatCharacter.firstName);
+
+                }
+
+
+            }
+            
+
+            function selectingCharacter() {
+
+            
+            
+            
+            
+
+                leftButton.addEventListener('click', prevCharacter);
+                
+                rightButton.addEventListener('click', nextCharacter);
+                
+                aButton.addEventListener("click", function(){
+                
+                   toFightScreen(whatCharacter.firstName);
+                
+                });
+                
+                startButton.addEventListener("click", function(){
+                
+                   toFightScreen(whatCharacter.firstName);
+                
+                });
+                
+                
                 
 
-                for( i = 0 ; i < selectors.length ; i++){
+                for (character of characters) {
 
-                    if(characters[i].classList.contains("selected")){
+                    character.addEventListener('click', selected);
+                    character.addEventListener('mouseover', function(event){
 
-                        selectors[i].classList.remove("hide");
+
+                        sfx.selectSound.play();
+
+                        for(character of characters){
+
+                            character.classList.remove("selected");
+
+                        }
+
+                        for(selector of selectors){
+
+                            selector.classList.add("hide");
+
+                        }
+
+                        event.target.classList.add("selected");
+                        
+
+                        for( i = 0 ; i < selectors.length ; i++){
+
+                            if(characters[i].classList.contains("selected")){
+
+                                selectors[i].classList.remove("hide");
+                                charactersInfoDisplay(i);
+
+                            }
+
+                        }
+
+
+                    })
+
+                }
+
+
+            }
+
+            function charactersInfoDisplay(number){
+
+                switch(number){
+
+                    case 0:
+
+                        document.querySelector(".characters-infos").innerHTML ="Miko has higher evade chance but lower health."
+
+                    break;
+
+                    case 1:
+
+                        document.querySelector(".characters-infos").innerHTML ="Jack has higher ATK but weaker DEF."
+
+                    break;
+
+                    case 2:
+
+                        document.querySelector(".characters-infos").innerHTML ="Tiger has higher DEF and health but lower ATK."
+
+                    break;
+                }
+
+
+            }
+
+            function prevCharacter() {
+
+
+                sfx.selectSound.play();
+
+                for (i = 0; i < characters.length; i++) {
+
+                    if (characters[i].classList.contains('selected')) {
+
+                        current = i;
                         charactersInfoDisplay(i);
 
                     }
 
                 }
 
+                selectors[current].classList.add("hide");
+                characters[current].classList.remove("selected");
 
-            })
-
-        }
-
-
-    }
-
-    function charactersInfoDisplay(number){
-
-        switch(number){
-
-            case 0:
-
-                document.querySelector(".characters-infos").innerHTML ="Miko has higher evade chance but lower health."
-
-            break;
-
-            case 1:
-
-                document.querySelector(".characters-infos").innerHTML ="Jack has higher ATK but weaker DEF."
-
-            break;
-
-            case 2:
-
-                document.querySelector(".characters-infos").innerHTML ="Tiger has higher DEF and health but lower ATK."
-
-            break;
-        }
+                current--;
+                charactersInfoDisplay(current);
 
 
-    }
+                if (current < 0) {
 
-    function prevCharacter() {
+                    current = characters.length - 1;
 
+                    characters[current].classList.add("selected");
+                    selectors[current].classList.remove("hide");
+                    charactersInfoDisplay(current);
 
-        sfx.selectSound.play();
+                } else if (current >= characters.length) {
 
-        for (i = 0; i < characters.length; i++) {
+                    current = 0;
 
-            if (characters[i].classList.contains('selected')) {
-
-                current = i;
-                charactersInfoDisplay(i);
-
-            }
-
-        }
-
-        selectors[current].classList.add("hide");
-        characters[current].classList.remove("selected");
-
-        current--;
-        charactersInfoDisplay(current);
-
-
-        if (current < 0) {
-
-            current = characters.length - 1;
-
-            characters[current].classList.add("selected");
-            selectors[current].classList.remove("hide");
-            charactersInfoDisplay(current);
-
-        } else if (current >= characters.length) {
-
-            current = 0;
-
-            charactersInfoDisplay(current);
-            characters[current].classList.remove("selected");
-            selectors[current].classList.add("hide");
-
-        }
-
-        characters[current].classList.add("selected");
-        selectors[current].classList.remove("hide");
-
-        whatCharacter = characterArr[current];
-
-    }
-
-    function nextCharacter() {
-
-        sfx.selectSound.play();
-
-        for (i = 0; i < characters.length; i++) {
-
-            if (characters[i].classList.contains('selected')) {
-
-                current = i;
-
-            }
-
-        }
-
-        selectors[current].classList.add("hide");
-        characters[current].classList.remove("selected");
-
-        current++;
-        charactersInfoDisplay(current);
-
-        if (current >= characters.length) {
-
-            current = 0;
-            characters[current].classList.add("selected");
-            selectors[current].classList.remove("hide");
-            charactersInfoDisplay(current);
-
-        }
-
-        whatCharacter = characterArr[current];
-        characters[current].classList.add("selected");
-        selectors[current].classList.remove("hide");
-        charactersInfoDisplay(current);
-
-    }
-
-    function loadCharacter(whatCharacter){
-
-        let playerName = whatCharacter;
-        var playerHP;
-
-            for (character of characterArr) {
-
-                if (character.firstName === whatCharacter) {
-
-                    playerHP = character.hp;
+                    charactersInfoDisplay(current);
+                    characters[current].classList.remove("selected");
+                    selectors[current].classList.add("hide");
 
                 }
 
+                characters[current].classList.add("selected");
+                selectors[current].classList.remove("hide");
+
+                whatCharacter = characterArr[current];
+
             }
 
-        let hpBlock = document.querySelector(".player-hp");
-        let nameBlock = document.querySelector(".character-name");
+            function nextCharacter() {
 
-        nameBlock.innerHTML = playerName;
-        hpBlock.innerHTML = playerHP;
+                sfx.selectSound.play();
+
+                for (i = 0; i < characters.length; i++) {
+
+                    if (characters[i].classList.contains('selected')) {
+
+                        current = i;
+
+                    }
+
+                }
+
+                selectors[current].classList.add("hide");
+                characters[current].classList.remove("selected");
+
+                current++;
+                charactersInfoDisplay(current);
+
+                if (current >= characters.length) {
+
+                    current = 0;
+                    characters[current].classList.add("selected");
+                    selectors[current].classList.remove("hide");
+                    charactersInfoDisplay(current);
+
+                }
+
+                whatCharacter = characterArr[current];
+                characters[current].classList.add("selected");
+                selectors[current].classList.remove("hide");
+                charactersInfoDisplay(current);
+
+            }
+
+            function loadCharacter(whatCharacter){
+
+                let playerName = whatCharacter;
+                var playerHP;
+
+                    for (character of characterArr) {
+
+                        if (character.firstName === whatCharacter) {
+
+                            playerHP = character.hp;
+
+                        }
+
+                    }
+
+                let hpBlock = document.querySelector(".player-hp");
+                let nameBlock = document.querySelector(".character-name");
+
+                nameBlock.innerHTML = playerName;
+                hpBlock.innerHTML = playerHP;
 
 
 
-    }
+            }
 
-    function loadNPC(){
+            function loadNPC(){
 
-        let npcName = npcsArr[0].firstName;
-        var npcHP = npcsArr[0].hp;
+                let npcName = npcsArr[0].firstName;
+                var npcHP = npcsArr[0].hp;
 
-            // for (character of characterArr) {
+                    // for (character of characterArr) {
 
-            //     if (character.firstName === whatCharacter) {
+                    //     if (character.firstName === whatCharacter) {
 
-            //         playerHP = character.hp;
+                    //         playerHP = character.hp;
 
-            //     }
+                    //     }
 
-            // }
+                    // }
 
-        let hpBlock = document.querySelector(".npc-hp");
-        let nameBlock = document.querySelector(".npc-name");
+                let hpBlock = document.querySelector(".npc-hp");
+                let nameBlock = document.querySelector(".npc-name");
 
-        nameBlock.innerHTML = npcName;
-        hpBlock.innerHTML = npcHP;
+                nameBlock.innerHTML = npcName;
+                hpBlock.innerHTML = npcHP;
 
-    }
+            }
 
 
-    function toFightScreen(whatCharacter) {
-    
-    
-    leftButton.removeEventListener('click', prevCharacter);
-        rightButton.removeEventListener('click', nextCharacter);
-
-        sfx.startButtonSound.play();
-        bgms.selectionScreenBGM.stop();
-        sfx.fightScream.play();
-        characterSelection.remove();
-        header.remove();
-        fightLoading.style.transform = "translateX(-100%)";
-        fightLoading.style.opacity = "1";
-
-        setTimeout(function () {
-
-            fightLoading.remove();
-            document.querySelector(".fight").classList.remove("hide");
-            npcSprite.style.transform = "translateX(0)";
-            npcSprite.style.opacity = 1;
-            playerSprite.style.opacity = 1;
-            playerSprite.style.transform = "translateX(0)";
-            // fightBackground.style.opacity = "1";
-
-            bgms.mrMustacheBGM.play();
+            function toFightScreen(whatCharacter) {
             
-            document.querySelector(".gamepad").style.transform = "translateY(150px)";
+            
+            leftButton.removeEventListener('click', prevCharacter);
+                rightButton.removeEventListener('click', nextCharacter);
+                
+                aButton.removeEventListener('click', toFightScreen);
 
-            loadNPC();
+        onSelectSceen = false;
+            
+                sfx.startButtonSound.play();
+                bgms.selectionScreenBGM.stop();
+                sfx.fightScream.play();
+                characterSelection.remove();
+                header.remove();
+                fightLoading.style.transform = "translateX(-100%)";
+                fightLoading.style.opacity = "1";
 
-            switch (whatCharacter) {
+                setTimeout(function () {
+                
+                onFightScreen = true;
 
-                case "Miko":
-                    console.log("miko was selected");
-                    loadCharacter(whatCharacter);
-                    document.querySelector(".miko_stance").classList.remove("hidden");
-                    document.querySelector(".miko_stance").classList.add(".character-sprite");
-                    break;
+                    fightLoading.remove();
+                    document.querySelector(".fight").classList.remove("hide");
+                    npcSprite.style.transform = "translateX(0)";
+                    npcSprite.style.opacity = 1;
+                    playerSprite.style.opacity = 1;
+                    playerSprite.style.transform = "translateX(0)";
+                    // fightBackground.style.opacity = "1";
 
-                case "Jack":
-                    console.log("Jack was selected");
-                    loadCharacter(whatCharacter);
-                    document.querySelector(".jack_stance").classList.remove("hidden");
-                    document.querySelector(".jack_stance").classList.add(".character-sprite");
-                    break;
+                    bgms.mrMustacheBGM.play();
+                    
+                    document.querySelector(".gamepad").style.transform = "translateY(150px)";
 
-                case "Tiger":
-                    console.log("Tiger was selected");
-                    loadCharacter(whatCharacter);
-                    document.querySelector(".tiger_stance").classList.remove("hidden");
-                    document.querySelector(".tiger_stance").classList.add(".character-sprite");
-                    break;
+                    loadNPC();
+
+                    switch (whatCharacter) {
+
+                        case "Miko":
+                            console.log("miko was selected");
+                            loadCharacter(whatCharacter);
+                            document.querySelector(".miko_stance").classList.remove("hidden");
+                            document.querySelector(".miko_stance").classList.add(".character-sprite");
+                            break;
+
+                        case "Jack":
+                            console.log("Jack was selected");
+                            loadCharacter(whatCharacter);
+                            document.querySelector(".jack_stance").classList.remove("hidden");
+                            document.querySelector(".jack_stance").classList.add(".character-sprite");
+                            break;
+
+                        case "Tiger":
+                            console.log("Tiger was selected");
+                            loadCharacter(whatCharacter);
+                            document.querySelector(".tiger_stance").classList.remove("hidden");
+                            document.querySelector(".tiger_stance").classList.add(".character-sprite");
+                            break;
+
+                    }
+
+                }, 5000);
+
 
             }
 
-        }, 5000);
+            document.addEventListener('keydown', function (e) {
 
+                switch (e.keyCode) {
 
-    }
+                    case 37:
+                        prevCharacter();
+                        break;
 
-    document.addEventListener('keydown', function (e) {
+                    case 39:
+                        nextCharacter();
+                        break;
 
-        switch (e.keyCode) {
+                    case 13:
+                        toFightScreen(whatCharacter.firstName);
+                        break;
 
-            case 37:
-                prevCharacter();
-                break;
+                }
 
-            case 39:
-                nextCharacter();
-                break;
+            });
 
-            case 13:
-                toFightScreen(whatCharacter.firstName);
-                break;
+            characters.onload = function(){ 
+                
+                console.log(" characters has been loaded ");
+                
 
-        }
+                characters.addEventListener('mouseover', function(event){
 
-    });
+                for (character of characters) {
 
-    characters.onload = function(){ 
-        
-        console.log(" characters has been loaded ");
-        
+                    character.classList.remove("selected");
 
-        characters.addEventListener('mouseover', function(event){
+                }
 
-        for (character of characters) {
+                event.target.classList.add("selected");
 
-            character.classList.remove("selected");
-
-        }
-
-        event.target.classList.add("selected");
-
-        });
-    }
+                });
+            }
     
     selectingCharacter();
+    
+}
+}
+    
     
     

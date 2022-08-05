@@ -17,6 +17,7 @@ var leftButton = document.querySelector(".left-button");
 var rightButton = document.querySelector(".right-button");
 var gamePad = document.querySelector(".gamepad");
 var startButton = document.querySelector(".start-button");
+var aButton = document.querySelector(".a-button");
 
 var nIntervID;
 
@@ -124,33 +125,39 @@ var sfx = {
 
 /////////////////////////////////////////END OF BGMS and SFX ////////////////////////////////////////
 
+/////////////////Screens variables///////////////////
+
+var onStartScreen = false;
+var onSelectScreen = false;
+var onFightScreen = false;
+
+
+/////////////////End of Screens Variables///////////
+
 window.addEventListener("load", function(){
 
   loader.style.display = "none";
 
 })
 
-function loadBGM(){
+function loadStartScreen(){
 
 
   bgms.startScreenBGM.play();
   consoleStart.classList.add("fade-out");
 
-  // setTimeout(function(){
-
-  //   intro.remove();
-
-  // },3000)
-
-
   start.classList.remove("hide");
   start.style.transform = "translateY(-100%)";
   start.style.transition = "all 3s ease";
   
-
+  onStartScreen = true;
+  
+  isOnStart();
+  
 }
 
 function load(){
+
 
   gamePad.classList.remove("hidden");
   
@@ -159,9 +166,6 @@ function load(){
     gamePad.style.opacity = 1;
 
   }, 500);
-
-  startButton.addEventListener('click', startGame);
-  start.addEventListener('click', startGame);
 
   header.classList.remove("hidden");
   loadGame.remove();
@@ -181,27 +185,45 @@ function load(){
 
  },1100);
 
-setTimeout(loadBGM, 3000);
+setTimeout(loadStartScreen, 3000);
   
 
 }
 
-function startGame(){
+function isOnStart(){
 
-  sfx.startButtonSound.play();
+  if(onStartScreen === true){
 
-  header.remove();
-  main.classList.remove('hidden');
 
-  bgms.startScreenBGM.stop();
-  bgms.selectionScreenBGM.play();
+  console.log("onStartScreen is = " + onStartScreen + " you're now on the start screen");
   
-  startButton.removeEventListener('click', startGame);
-  startButton.remove();
+  startButton.addEventListener('click', startGame);
+  start.addEventListener('click', startGame);
+
+
+  function startGame(){
+
+    onStartScreen = false;
+    onSelectScreen = true;
+    
+    sfx.startButtonSound.play();
+
+    header.remove();
+    main.classList.remove('hidden');
+
+    bgms.startScreenBGM.stop();
+    bgms.selectionScreenBGM.play();
+    
+    startButton.removeEventListener('click', startGame);
+
+    isOnSelect();
+    
+  }
+
+
+  }
 
 }
-
-
 
 
 loadGame.addEventListener('click', load);  

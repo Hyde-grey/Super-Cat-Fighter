@@ -1,9 +1,3 @@
-function isOnSelect(){
-
-if(onSelectScreen === true){
-
-console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select screen");
-
          ///ELEMENTS///
             var characterSelection = document.querySelector(".character-selection");
             var selectors = document.querySelectorAll(".selector");
@@ -56,6 +50,14 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
             var characterArr = [miko, jack, tiger];
 
             var whatCharacter = characterArr[1];
+
+function isOnSelect(){
+
+if(onSelectScreen === true){
+
+console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select screen");
+
+
             
             
 
@@ -331,6 +333,8 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 rightButton.removeEventListener('click', nextCharacter);
                 
                 aButton.removeEventListener('click', toFightScreen);
+                
+                startButton.removeEventListener('click', toFightScreen);
 
         onSelectSceen = false;
             
@@ -357,6 +361,8 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                     bgms.mrMustacheBGM.play();
                     
                     document.querySelector(".gamepad").style.transform = "translateY(150px)";
+                    
+                    isOnFight();
 
                     loadNPC();
 

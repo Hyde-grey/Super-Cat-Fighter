@@ -451,7 +451,7 @@ body{
     height: 150px;
    
    
-   justify-content: space-around;
+  
    flex-direction: column;
 
 }
@@ -460,15 +460,18 @@ body{
 .drawnCards{
 
     width: 100%;
-    margin: 5PX;
+    margin: 10px;
 
 }
 
 .submit-selection{
 
-    margin-top: 20px;
-    display: block;
-    text-transform: capitalize;
+    min-width : 80px;
+    min-height: 50px;
+    
+    padding : 10px; 
+   border: 1px solid red;
+   margin: 5px auto
 
 }
 
@@ -481,14 +484,13 @@ body{
 
 .card{
 
-    margin: 5px;
+    margin: 10px 5px;
 
 }
 
 .selected-card{
 
-    transform: scale(1.1);
-    transform: translateY(10px);
+    transform: translateY(-10px);
     transition: all 0.5s ease-out;
 
 }
@@ -732,7 +734,7 @@ body{
     .submit-selection{
 
         margin: 5px;
-        display: block;
+        
 
     }
 
@@ -812,7 +814,7 @@ body{
 
         position: absolute;
         
-        top: 13%;
+        top: 11%;
         right: 8%;
         border-radius: 50%;
         border: solid 1px red;
@@ -826,7 +828,7 @@ body{
     
         position: absolute;
         
-        top: 41%;
+        top: 38%;
         right: 33%;
         
         border: solid 1px red;

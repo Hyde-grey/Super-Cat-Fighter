@@ -1,4 +1,3 @@
-    
 var draw = document.getElementById("draw");
 var drawnCards = document.querySelector(".drawnCards");
 var submitSelection = document.querySelector(".submit-selection");
@@ -122,6 +121,13 @@ var nspecialAtk = {
 var cardList = [atkCard,defCard,evaCard,healCard,specialAtk]; 
 var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
+
+
+function isOnFight(){
+
+
+    if(onFightScreen === true){
+    
 
 ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 
@@ -1177,6 +1183,7 @@ function submitCardsSelection(){
             threeCards = [];
             npcCards = [];
 
+            draw.style.display = "block";
             draw.disabled = false;
             submitSelection.innerHTML = "Time to draw new cards";
             
@@ -1545,7 +1552,11 @@ function drawCards(){
     submitSelection.classList.add("hidden");
     submitSelection.addEventListener("click", startRound);
     draw.disabled = true;
+    draw.style.display = "none";
 
 }
 
 draw.addEventListener("click", drawCards);
+
+}
+}

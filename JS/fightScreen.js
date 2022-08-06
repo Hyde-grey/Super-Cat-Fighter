@@ -16,7 +16,7 @@ var fightDialogue = document.querySelector(".fight-dialogue");
 var threeCards = [];
 var selectedCards = [];
 
-var turns = 0;
+var turns = 1;
 var current = 0; 
 var npcHealth = 40;
 
@@ -647,37 +647,46 @@ function startRound(){
     menuContent.classList.add("hidden");
     fightDialogue.classList.remove("hidden");
 
+
+    console.log("turn is " + turns);
+    
     submitCardsSelection();
-    turns ++;
+    
 
     nIntervID = setInterval(function(){
+    
+    turns ++;
 
         
-        if( turns < 3){
+        if( turns < 4){
 
-            submitCardsSelection();
-            turns ++;
-            console.log("interval is launched");
             console.log("turn is " + turns);
+            
+            submitCardsSelection();
+            
+            console.log("interval is launched");
+            
             nIntervID;
     
-        }else if(turns == 3){
+        }else if(turns === 4){
     
             console.log("interval was stopped");
            
             clearInterval(nIntervID);
-            turns = 0;
+            turns = 1;
             menuContent.classList.remove("hidden");
             fightDialogue.classList.add("hidden");
 
             playerCards = [];
+            threeCards =[];
+            npcCards = [];
             drawnCards.innerHTML = "";
             playerCards.length = 0;
            
     
         }
     
-    }, 4000);
+    }, 3000);
 
 }
 
@@ -1156,35 +1165,16 @@ function submitCardsSelection(){
 
         }
 
-        if(current <= 1){
+        current ++;
+
+        if(current < 3){
             
-            switch(current){
-   
-
-                case 0:
-
-                    submitSelection.innerHTML = "Second cards";
-                    
-                break;  
-
-                case 1:
-
-                    submitSelection.innerHTML = "Third Card";
-                    
-                break;  
-
-            }
-            
-            current ++;
             console.log("Card " + (current));
 
-        }else{
+        }else if(current === 3){
 
             current = 0;
-            threeCards = [];
-            npcCards = [];
-
-            draw.style.display = "block";
+        draw.style.display = "block";
             draw.disabled = false;
             submitSelection.innerHTML = "Time to draw new cards";
             

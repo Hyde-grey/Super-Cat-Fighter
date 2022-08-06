@@ -100,9 +100,6 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
             
 
             function selectingCharacter() {
-
-            
-            
             
             
 
@@ -111,16 +108,36 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 rightButton.addEventListener('click', nextCharacter);
                 
                 aButton.addEventListener("click", function(){
-                toFightScreen(whatCharacter.firstName);
+                
+                if(onFightScreen === false){
+                
+                    toFightScreen(whatCharacter.firstName);
+                
+                        this.removeEventListener('click',arguments.callee);
+                        
+                }else{
+                
+                this.removeEventListener('click',arguments.callee);
+                
+                }
                 
                 });
                 
                 startButton.addEventListener("click", function(){
+                
+                if(onFightScreen === false){
+                
                 toFightScreen(whatCharacter.firstName);
                 
+                        this.removeEventListener('click',arguments.callee);
+                        
+                }else{
+                
+                this.removeEventListener('click',arguments.callee);
+                
+                }
+                
                 });
-                
-                
                 
 
                 for (character of characters) {
@@ -324,21 +341,15 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
             }
 
 
-            function toFightScreen(whatCharacter) {
+            var toFightScreen = function(whatCharacter) {
             
             
             leftButton.removeEventListener('click', prevCharacter);
                 rightButton.removeEventListener('click', nextCharacter);
                 
-                aButton.removeEventListener("click", function(){
-                toFightScreen(whatCharacter.firstName);
+                aButton.removeEventListener("click", toFightScreen);
                 
-                });
-                
-                startButton.removeEventListener("click", function(){
-                toFightScreen(whatCharacter.firstName);
-                
-                });
+                startButton.removeEventListener("click", toFightScreen);
 
         onSelectScreen = false;
             
@@ -348,6 +359,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 characterSelection.remove();
                 header.remove();
                 fightLoading.style.transform = "translateX(-100%)";
+                
                 fightLoading.style.opacity = "1";
 
                 setTimeout(function () {

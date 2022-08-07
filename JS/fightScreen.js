@@ -1,6 +1,8 @@
 var draw = document.getElementById("draw");
 var drawnCards = document.querySelector(".drawnCards");
 var submitSelection = document.querySelector(".submit-selection");
+var countDown;
+var playerLives = 5;
 var playerInfos = document.querySelector(".player-info");
 var pHPBlock = document.querySelector(".player-hp");
 var pBar = document.getElementById("player-health");
@@ -35,6 +37,9 @@ var max = 10;
 
 var playerCards = [];
 var npcCards = [];
+
+var playerWins = false;
+var npcWins = false;
 
 /////////////////////////////////////////PLAYER CARDS/////////////////////////////////
 
@@ -450,18 +455,24 @@ function playerTakesDMG(npcCard){
     pHealth -= npcCard;
     
     pHPBlock.innerHTML = pHealth;
+    playerHealthChange();
     
     if(pHPBlock.innerHTML <= 0){
-    
-    pHPBlock.innerHTML = 0;
-    npcCards.length = 0;
-    threeCards.length = 0;
-    clearInterval(nIntervID);
-    currentCharacter.style.opacity = "0";
-    
-    fightDialogue.innerHTML = "Game Over you Lose";
-    
-    }
+
+            npcWins = true;
+            pHPBlock.innerHTML = "0";
+            pBar.style.width = "0";
+            characterSprite.style.opacity = "0";
+
+            clearInterval(nIntervID);
+            console.log("interval was stopped Game is over");
+
+            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
+            
+            gameOver();
+            
+
+        }
     
 
 }
@@ -501,18 +512,25 @@ function npcTakesDMG(pCard){
 
     npcHealth -= pCard;
     npcHPBlock.innerHTML = npcHealth;
+    npcHealthChange();
     
     if(npcHPBlock.innerHTML <= 0){
-    
-    npcHPBlock.innerHTML = 0;
-    npcCards.length = 0;
-    threeCards.length = 0;
-    clearInterval(nIntervID);
-    npcSprite.style.opacity = "0";
-    
-    fightDialogue.innerHTML = "Game Over you Win!!!";
-    
-    }
+
+            playerWins = true;
+            npcHPBlock.innerHTML = "0";
+            npcBar.style.width = "0";
+
+            npcSprite.style.opacity = "0";
+
+            clearInterval(nIntervID);
+            console.log("interval was stopped Game is over");
+
+            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
+            
+            gameOver(); 
+
+
+        }
     
 
 }
@@ -1234,44 +1252,6 @@ function submitCardsSelection(){
         
         //////////////////////////////////////////////////////////////////////
 
-        if(pHPBlock.innerHTML <= 0){
-
-            pHPBlock.innerHTML = "0";
-            pBar.style.width = "0%";
-            characterSprite.style.opacity = "0";
-
-            clearInterval(nIntervID);
-            console.log("interval was stopped Game is over");
-
-            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
-
-            setTimeout(function(){
-
-                location.reload();
-
-            },10000)
-            
-
-        }else if(npcHPBlock.innerHTML <= 0){
-
-            npcHPBlock.innerHTML = "0";
-            npcBar.style.width = "0%";
-
-            npcSprite.style.opacity = "0";
-
-            clearInterval(nIntervID);
-            console.log("interval was stopped Game is over");
-
-            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
-
-            setTimeout(function(){
-
-                location.reload();
-
-            },3000)
-
-        }
-
         current ++;
 
         if(current < 3){
@@ -1286,7 +1266,167 @@ function submitCardsSelection(){
             submitSelection.innerHTML = "Time to draw new cards";
             
         }
+        
 
+    }
+    
+    function retryFight(){
+    
+    clearInterval(countDown);
+    
+        playerLives --;
+        
+        playerCards.length = 0;
+        playerCards = [];
+        threeCards.length = 0;
+        threeCards = [];
+        npcCards.length = 0;
+        npcCards = [];
+        
+        pHealth = pMaxHealth;
+        pHPBlock.innerHTML = pHealth;
+        
+        npcHealth = npcMaxHealth;
+        npcHPBlock.innerHTML = npcHealth;
+        
+        playerHealthChange();
+        npcHealthChange();
+        
+        npcSprite.style.opacity = 1;
+        
+        transition.remove();
+        continueContainer.remove();
+        decountContainer.remove();
+             
+    
+    }
+    
+    
+    function gameOver(){
+    
+    var transition = document.createElement("div");
+    transition.classList.add("gameover-background");
+    
+    var fightContainer = document.querySelector(".fight");
+    
+    fightContainer.appendChild(transition);
+    
+    
+    var continueContainer = document.createElement("div");
+    continueContainer.classList.add("continue-container");
+    
+    transition.appendChild(continueContainer);
+    
+    var continueText = document.createElement("div");
+    
+    continueContainer.appendChild(continueText);
+    
+    continueText.innerHTML = "Game Over";
+    
+    var decountContainer = document.createElement("div");
+    
+    continueContainer.appendChild(decountContainer); 
+    
+    if(playerWins === true){
+    
+    var resetFightContainer = document.createElement("div");
+    
+    var conTextBox = document.createElement("div");
+    conTextBox.innerHTML = "CONTINUE ?";
+    resetFightContainer.appendChild(conTextBox);
+    
+    
+    var yesnoContainer = document.createElement("div"); 
+    yesnoContainer.classList.add("yesno-container");
+    
+    var yesBox = document.createElement("div");
+    yesBox.addEventListener("click", retryFight);
+    
+    yesBox.innerHTML = "YES";
+    
+    var noBox = document.createElement("div");
+    noBox.addEventListener("click",function(){
+    
+        location.reload();
+    
+    });
+    
+    noBox.innerHTML = "NO";
+    
+    yesnoContainer.appendChild(yesBox);
+    yesnoContainer.appendChild(noBox);
+    
+    resetFightContainer.appendChild(yesnoContainer);
+    
+    continueContainer.appendChild(resetFightContainer);
+    
+    }else if(npcWins === true){
+    
+
+ 
+        var resetFightContainer = document.createElement("div");
+    
+    var conTextBox = document.createElement("div");
+    conTextBox.innerHTML = "CONTINUE ?";
+    resetFightContainer.appendChild(conTextBox);
+    
+    
+    var yesnoContainer = document.createElement("div"); 
+    yesnoContainer.classList.add("yesno-container");
+    
+    var yesBox = document.createElement("div");
+    yesBox.addEventListener("click", retryFight);
+    
+    yesBox.innerHTML = "YES";
+    
+    var noBox = document.createElement("div");
+    noBox.addEventListener("click",function(){
+    
+        location.reload();
+    
+    });
+    
+    noBox.innerHTML = "NO";
+    
+    yesnoContainer.appendChild(yesBox);
+    yesnoContainer.appendChild(noBox);
+    
+    resetFightContainer.appendChild(yesnoContainer);
+    
+    continueContainer.appendChild(resetFightContainer);
+    
+    
+    }
+
+    
+    
+    var count = 10;
+    
+    decountContainer.innerHTML = count;
+    
+    
+    countDown = setInterval(decount,1000);
+    
+    
+    function decount(){
+    
+    count --;
+    
+    decountContainer.innerHTML = count;
+    
+            if(count === 0){
+            
+                decountContainer.innerHTML = count;
+             
+                location.reload();
+
+            
+            }
+    
+    
+    }
+    
+    
     }
 
    
@@ -1314,17 +1454,33 @@ function addToSelection(value){
 
 }
 
+function resetPlayerHand(){
+
+    threeCards = [];
+    threeCards.length = 0;
+    
+    for(selectedCard of selectedCards){
+    
+        selectedCard.classList.remove("selected-card");
+    
+    }
+
+}
+
 function removeFromSelection(value){
 
     sfx.selectSound.play();
     
-    let cards = Array.from(document.querySelectorAll(".card"));
+    resetPlayerHand();
+    
+    /*let cards = Array.from(document.querySelectorAll(".card"));
     
     const index = cards.indexOf(value);
 
     selectedCards.splice(index,1);
     threeCards.splice(index,1);
     console.log("ThreeCards length is " + threeCards.length)
+    console.log("ThreeCards length is " + threeCards.length);*/
 
     if(threeCards.length < 3){
 

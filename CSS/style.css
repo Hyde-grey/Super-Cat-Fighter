@@ -427,29 +427,42 @@ body{
 .player-info{
 
     position: absolute;
-    bottom: 30%;
+    bottom: 40%;
     right: 40%;
+    padding: 10px;
 
 }
 
 .gauge-container{
 
 position: absolute;
-    bottom: 25%;
-    right: 40%;
+    top: -20%;
+    left: 0;
 
 width: 80%;
 height: 50px;
 display: flex;
 justify-content: space-around;
-align-items: center;
+align-items: flex-start;
+
+}
+
+.gaugeBoxOne{
+
+border: 1px solid white;
+width: 30%;
+height: 10px;
+background-color: transparent;
+
+transition: all .5s ease;
+
 
 }
 
 .gaugeBoxTwo{
 
 width: 30%;
-height: 25px;
+height: 15px;
 
 border: 1px solid white;
 background-color: transparent;
@@ -463,24 +476,13 @@ transition: all .5s ease;
 
 border: 1px solid white;
 width: 30%;
-height: 30px;
+height: 25px;
 background-color: transparent;
 
 transition: all .5s ease;
 
 }
 
-.gaugeBoxOne{
-
-border: 1px solid white;
-width: 30%;
-height: 20px;
-background-color: transparent;
-
-transition: all .5s ease;
-
-
-}
 
 .menu{
 
@@ -611,6 +613,50 @@ transition: all .5s ease;
     border-radius: 5px;
     background-color: aliceblue;
     transition: all 2s ease-out;
+
+}
+
+.gameover-background{
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.8);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index : 99999;
+
+}
+
+.continue-container{
+
+
+    font-size: 2rem;
+    width: 400px;
+    height: 200px;
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.yesno-container{
+
+    display:flex;
+    justify-content: space-around;
+    font-size: 1.5rem;
+
 
 }
 
@@ -751,8 +797,8 @@ transition: all .5s ease;
         display: flex;
         justify-content: space-between;
         width: 40%;
-        bottom: 20%;
-        right: 0;
+        bottom: 18%;
+        right: 3%;
 
         color: white;
 
@@ -842,7 +888,7 @@ transition: all .5s ease;
     .gamepad{
    
         display: block;
-        z-index:2;
+        z-index:6;
         width: 100%;
         height: 85vh;
         position: absolute;
@@ -862,7 +908,7 @@ transition: all .5s ease;
         border: solid 1px red;
         width: 40px;
         height: 40px;
-        z-index:3;
+        z-index:7;
     
     }
     
@@ -876,7 +922,7 @@ transition: all .5s ease;
         border: solid 1px red;
         width: 40px;
         height: 40px;
-        z-index:3;
+        z-index:7;
     
     }
 
@@ -890,7 +936,7 @@ transition: all .5s ease;
         border: solid 1px red;
         width: 50px;
         height: 50px;
-        z-index:3;
+        z-index:7;
 
     }
     
@@ -904,7 +950,7 @@ transition: all .5s ease;
         border: solid 1px red;
         width: 50px;
         height: 10px;
-        z-index:3;
+        z-index:7;
     
     }
     

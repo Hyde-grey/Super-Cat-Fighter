@@ -388,6 +388,21 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                             console.log("miko was selected");
                             loadCharacter(whatCharacter);
                             document.querySelector(".miko_stance").classList.remove("hidden");
+                            var gaugeContainer = document.createElement("div");
+            gaugeContainer.classList.add("gauge-container");
+            
+            var gaugeBoxOne = document.createElement("div");
+            gaugeContainer.appendChild(gaugeBoxOne);
+            gaugeBoxOne.classList.add("gaugeBoxOne");
+            
+            var gaugeBoxTwo = document.createElement("div");
+gaugeBoxTwo.classList.add("gaugeBoxTwo");
+gaugeContainer.appendChild(gaugeBoxTwo);
+            
+            var gaugeBoxThree = document.createElement("div");
+            gaugeBoxThree.classList.add("gaugeBoxThree");
+            gaugeContainer.appendChild(gaugeBoxThree);
+                            playerInfos.appendChild(gaugeContainer);
                             document.querySelector(".miko_stance").classList.add(".character-sprite");
                             break;
 

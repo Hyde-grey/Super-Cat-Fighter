@@ -432,6 +432,56 @@ body{
 
 }
 
+.gauge-container{
+
+position: absolute;
+    bottom: 25%;
+    right: 40%;
+
+width: 80%;
+height: 50px;
+display: flex;
+justify-content: space-around;
+align-items: center;
+
+}
+
+.gaugeBoxTwo{
+
+width: 30%;
+height: 25px;
+
+border: 1px solid white;
+background-color: transparent;
+
+transition: all .5s ease;
+
+
+}
+
+.gaugeBoxThree{
+
+border: 1px solid white;
+width: 30%;
+height: 30px;
+background-color: transparent;
+
+transition: all .5s ease;
+
+}
+
+.gaugeBoxOne{
+
+border: 1px solid white;
+width: 30%;
+height: 20px;
+background-color: transparent;
+
+transition: all .5s ease;
+
+
+}
+
 .menu{
 
     position: absolute;
@@ -456,6 +506,19 @@ body{
 
 }
 
+#draw{
+
+
+    width: 80px;
+    height: 80px;
+    
+    background-color: transparent;
+    color: white;
+    
+    margin: 10px auto;
+
+}
+
 
 .drawnCards{
 
@@ -470,7 +533,6 @@ body{
     min-height: 50px;
     
     padding : 10px; 
-   border: 1px solid red;
    margin: 5px auto
 
 }
@@ -484,7 +546,15 @@ body{
 
 .card{
 
+
+    height: 80px;
+    width: 20x;
     margin: 10px 5px;
+    border : 1px solid white;
+    display: flex;
+    flex-direction: collumn;
+    justify-content: center;
+    align-items: center;
 
 }
 
@@ -525,7 +595,7 @@ body{
 
     position: absolute;
     bottom: 35%;
-    right: 2%;
+    right: 3%;
 
     height: 15px;
     width: 650px;
@@ -691,7 +761,7 @@ body{
     .player-health-container{
 
         width: 49%;
-        right: -4%;
+        right: 0%;
         bottom: 29%;
         z-index: -999;
 

@@ -1,7 +1,7 @@
 var draw = document.getElementById("draw");
 var drawnCards = document.querySelector(".drawnCards");
 var submitSelection = document.querySelector(".submit-selection");
-
+var playerInfos = document.querySelector(".player-info");
 var pHPBlock = document.querySelector(".player-hp");
 var pBar = document.getElementById("player-health");
 var npcHPBlock = document.querySelector(".npc-hp");
@@ -26,6 +26,8 @@ var npcMaxHealth;
 
 var currentCharacter;
 var nIntervID;
+
+var dodgeGauge = 0;
 
 
 var min = 0;
@@ -129,7 +131,33 @@ function isOnFight(){
     if(onFightScreen === true){
     
     console.log('onFightScreen is = ' + onFightScreen + ' you are now on the fight screen.');
+    
+    
+    
+    gamePad.addEventListener('click', gamePadSlide); 
+    
+    var clicked = false;
+    
+    function gamePadSlide(){
+    
+    
 
+    if(clicked === false){
+    
+    gamePad.style.transform = "translateY(0%)";
+    
+    clicked = true;
+    console.log(clicked);
+    
+    }else{
+    
+    gamePad.style.transform = "translateY(20%)";
+    
+    clicked = false;
+    console.log(clicked);
+    
+    }
+}
 ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 
 function atkSound(){
@@ -319,6 +347,59 @@ function npcDodge(){
 
 }
 
+function mikoDodgeStrike(){
+
+
+var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
+
+var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
+
+var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
+
+if(whatCharacter.firstName === "Miko"){
+    
+    dodgeGauge ++;
+    
+    switch(dodgeGauge){
+    
+    case 1:
+    
+    gaugeBoxOne.style.backgroundColor = "white";
+    
+    break;
+    
+    case 2:
+ 
+    gaugeBoxTwo.style.backgroundColor = "white";
+    
+    break;
+    
+    case 3:
+    
+    gaugeBoxThree.style.backgroundColor = "white";
+    
+    setTimeout(function(){
+    
+    gaugeBoxOne.style.backgroundColor = "transparent";
+    gaugeBoxTwo.style.backgroundColor = "transparent";
+    gaugeBoxThree.style.backgroundColor = "transparent";
+    
+    npcTakesDMG(10);
+    dodgeGauge = 0;
+    
+    },500);
+    
+    
+    break;
+    
+    
+    }
+
+    }
+    
+
+}
+
 function playerDodge(){
 
     currentCharacter.animate([
@@ -370,6 +451,18 @@ function playerTakesDMG(npcCard){
     
     pHPBlock.innerHTML = pHealth;
     
+    if(pHPBlock.innerHTML <= 0){
+    
+    pHPBlock.innerHTML = 0;
+    npcCards.length = 0;
+    threeCards.length = 0;
+    clearInterval(nIntervID);
+    currentCharacter.style.opacity = "0";
+    
+    fightDialogue.innerHTML = "Game Over you Lose";
+    
+    }
+    
 
 }
 
@@ -408,6 +501,18 @@ function npcTakesDMG(pCard){
 
     npcHealth -= pCard;
     npcHPBlock.innerHTML = npcHealth;
+    
+    if(npcHPBlock.innerHTML <= 0){
+    
+    npcHPBlock.innerHTML = 0;
+    npcCards.length = 0;
+    threeCards.length = 0;
+    clearInterval(nIntervID);
+    npcSprite.style.opacity = "0";
+    
+    fightDialogue.innerHTML = "Game Over you Win!!!";
+    
+    }
     
 
 }
@@ -912,6 +1017,7 @@ function submitCardsSelection(){
 
                         successRate = 10;
                         playerDodge();
+                        mikoDodgeStrike();
                         sfx.dodgingSound.play();
                         fightDialogue.innerHTML = "You dodged the enemy's attack !";
                         break;
@@ -927,6 +1033,7 @@ function submitCardsSelection(){
 
                         fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You evade the attack !";
                         playerDodge();
+                        mikoDodgeStrike();
                         sfx.dodgingSound.play();
 
                     }else{

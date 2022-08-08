@@ -7,6 +7,7 @@
             var fightBackground = document.querySelector(".fight-background-img");
             var npcSprite = document.querySelector(".npc");
             var playerSprite = document.querySelector(".player");
+            var healthContainer = document.querySelector(".player-health-container");
             
 
             ///Characters Specs///
@@ -101,7 +102,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
 
             function selectingCharacter() {
             
-            
+                charactersInfoDisplay(1);
 
                 leftButton.addEventListener('click', prevCharacter);
                 
@@ -265,6 +266,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                     if (characters[i].classList.contains('selected')) {
 
                         current = i;
+                        
 
                     }
 
@@ -351,7 +353,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 
                 startButton.removeEventListener("click", toFightScreen);
 
-        onSelectScreen = false;
+                onSelectScreen = false;
             
                 sfx.startButtonSound.play();
                 bgms.selectionScreenBGM.stop();
@@ -389,20 +391,20 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                             loadCharacter(whatCharacter);
                             document.querySelector(".miko_stance").classList.remove("hidden");
                             var gaugeContainer = document.createElement("div");
-            gaugeContainer.classList.add("gauge-container");
-            
-            var gaugeBoxOne = document.createElement("div");
-            gaugeContainer.appendChild(gaugeBoxOne);
-            gaugeBoxOne.classList.add("gaugeBoxOne");
-            
-            var gaugeBoxTwo = document.createElement("div");
-gaugeBoxTwo.classList.add("gaugeBoxTwo");
-gaugeContainer.appendChild(gaugeBoxTwo);
-            
-            var gaugeBoxThree = document.createElement("div");
-            gaugeBoxThree.classList.add("gaugeBoxThree");
-            gaugeContainer.appendChild(gaugeBoxThree);
-                            playerInfos.appendChild(gaugeContainer);
+                            gaugeContainer.classList.add("gauge-container");
+                            
+                            var gaugeBoxOne = document.createElement("div");
+                            gaugeContainer.appendChild(gaugeBoxOne);
+                            gaugeBoxOne.classList.add("gaugeBoxOne");
+                            
+                            var gaugeBoxTwo = document.createElement("div");
+                            gaugeBoxTwo.classList.add("gaugeBoxTwo");
+                            gaugeContainer.appendChild(gaugeBoxTwo);
+                            
+                            var gaugeBoxThree = document.createElement("div");
+                            gaugeBoxThree.classList.add("gaugeBoxThree");
+                            gaugeContainer.appendChild(gaugeBoxThree);
+                            healthContainer.appendChild(gaugeContainer);
                             document.querySelector(".miko_stance").classList.add(".character-sprite");
                             break;
 

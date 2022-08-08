@@ -427,59 +427,57 @@ body{
 .player-info{
 
     position: absolute;
-    bottom: 40%;
-    right: 40%;
+    bottom: 27%;
+    right: 41%;
     padding: 10px;
 
 }
 
 .gauge-container{
 
-position: absolute;
-    top: -20%;
+    position: absolute;
     left: 0;
 
-width: 80%;
-height: 50px;
-display: flex;
-justify-content: space-around;
-align-items: flex-start;
+    min-width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
 
 }
 
 .gaugeBoxOne{
 
-border: 1px solid white;
-width: 30%;
-height: 10px;
-background-color: transparent;
+    border: 1px solid white;
+    width: 30%;
+    height: 10px;
+    background-color: transparent;
 
-transition: all .5s ease;
-
+    transition: all .5s ease;
 
 }
 
 .gaugeBoxTwo{
 
-width: 30%;
-height: 15px;
+    width: 30%;
+    height: 15px;
 
-border: 1px solid white;
-background-color: transparent;
+    border: 1px solid white;
+    background-color: transparent;
 
-transition: all .5s ease;
+    transition: all .5s ease;
 
 
 }
 
 .gaugeBoxThree{
 
-border: 1px solid white;
-width: 30%;
-height: 25px;
-background-color: transparent;
+    border: 1px solid white;
+    width: 30%;
+    height: 25px;
+    background-color: transparent;
 
-transition: all .5s ease;
+    transition: all .5s ease;
 
 }
 
@@ -512,10 +510,13 @@ transition: all .5s ease;
 
 
     width: 80px;
-    height: 80px;
+    height: 40px;
+    border: 1px solid white;
     
-    background-color: transparent;
+    background-color: rgb(30, 29, 37);
     color: white;
+
+    cursor: pointer;
     
     margin: 10px auto;
 
@@ -535,7 +536,9 @@ transition: all .5s ease;
     min-height: 50px;
     
     padding : 10px; 
-   margin: 5px auto
+    margin: 5px auto;
+    background-color: rgb(30, 29, 37);
+    border: 1px solid white;
 
 }
 
@@ -550,11 +553,12 @@ transition: all .5s ease;
 
 
     height: 80px;
-    width: 20x;
+    width: 60px;
     margin: 10px 5px;
     border : 1px solid white;
+    background-color: rgb(30, 29, 37);
     display: flex;
-    flex-direction: collumn;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -575,6 +579,8 @@ transition: all .5s ease;
 
     
     width: 650px;
+    border: 1px solid white;
+    border-radius: 5px;
 
 
 
@@ -588,7 +594,6 @@ transition: all .5s ease;
     border-radius: 5px;
     background-color: aliceblue;
 
-    transform: rotate(180deg);
     transition: all 2s ease-out;
 
 }
@@ -601,6 +606,8 @@ transition: all .5s ease;
 
     height: 15px;
     width: 650px;
+    border: 1px solid white;
+    border-radius: 5px;
   
 
 }
@@ -656,6 +663,7 @@ transition: all .5s ease;
     display:flex;
     justify-content: space-around;
     font-size: 1.5rem;
+    cursor: pointer;
 
 
 }
@@ -850,6 +858,10 @@ transition: all .5s ease;
     .submit-selection{
 
         margin: 5px;
+        border: 1px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
 
     }
@@ -949,7 +961,7 @@ transition: all .5s ease;
         
         border: solid 1px red;
         width: 50px;
-        height: 10px;
+        height: 40px;
         z-index:7;
     
     }
@@ -967,6 +979,23 @@ transition: all .5s ease;
         margin-top: 0px;
     
     }
+
+    .gauge-container{
+
+        position: absolute;
+        left: 0;
+        min-width: 100px;
+
+        
+    }
+
+    .player-info{
+
+        bottom: 10%;
+        left: 50%
+
+    }
+
     
     
     

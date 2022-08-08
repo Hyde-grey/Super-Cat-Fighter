@@ -30,6 +30,7 @@ var currentCharacter;
 var nIntervID;
 
 var dodgeGauge = 0;
+var gameEnded = false;
 
 
 var min = 0;
@@ -389,7 +390,7 @@ if(whatCharacter.firstName === "Miko"){
     gaugeBoxTwo.style.backgroundColor = "transparent";
     gaugeBoxThree.style.backgroundColor = "transparent";
     
-    npcTakesDMG(10);
+    npcTakesDMG(15);
     dodgeGauge = 0;
     
     },500);
@@ -459,20 +460,21 @@ function playerTakesDMG(npcCard){
     
     if(pHPBlock.innerHTML <= 0){
 
-            npcWins = true;
-            pHPBlock.innerHTML = "0";
-            pBar.style.width = "0";
-            characterSprite.style.opacity = "0";
+        gameEndedToggle();
+        npcWins = true;
+        pHPBlock.innerHTML = "0";
+        pBar.style.width = "0";
+        characterSprite.style.opacity = "0";
 
-            clearInterval(nIntervID);
-            console.log("interval was stopped Game is over");
+        clearInterval(nIntervID);
+        console.log("interval was stopped Game is over");
 
-            fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
+        fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
+        
+        gameOver();
             
-            gameOver();
-            
 
-        }
+    }
     
 
 }
@@ -487,10 +489,10 @@ function npcTakesDMG(pCard){
     elem.classList.add("npc-dmg-info");
     
     let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-20));
-        
-        elem.style.top = y +"%";
-        elem.style.right = x +"%";
+    let x = Math.floor(Math.random()*(40-20));
+    
+    elem.style.top = y +"%";
+    elem.style.right = x +"%";
     
     
     elem.innerHTML = "-" + pCard + "HP";
@@ -516,21 +518,22 @@ function npcTakesDMG(pCard){
     
     if(npcHPBlock.innerHTML <= 0){
 
-            playerWins = true;
-            npcHPBlock.innerHTML = "0";
-            npcBar.style.width = "0";
+        gameEndedToggle();
+        playerWins = true;
+        npcHPBlock.innerHTML = "0";
+        npcBar.style.width = "0";
 
-            npcSprite.style.opacity = "0";
+        npcSprite.style.opacity = "0";
 
-            clearInterval(nIntervID);
-            console.log("interval was stopped Game is over");
+        clearInterval(nIntervID);
+        console.log("interval was stopped Game is over");
 
-            fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
-            
-            gameOver(); 
+        fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
+        
+        gameOver(); 
 
 
-        }
+    }
     
 
 }
@@ -1261,9 +1264,10 @@ function submitCardsSelection(){
         }else if(current === 3){
 
             current = 0;
-        draw.style.display = "block";
+            draw.style.display = "block";
+            submitSelection.classList.add("hidden");
             draw.disabled = false;
-            submitSelection.innerHTML = "Time to draw new cards";
+    
             
         }
         
@@ -1272,164 +1276,265 @@ function submitCardsSelection(){
     
     function retryFight(){
     
-    clearInterval(countDown);
     
         playerLives --;
-        
-        playerCards.length = 0;
-        playerCards = [];
-        threeCards.length = 0;
-        threeCards = [];
-        npcCards.length = 0;
-        npcCards = [];
-        
-        pHealth = pMaxHealth;
-        pHPBlock.innerHTML = pHealth;
-        
-        npcHealth = npcMaxHealth;
-        npcHPBlock.innerHTML = npcHealth;
-        
-        playerHealthChange();
-        npcHealthChange();
-        
-        npcSprite.style.opacity = 1;
-        
-        transition.remove();
-        continueContainer.remove();
-        decountContainer.remove();
-             
+
+        if(playerLives > 0 && npcWins === true){
+
+            clearInterval(countDown);
+
+            playerWins = false;
+            npcWins = false;
+            playerCards.length = 0;
+            playerCards = [];
+            threeCards.length = 0;
+            threeCards = [];
+            npcCards.length = 0;
+            npcCards = [];
+            
+            pHealth = pMaxHealth;
+            pHPBlock.innerHTML = pHealth;
+            
+            // npcHealth = npcMaxHealth;
+            // npcHPBlock.innerHTML = npcHealth;
+
+            current = 0;
+            turns = 1;
+            
+            fightDialogue.innerHTML = "";
+
+            
+            playerHealthChange();
+            npcHealthChange();
+            
+            npcSprite.style.opacity = 1;
+            characterSprite.style.opacity = 1;
+            
+            var transition = document.querySelector(".gameover-background");
+            transition.remove();
+
+            draw.disabled = false;
+            draw.style.display = "block";
+            menuContent.classList.remove("hidden");
+            submitSelection.classList.add("hidden");
+            drawnCards.innerHTML = "";
+            gameEnded = false;
+
+            sfx.startButtonSound.play();
+            setTimeout(function(){
+
+                sfx.fightScream.play();
+
+            },500);
+            
+
+
+        }else if(playerLives > 0 && playerWins === true){
+
+            if(playerLives < 5){
+
+                playerLives ++;
+
+            }
+            
+            clearInterval(countDown);
+
+            playerWins = false;
+            npcWins = false;
+            playerCards.length = 0;
+            playerCards = [];
+            threeCards.length = 0;
+            threeCards = [];
+            npcCards.length = 0;
+            npcCards = [];
+            
+            pHealth = pMaxHealth;
+            pHPBlock.innerHTML = pHealth;
+            
+            npcHealth = npcMaxHealth;
+            npcHPBlock.innerHTML = npcHealth;
+
+            current = 0;
+            turns = 1;
+           
+            fightDialogue.innerHTML = "";
+
+            
+            playerHealthChange();
+            npcHealthChange();
+            
+            npcSprite.style.opacity = 1;
+            characterSprite.style.opacity = 1;
+            
+            var transition = document.querySelector(".gameover-background");
+            transition.remove();
+
+            draw.disabled = false;
+            draw.style.display = "block";
+            menuContent.classList.remove("hidden");
+            submitSelection.classList.add("hidden");
+            drawnCards.innerHTML = "";
+            gameEnded = false;
+
+            sfx.startButtonSound.play();
+            setTimeout(function(){
+
+                sfx.fightScream.play();
+
+            },500);
+
+        }else if(playerLives === 0){
+
+            conTextBox.innerHTML = "You Lose";
+            yesnoContainer.remove();
+
+
+        }    
     
+    }
+
+
+    function gameEndedToggle(){
+
+        if(gameEnded === false){
+
+            gameEnded = true;
+
+        }else{
+
+            gameEnded = false;
+
+        }
+
+
     }
     
     
     function gameOver(){
-    
-    var transition = document.createElement("div");
-    transition.classList.add("gameover-background");
-    
-    var fightContainer = document.querySelector(".fight");
-    
-    fightContainer.appendChild(transition);
-    
-    
-    var continueContainer = document.createElement("div");
-    continueContainer.classList.add("continue-container");
-    
-    transition.appendChild(continueContainer);
-    
-    var continueText = document.createElement("div");
-    
-    continueContainer.appendChild(continueText);
-    
-    continueText.innerHTML = "Game Over";
-    
-    var decountContainer = document.createElement("div");
-    
-    continueContainer.appendChild(decountContainer); 
-    
-    if(playerWins === true){
-    
-    var resetFightContainer = document.createElement("div");
-    
-    var conTextBox = document.createElement("div");
-    conTextBox.innerHTML = "CONTINUE ?";
-    resetFightContainer.appendChild(conTextBox);
-    
-    
-    var yesnoContainer = document.createElement("div"); 
-    yesnoContainer.classList.add("yesno-container");
-    
-    var yesBox = document.createElement("div");
-    yesBox.addEventListener("click", retryFight);
-    
-    yesBox.innerHTML = "YES";
-    
-    var noBox = document.createElement("div");
-    noBox.addEventListener("click",function(){
-    
-        location.reload();
-    
-    });
-    
-    noBox.innerHTML = "NO";
-    
-    yesnoContainer.appendChild(yesBox);
-    yesnoContainer.appendChild(noBox);
-    
-    resetFightContainer.appendChild(yesnoContainer);
-    
-    continueContainer.appendChild(resetFightContainer);
-    
-    }else if(npcWins === true){
-    
 
- 
-        var resetFightContainer = document.createElement("div");
-    
-    var conTextBox = document.createElement("div");
-    conTextBox.innerHTML = "CONTINUE ?";
-    resetFightContainer.appendChild(conTextBox);
-    
-    
-    var yesnoContainer = document.createElement("div"); 
-    yesnoContainer.classList.add("yesno-container");
-    
-    var yesBox = document.createElement("div");
-    yesBox.addEventListener("click", retryFight);
-    
-    yesBox.innerHTML = "YES";
-    
-    var noBox = document.createElement("div");
-    noBox.addEventListener("click",function(){
-    
-        location.reload();
-    
-    });
-    
-    noBox.innerHTML = "NO";
-    
-    yesnoContainer.appendChild(yesBox);
-    yesnoContainer.appendChild(noBox);
-    
-    resetFightContainer.appendChild(yesnoContainer);
-    
-    continueContainer.appendChild(resetFightContainer);
-    
-    
-    }
+        if(gameEnded === true){
 
+            var transition = document.createElement("div");
+            transition.classList.add("gameover-background");
     
-    
-    var count = 10;
-    
-    decountContainer.innerHTML = count;
-    
-    
-    countDown = setInterval(decount,1000);
-    
-    
-    function decount(){
-    
-    count --;
-    
-    decountContainer.innerHTML = count;
-    
-            if(count === 0){
+            var fightContainer = document.querySelector(".fight");
             
-                decountContainer.innerHTML = count;
-             
-                location.reload();
-
+            fightContainer.appendChild(transition);
+            
+            
+            var continueContainer = document.createElement("div");
+            continueContainer.classList.add("continue-container");
+            
+            transition.appendChild(continueContainer);
+            
+            var continueText = document.createElement("div");
+            
+            continueContainer.appendChild(continueText);
+            
+            continueText.innerHTML = "Game Over";
+            
+            var decountContainer = document.createElement("div");
+            
+            continueContainer.appendChild(decountContainer); 
+            
+            if(playerWins === true){
+            
+                var resetFightContainer = document.createElement("div");
+                
+                var conTextBox = document.createElement("div");
+                conTextBox.innerHTML = "CONTINUE ?";
+                resetFightContainer.appendChild(conTextBox);
+                
+                
+                var yesnoContainer = document.createElement("div"); 
+                yesnoContainer.classList.add("yesno-container");
+                
+                var yesBox = document.createElement("div");
+                yesBox.addEventListener("click", retryFight);
+                
+                yesBox.innerHTML = "YES";
+                
+                var noBox = document.createElement("div");
+                noBox.addEventListener("click",function(){
+                
+                    location.reload();
+                
+                });
+            
+            noBox.innerHTML = "NO";
+            
+            yesnoContainer.appendChild(yesBox);
+            yesnoContainer.appendChild(noBox);
+            
+            resetFightContainer.appendChild(yesnoContainer);
+            
+            continueContainer.appendChild(resetFightContainer);
+            
+            }else if(npcWins === true){
+        
+                var resetFightContainer = document.createElement("div");
+                
+                var conTextBox = document.createElement("div");
+                conTextBox.innerHTML = "CONTINUE ?";
+                resetFightContainer.appendChild(conTextBox);
+                
+                
+                var yesnoContainer = document.createElement("div"); 
+                yesnoContainer.classList.add("yesno-container");
+                
+                var yesBox = document.createElement("div");
+                yesBox.addEventListener("click", retryFight);
+                
+                yesBox.innerHTML = "YES";
+                
+                var noBox = document.createElement("div");
+                noBox.addEventListener("click",function(){
+                
+                    location.reload();
+                
+                });
+                
+                noBox.innerHTML = "NO";
+                
+                yesnoContainer.appendChild(yesBox);
+                yesnoContainer.appendChild(noBox);
+                
+                resetFightContainer.appendChild(yesnoContainer);
+                
+                continueContainer.appendChild(resetFightContainer);
+                
             
             }
-    
-    
-    }
-    
-    
-    }
 
-   
+            
+            
+            var count = 10;
+            
+            decountContainer.innerHTML = count;
+            
+            
+            countDown = setInterval(decount,1000);
+            
+            
+            function decount(){
+            
+                count --;
+                
+                decountContainer.innerHTML = count;
+            
+                if(count === 0){
+                
+                    decountContainer.innerHTML = count;
+                
+                    location.reload();
+            
+                }
+           
+            }
+
+        }
+    
+    }   
 
 function addToSelection(value){
 

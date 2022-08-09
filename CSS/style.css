@@ -420,7 +420,7 @@ body{
 
     position: absolute;
     top: 13%;
-    left: 45%;
+    left: 10%;
 
 }
 
@@ -428,8 +428,9 @@ body{
 
     position: absolute;
     bottom: 27%;
-    right: 41%;
+    right: 5%;
     padding: 10px;
+    margin: 10px;
 
 }
 

@@ -33,7 +33,7 @@
             const jack = {
 
                 firstName: "Jack",
-                hp: 45,
+                hp: 40,
                 bonus: 1,
                 weakness: 2
 
@@ -42,7 +42,7 @@
             const tiger = {
 
                 firstName: "Tiger",
-                hp: 55,
+                hp: 45,
                 bonus: 2,
                 weakness: 2
 
@@ -342,6 +342,26 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
 
             }
 
+            function addUltraGaugeBar(){
+
+                var gaugeContainer = document.createElement("div");
+                gaugeContainer.classList.add("gauge-container");
+                
+                var gaugeBoxOne = document.createElement("div");
+                gaugeContainer.appendChild(gaugeBoxOne);
+                gaugeBoxOne.classList.add("gaugeBoxOne");
+                
+                var gaugeBoxTwo = document.createElement("div");
+                gaugeBoxTwo.classList.add("gaugeBoxTwo");
+                gaugeContainer.appendChild(gaugeBoxTwo);
+                
+                var gaugeBoxThree = document.createElement("div");
+                gaugeBoxThree.classList.add("gaugeBoxThree");
+                gaugeContainer.appendChild(gaugeBoxThree);
+                healthContainer.appendChild(gaugeContainer);
+
+
+            }
 
             var toFightScreen = function(whatCharacter) {
             
@@ -390,22 +410,8 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                             console.log("miko was selected");
                             loadCharacter(whatCharacter);
                             document.querySelector(".miko_stance").classList.remove("hidden");
-                            var gaugeContainer = document.createElement("div");
-                            gaugeContainer.classList.add("gauge-container");
-                            
-                            var gaugeBoxOne = document.createElement("div");
-                            gaugeContainer.appendChild(gaugeBoxOne);
-                            gaugeBoxOne.classList.add("gaugeBoxOne");
-                            
-                            var gaugeBoxTwo = document.createElement("div");
-                            gaugeBoxTwo.classList.add("gaugeBoxTwo");
-                            gaugeContainer.appendChild(gaugeBoxTwo);
-                            
-                            var gaugeBoxThree = document.createElement("div");
-                            gaugeBoxThree.classList.add("gaugeBoxThree");
-                            gaugeContainer.appendChild(gaugeBoxThree);
-                            healthContainer.appendChild(gaugeContainer);
                             document.querySelector(".miko_stance").classList.add(".character-sprite");
+                            addUltraGaugeBar();
                             break;
 
                         case "Jack":
@@ -420,6 +426,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                             loadCharacter(whatCharacter);
                             document.querySelector(".tiger_stance").classList.remove("hidden");
                             document.querySelector(".tiger_stance").classList.add(".character-sprite");
+                            addUltraGaugeBar();
                             break;
 
                     }

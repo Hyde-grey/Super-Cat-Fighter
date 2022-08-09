@@ -30,6 +30,7 @@ var currentCharacter;
 var nIntervID;
 
 var dodgeGauge = 0;
+var blockGauge = 0;
 var gameEnded = false;
 
 
@@ -368,41 +369,94 @@ if(whatCharacter.firstName === "Miko"){
     
     switch(dodgeGauge){
     
-    case 1:
+        case 1:
+        
+        gaugeBoxOne.style.backgroundColor = "white";
+        
+        break;
+        
+        case 2:
     
-    gaugeBoxOne.style.backgroundColor = "white";
-    
-    break;
-    
-    case 2:
- 
-    gaugeBoxTwo.style.backgroundColor = "white";
-    
-    break;
-    
-    case 3:
-    
-    gaugeBoxThree.style.backgroundColor = "white";
-    
-    setTimeout(function(){
-    
-    gaugeBoxOne.style.backgroundColor = "transparent";
-    gaugeBoxTwo.style.backgroundColor = "transparent";
-    gaugeBoxThree.style.backgroundColor = "transparent";
-    
-    npcTakesDMG(15);
-    dodgeGauge = 0;
-    
-    },500);
+        gaugeBoxTwo.style.backgroundColor = "white";
+        
+        break;
+        
+        case 3:
+        
+        gaugeBoxThree.style.backgroundColor = "white";
+        
+        setTimeout(function(){
+        
+            gaugeBoxOne.style.backgroundColor = "transparent";
+            gaugeBoxTwo.style.backgroundColor = "transparent";
+            gaugeBoxThree.style.backgroundColor = "transparent";
+            
+            playerAtk();
+            npcTakesDMG(25);
+            dodgeGauge = 0;
+        
+        },500);
     
     
-    break;
+        break;
     
     
     }
 
     }
     
+
+}
+
+function tigerBloodyBlock(){
+
+
+    var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
+
+    var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
+
+    var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
+
+    if(whatCharacter.firstName === "Tiger"){
+        
+        blockGauge ++;
+        
+        switch(blockGauge){
+        
+            case 1:
+            
+            gaugeBoxOne.style.backgroundColor = "white";
+            
+            break;
+            
+            case 2:
+        
+            gaugeBoxTwo.style.backgroundColor = "white";
+            
+            break;
+            
+            case 3:
+            
+            gaugeBoxThree.style.backgroundColor = "white";
+            
+            setTimeout(function(){
+            
+                gaugeBoxOne.style.backgroundColor = "transparent";
+                gaugeBoxTwo.style.backgroundColor = "transparent";
+                gaugeBoxThree.style.backgroundColor = "transparent";
+                
+                npcTakesDMG(15);
+                blockGauge = 0;
+            
+            },500);
+            
+            
+            break;
+            
+            
+        }
+
+    }
 
 }
 
@@ -980,11 +1034,11 @@ function submitCardsSelection(){
             case "Defence":
 
                 playerDef();
-                sfx.blockedSound.play();
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
 
                     npcAtk();
+                    sfx.blockedSound.play();
 
                     if(threeCards[current].hitPoints < npcCards[current].hitPoints){
 
@@ -1001,6 +1055,7 @@ function submitCardsSelection(){
                         let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;;
 
                         npcTakesDMG(dmg);
+                        tigerBloodyBlock();
 
                         fightDialogue.innerHTML = "You've managed to counter the enemy some of the dmg is returned!";
 
@@ -1012,15 +1067,18 @@ function submitCardsSelection(){
 
                     fightDialogue.innerHTML = "You both put up your guards";
                     npcDef();
+                    sfx.dodgingSound.play();
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     fightDialogue.innerHTML ="You feinted an attack and made the enemy flinch.";
                     npcDodge();
+                    sfx.dodgingSound.play();
 
                 }else if( npcCards[current].cardName === "Heal"){
 
                     npcHeal(npcCards[current].hitPoints);
+                    sfx.dodgingSound.play();
 
                 }
 
@@ -1107,11 +1165,13 @@ function submitCardsSelection(){
                     
                     playerHeal(threeCards[current].hitPoints);
                     npcDef();
+                    sfx.dodgingSound.play();
 
 
                 }else if(npcCards[current].cardName === "Evasion"){
 
                     npcDodge();
+                    sfx.dodgingSound.play();
                     
                     
                     sfx.dodgingSound.play();
@@ -1282,6 +1342,7 @@ function submitCardsSelection(){
         if(playerLives > 0 && npcWins === true){
 
             clearInterval(countDown);
+            clearInterval(nIntervID);
 
             playerWins = false;
             npcWins = false;
@@ -1338,6 +1399,7 @@ function submitCardsSelection(){
             }
             
             clearInterval(countDown);
+            clearInterval(nIntervID);
 
             playerWins = false;
             npcWins = false;
@@ -1412,8 +1474,11 @@ function submitCardsSelection(){
     
     function gameOver(){
 
+        clearInterval(nIntervID);
+
         if(gameEnded === true){
 
+            
             var transition = document.createElement("div");
             transition.classList.add("gameover-background");
     

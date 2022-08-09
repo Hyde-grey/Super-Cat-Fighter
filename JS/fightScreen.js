@@ -137,8 +137,45 @@ function isOnFight(){
 
     if(onFightScreen === true){
     
+        var menuOpened = false;
+
     console.log('onFightScreen is = ' + onFightScreen + ' you are now on the fight screen.');
     
+    var openHowToPlay = document.querySelector(".open-how-to-play");
+
+    openHowToPlay.addEventListener('click', function(){
+
+            document.querySelector(".how-to-play-container").style.transform = "translateX(0)";
+            document.querySelector(".close-how-to-play").addEventListener("click",function(){
+            document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";    
+        })
+
+    });
+
+
+    var selectButton = document.querySelector(".select-button");
+    selectButton.addEventListener("click", function(){
+
+
+        if(menuOpened === true){
+
+            document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";
+            menuOpened = false;
+
+        }else if(menuOpened === false){
+
+            document.querySelector(".how-to-play-container").style.transform = "translateX(0)";
+            menuOpened = true;
+
+            document.querySelector(".close-how-to-play").addEventListener("click", function(){
+            
+                document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";
+                
+            });
+    
+        }    
+
+    })    
     
     
     gamePad.addEventListener('click', gamePadSlide); 
@@ -525,7 +562,11 @@ function playerTakesDMG(npcCard){
 
         fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
         
-        gameOver();
+        setTimeout(function(){
+
+            gameOver();
+
+        },2000)
             
 
     }
@@ -584,7 +625,11 @@ function npcTakesDMG(pCard){
 
         fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
         
-        gameOver(); 
+        setTimeout(function(){
+
+            gameOver();
+
+        },2000)
 
 
     }
@@ -827,11 +872,21 @@ function startRound(){
     menuContent.classList.add("hidden");
     fightDialogue.classList.remove("hidden");
 
+    if(turns === 1){
 
-    console.log("turn is " + turns);
+        sfx.menuSound.play();
+        fightDialogue.innerHTML = "FIGHT!!";
+
+        setTimeout(function(){
+
+            console.log("turn is " + turns);
     
-    submitCardsSelection();
-    
+            submitCardsSelection();
+
+            
+
+        },1000)
+    }
 
     nIntervID = setInterval(function(){
     
@@ -1451,7 +1506,7 @@ function submitCardsSelection(){
             yesnoContainer.remove();
 
 
-        }    
+        }   
     
     }
 

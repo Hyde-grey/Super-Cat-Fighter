@@ -32,6 +32,76 @@
 
 }
 
+.how-to-play-container{
+
+    border: 1px solid white;
+    background-color: rgb(27, 23, 34);
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transform: translateX(-100%);
+
+    width: 20%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px;
+    font-size: 13px;
+
+    transition: all 1s ease;
+    z-index: 9999;
+
+}
+
+h1{
+
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+
+}
+
+.close-how-to-play{
+
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    right: 5px;
+    cursor: pointer;
+
+}
+
+.how-to-play{
+
+    text-align: left;
+
+}
+
+.characters-skills-infos{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: justify;
+    
+
+}
+
+.open-how-to-play{
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: help;
+    z-index: 999;
+    border: 1px solid white;
+    padding: 10px;
+
+}
+
 .gamepad{
 
     display: none;
@@ -966,6 +1036,20 @@ body{
         z-index:7;
     
     }
+
+    .select-button{
+    
+        position: absolute;
+        
+        top: 38%;
+        left: 32%;
+        
+        border: solid 1px red;
+        width: 50px;
+        height: 40px;
+        z-index:7;
+    
+    }
     
     .gamepad img{
     
@@ -997,7 +1081,17 @@ body{
 
     }
 
-    
+    .open-how-to-play{
+
+        display: none;
+
+    }
+
+    .how-to-play-container{
+
+        width: 100vw;
+
+    }
     
     
 

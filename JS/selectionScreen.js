@@ -71,7 +71,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                 }
 
                 event.target.classList.add("selected");
-                sfx.selectSound.play();
+                
 
                 for (selector of selectors) {
 

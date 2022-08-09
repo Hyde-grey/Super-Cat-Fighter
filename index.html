@@ -13,6 +13,10 @@
     <!-- howler.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- font awesome CDN -->
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+
+
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
         
     <link rel="apple-touch-icon" sizes="180x180" href="https://muzika-senpai.github.io/Super-Cat-Fighter//apple-touch-icon.png">
@@ -32,6 +36,51 @@
           <div>Loading...</div>
   
   </div>
+
+  <div class="how-to-play-container">
+
+    <div class="close-how-to-play"><i class="fas fa-window-close"></i></div>
+
+    <H1>WELCOME<br> to <br> Super&nbsp;Cat&nbsp;&nbsp;Fighter</H1>
+
+    <div class="how-to-play">
+
+        
+        <p>Click Draw to draw 5 random cards.</p>
+        <br>
+        <p>Choose three cards.</p>
+        <br>
+        <p>Click submit to start the Round your selected cards will be pitted against the enemy's cards in the order you've chosen.</p>
+        <br>
+        <p>
+            There are 5 type of cards :
+            <br><br>
+            Attack : Attack the enemy with hitpoints 1-10. (30% chance to get an ATK card)
+            <br><br>
+            Defence : Defend with hitpoints 1-10. (30% chance to get an DEF card)
+            <br><br>
+            Evasion : Chance to evade an attack from 10% to 100% chance. (25% chance to get an evasion card)
+            <br><br>
+            Heal : Heal from 3 to 10 HP (there's a 10% chance to getting a heal card).
+            <br><br>
+            Special 25 : Launches a ki blast to the enemi with 25 hitpoints (5% chance to get a special card).
+            <br><br>
+        </p>
+
+
+    </div>
+
+    <div class="characters-skills-infos">
+
+        <p><strong>MIKO</strong> Has higher chance to evade upon succesful evasion she gets one charge of special attack once she get 3 charges she will automatically use her Dodge Strike skill to inflic 20 dammage!!</p>
+        <br>
+        <p><strong>JACK</strong> Has higher attack hitpoints but lower defence hitpoints how ever everytime he attacks he get an extra attack of 1 to 3 extra hitpoints.</p>
+        <br>
+        <p><strong>Tiger</strong> Has higher Defence hitpoints but lower atk hitpoints upon succesful block "with higer points than the enemy's atk" he gets one charge of special attack. Once he gets 3 charges he will automatically use his "Bloody Block" skill to inflic 15 dammage!!</p>
+    
+    </div>
+
+  </div>
   
      <div class="hidden gamepad">
         
@@ -48,6 +97,8 @@
           
           
           </div>
+
+          <div class="select-button"></div>
 
         </div>
 
@@ -134,6 +185,10 @@
             </div>
     
             <div class="fight container hide">
+
+                <div class="open-how-to-play">
+                    How to play
+                </div>
     
                 <div class="fight-background">
 

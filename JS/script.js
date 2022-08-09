@@ -77,6 +77,13 @@ var sfx = {
 
   }),
 
+  menuSound : new Howl({
+
+    src : ['BGM/SFX/menu.wav'],
+    volume : 0.30
+
+  }),
+
   punchSound : new Howl({
 
     src: ['BGM/SFX/punch.mp3'],

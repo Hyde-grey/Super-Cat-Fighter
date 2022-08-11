@@ -134,12 +134,17 @@ var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 function isOnFight(){
 
+tutorialScreen();
+
 
     if(onFightScreen === true){
+    
     
         var menuOpened = false;
 
     console.log('onFightScreen is = ' + onFightScreen + ' you are now on the fight screen.');
+    
+    
     
     var openHowToPlay = document.querySelector(".open-how-to-play");
 
@@ -154,7 +159,8 @@ function isOnFight(){
 
 
     var selectButton = document.querySelector(".select-button");
-    selectButton.addEventListener("click", function(){
+    
+    selectButton.addEventListener("click",function(){
 
 
         if(menuOpened === true){
@@ -173,9 +179,8 @@ function isOnFight(){
                 
             });
     
-        }    
-
-    })    
+        }
+});    
     
     
     gamePad.addEventListener('click', gamePadSlide); 
@@ -217,7 +222,7 @@ function playerAtk(){
     switch(whatCharacter.firstName){
 
         case "Miko":
-        console.log("Miko is attaking");
+        
         elem = document.querySelector(".miko_stance");
         elem.src = "IMG/miko_atk.png";
 
@@ -232,20 +237,34 @@ function playerAtk(){
         break;
 
         case "Jack" :
-            console.log("Jack is attaking");
+            
             elem = document.querySelector(".jack_stance");
             elem.src = "IMG/jack_atk.png";
-
             
+            console.log(gameEnded);
+            
+            if( gameEnded === false ){
 
-            setTimeout(function(){
+                setTimeout(function(){
 
-                atkSound();
-                npcTakesDMGAnimation();
-                let extraHit =Math.round(Math.random() * (3 - 1)) + 1
-                npcTakesDMG(extraHit);
+                    atkSound();
+                    npcTakesDMGAnimation();
+                    let extraHit =Math.round(Math.random() * (3 - 1)) + 1
+                    npcTakesDMG(extraHit);
 
-            },600);
+                },600);
+            
+            }else if(gameEnded === true){
+            
+              setTimeout(function(){
+
+                    atkSound();
+                    npcTakesDMGAnimation();
+                    
+
+                },600);  
+            
+            }
     
             setTimeout(function(){
     
@@ -256,7 +275,7 @@ function playerAtk(){
         break;
 
         case "Tiger" : 
-        console.log("tiger is attaking");
+        
         elem = document.querySelector(".tiger_stance");
         elem.src = "IMG/tiger_atk.png";
 
@@ -302,7 +321,7 @@ function playerDef(){
     switch(whatCharacter.firstName){
 
         case "Miko":
-        console.log("Miko is defending");
+        
         elem = document.querySelector(".miko_stance");
         elem.src = "IMG/miko_def.png";
 
@@ -315,7 +334,7 @@ function playerDef(){
         break;
 
         case "Jack" :
-            console.log("Jack is defending");
+            
             elem = document.querySelector(".jack_stance");
             elem.src = "IMG/jack_def.png";
     
@@ -328,7 +347,7 @@ function playerDef(){
         break;
 
         case "Tiger" : 
-        console.log("tiger is defending");
+        
         elem = document.querySelector(".tiger_stance");
         elem.src = "IMG/tiger_def.png";
 
@@ -614,6 +633,7 @@ function npcTakesDMG(pCard){
     if(npcHPBlock.innerHTML <= 0){
 
         gameEndedToggle();
+        
         playerWins = true;
         npcHPBlock.innerHTML = "0";
         npcBar.style.width = "0";
@@ -649,7 +669,7 @@ function addHealSprite(){
     setTimeout(function(){
 
         elem.remove();
-        console.log("Elem has been removed.")
+        
         
     }, 1000)
 
@@ -695,7 +715,7 @@ function playerHeal(pCard){
         setTimeout(function(){
 
             elem.remove();
-            console.log("Elem has been removed.")
+        
             
         }, 1000)
 
@@ -734,7 +754,7 @@ function playerHeal(pCard){
     }else if(pHPBlock.innerHTML < pMaxHealth){
 
         pHealth = (pCard + parseInt(pHPBlock.innerHTML));
-        console.log("phealth is " + pHealth);
+        
 
         if(pHealth < pMaxHealth){
 
@@ -769,7 +789,6 @@ function npcHeal(npcCard){
             setTimeout(function(){
     
                 elem.remove();
-                console.log("Elem has been removed.")
                 
             }, 1000)
     
@@ -879,7 +898,6 @@ function startRound(){
 
         setTimeout(function(){
 
-            console.log("turn is " + turns);
     
             submitCardsSelection();
 
@@ -894,8 +912,6 @@ function startRound(){
 
         
         if( turns < 4){
-
-            console.log("turn is " + turns);
             
             submitCardsSelection();
             
@@ -1675,6 +1691,10 @@ function addToSelection(value){
 
         submitSelection.classList.remove("hidden");
 
+    }else if(threeCards.length > 3){
+    
+        resetPlayerHand();
+    
     }
 
 }
@@ -1684,9 +1704,11 @@ function resetPlayerHand(){
     threeCards = [];
     threeCards.length = 0;
     
-    for(selectedCard of selectedCards){
+    let cards = Array.from(document.querySelectorAll(".card"));
     
-        selectedCard.classList.remove("selected-card");
+    for(card of cards){
+    
+        card.classList.remove("selected-card");
     
     }
 
@@ -1698,6 +1720,8 @@ function removeFromSelection(value){
     
     resetPlayerHand();
     
+    submitSelection.classList.add("hidden");
+    
     /*let cards = Array.from(document.querySelectorAll(".card"));
     
     const index = cards.indexOf(value);
@@ -1706,12 +1730,9 @@ function removeFromSelection(value){
     threeCards.splice(index,1);
     console.log("ThreeCards length is " + threeCards.length)
     console.log("ThreeCards length is " + threeCards.length);*/
+    
 
-    if(threeCards.length < 3){
-
-        submitSelection.classList.add("hidden");
-
-    }
+        
 
 }
 
@@ -1858,7 +1879,11 @@ let deepCopy;
             playerCard.hitPoints += defBonus;
             playerCard.hitPoints -= defDebuf;
 
+            if(playerCard.hitPoints < 0){
             
+                playerCards.hitPoints = 0;
+            
+            }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
@@ -1870,7 +1895,11 @@ let deepCopy;
             playerCard.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
             playerCard.hitPoints -= healDebuf;
 
+            if(playerCard.hitPoints < 0){
             
+                playerCards.hitPoints = 0;
+            
+            }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
@@ -1884,7 +1913,11 @@ let deepCopy;
             playerCard.hitPoints += evaBonus;
             playerCard.hitPoints -= evaDebuf;
 
+            if(playerCard.hitPoints < 0){
             
+                playerCards.hitPoints = 0;
+            
+            }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
@@ -1892,8 +1925,6 @@ let deepCopy;
             break;
 
             case "special" : 
-
-            
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
@@ -1922,13 +1953,16 @@ let deepCopy;
         
                 this.classList.remove("selected-card");
                 console.log(this);
-                removeFromSelection(this);
+                removeFromSelection();
 
             }else{
+            
+            resetPlayerHand();
+            submitSelection.classList.add("hidden");
         
-                selectedCards[0].classList.remove("selected-card");
+                /*selectedCards[0].classList.remove("selected-card");
                 selectedCards.shift();
-                threeCards.shift();
+                threeCards.shift();*/
 
             }
         

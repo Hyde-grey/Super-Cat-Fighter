@@ -731,6 +731,8 @@ body{
 
 .yesno-container{
 
+    width: 200px;
+
     display:flex;
     justify-content: space-around;
     font-size: 1.5rem;
@@ -907,11 +909,11 @@ body{
 
     .menu{
 
-        bottom: -46%;
+        bottom: -45%;
         left: 0;
 
        width: 100%;
-       height: 140PX;
+       height: 160px;
        display: flex;
        
        flex-direction: column;

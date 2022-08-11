@@ -401,7 +401,6 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                     document.querySelector(".gamepad").style.transform = "translateY(150px)";
                     
                     isOnFight();
-
                     loadNPC();
 
                     switch (whatCharacter) {

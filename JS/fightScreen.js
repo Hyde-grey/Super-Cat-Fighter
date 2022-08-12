@@ -492,19 +492,22 @@ function jackMachinGunPunch(){
             case 1:
             
             gaugeBoxOne.style.backgroundColor = "white";
-            
+            addChargeSprite();
+                
             break;
             
             case 2:
         
             gaugeBoxTwo.style.backgroundColor = "white";
-            
+            addChargeSprite();
+                
             break;
             
             case 3:
             
             gaugeBoxThree.style.backgroundColor = "white";
-            
+            addChargeSprite();
+                
             setTimeout(function(){
             
                 gaugeBoxOne.style.backgroundColor = "transparent";
@@ -512,8 +515,6 @@ function jackMachinGunPunch(){
                 gaugeBoxThree.style.backgroundColor = "transparent";
                 
                 npcTakesDMG(15);
-                addChargeSprite();
-                
                 chargeGauge = 0;
             
             },500);

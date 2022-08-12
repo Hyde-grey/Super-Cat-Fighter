@@ -135,6 +135,13 @@ var sfx = {
   
   
   }),
+  
+  jackSpecial : new Howl({
+  
+    src:['BGM/SFX/jackSpecial.wav'],
+    volume : 0.30
+  
+  }),
 
 }
 

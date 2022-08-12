@@ -438,18 +438,21 @@ if(whatCharacter.firstName === "Miko"){
         case 1:
         
         gaugeBoxOne.style.backgroundColor = "white";
+        addChargeSprite();
         
         break;
         
         case 2:
     
         gaugeBoxTwo.style.backgroundColor = "white";
+        addChargeSprite();
         
         break;
         
         case 3:
         
         gaugeBoxThree.style.backgroundColor = "white";
+        addChargeSprite();
         
         setTimeout(function(){
         
@@ -514,7 +517,8 @@ function jackMachinGunPunch(){
                 gaugeBoxTwo.style.backgroundColor = "transparent";
                 gaugeBoxThree.style.backgroundColor = "transparent";
                 
-                npcTakesDMG(15);
+                npcTakesDMG(20);
+                sfx.jackSpecial.play();
                 chargeGauge = 0;
             
             },500);
@@ -547,18 +551,21 @@ function tigerBloodyBlock(){
             case 1:
             
             gaugeBoxOne.style.backgroundColor = "white";
+            addChargeSprite();
             
             break;
             
             case 2:
         
             gaugeBoxTwo.style.backgroundColor = "white";
+            addChargeSprite();
             
             break;
             
             case 3:
             
             gaugeBoxThree.style.backgroundColor = "white";
+            addChargeSprite();
             
             setTimeout(function(){
             
@@ -1463,20 +1470,14 @@ function submitCardsSelection(){
 
                 if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
 
-                    npcAtk();
+                        let dmg = npcCards[current].hitPoints;
+                        
+                        npcAtk();
+                    playerTakesDMG(dmg);
                     sfx.punchSound.play();
-
-                    if(threeCards[current].hitPoints < npcCards[current].hitPoints){
-
-                        let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
-
-                        pHealth -= dmg;
-
+                        
                         fightDialogue.innerHTML = " You tried to charge your Ki but the enemy attacks you for " + npcCards[current].hitPoints + ".";
 
-                        pHPBlock.innerHTML = pHealth;
-
-                    }
                     
                 }else if(npcCards[current].cardName === "Defence"){
 

@@ -729,7 +729,7 @@ function addChargeSprite(){
     elem.src = 'IMG/player_charging.png';
     currentCharacter.appendChild(elem);
 
-    // sfx.chargingSound.play();
+    sfx.chargingSound.play();
 
     setTimeout(function(){
 

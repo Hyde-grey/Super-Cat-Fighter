@@ -126,7 +126,15 @@ var sfx = {
   volume : 0.30
   
   
-  })
+  }),
+  
+  chargingSound : new Howl({
+  
+    src:['BGM/SFX/charging.wav'],
+    volume : 0.30
+  
+  
+  }),
 
 }
 

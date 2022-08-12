@@ -20,7 +20,7 @@ function tutorialScreen(){
             
             continueContainer.appendChild(continueText);
             
-            continueText.innerHTML = "Would you like to access the tutorial ?"; 
+            continueText.innerHTML = "Would you like to see the tutorial ?"; 
             
                 var resetFightContainer = document.createElement("div");
                 
@@ -33,6 +33,8 @@ function tutorialScreen(){
                 yesnoContainer.classList.add("yesno-container");
                 
                 var yesBox = document.createElement("div");
+                yesBox.classList.add("yesno-boxes");
+
                 yesBox.addEventListener("click", function(){
                 
                 transition.remove();
@@ -46,6 +48,8 @@ function tutorialScreen(){
                 yesBox.innerHTML = "YES";
                 
                 var noBox = document.createElement("div");
+                noBox.classList.add("yesno-boxes");
+                
                 noBox.addEventListener("click",function(){
                 
                     transition.remove();

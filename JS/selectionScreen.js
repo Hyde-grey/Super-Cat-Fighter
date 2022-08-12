@@ -418,6 +418,7 @@ console.log("onSelectScreen is = " + onSelectScreen + " You're now on the select
                             loadCharacter(whatCharacter);
                             document.querySelector(".jack_stance").classList.remove("hidden");
                             document.querySelector(".jack_stance").classList.add(".character-sprite");
+                            addUltraGaugeBar()
                             break;
 
                         case "Tiger":

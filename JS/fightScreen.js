@@ -31,6 +31,7 @@ var nIntervID;
 
 var dodgeGauge = 0;
 var blockGauge = 0;
+var chargeGauge = 0;
 var gameEnded = false;
 
 
@@ -79,9 +80,17 @@ var healCard = {
 
 var specialAtk = {
 
-    cardName : "special",
+    cardName : "Special",
 
     hitPoints : 25
+
+}
+
+var chargeCard = {
+
+    cardName : "Charge",
+
+    hitPoints : 1
 
 }
 
@@ -121,13 +130,13 @@ var nhealCard = {
 
 var nspecialAtk = {
 
-    cardName : "special",
+    cardName : "Special",
 
     hitPoints : 25
 
 }
 
-var cardList = [atkCard,defCard,evaCard,healCard,specialAtk]; 
+var cardList = [atkCard,defCard,evaCard,healCard,specialAtk,chargeCard]; 
 var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
 
 
@@ -249,13 +258,14 @@ function playerAtk(){
 
                     atkSound();
                     npcTakesDMGAnimation();
-                    let extraHit =Math.round(Math.random() * (3 - 1)) + 1
+                    let extraHit = Math.round(Math.random() * (3 - 1)) + 1
                     npcTakesDMG(extraHit);
 
                 },600);
             
             }else if(gameEnded === true){
             
+                console.log("Gameended is true so there won't be any dmg on second hit");
               setTimeout(function(){
 
                     atkSound();
@@ -464,6 +474,60 @@ if(whatCharacter.firstName === "Miko"){
 
 }
 
+function jackMachinGunPunch(){
+
+
+    var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
+
+    var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
+
+    var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
+
+    if(whatCharacter.firstName === "Jack"){
+        
+        chargeGauge ++;
+        
+        switch(chargeGauge){
+        
+            case 1:
+            
+            gaugeBoxOne.style.backgroundColor = "white";
+            
+            break;
+            
+            case 2:
+        
+            gaugeBoxTwo.style.backgroundColor = "white";
+            
+            break;
+            
+            case 3:
+            
+            gaugeBoxThree.style.backgroundColor = "white";
+            
+            setTimeout(function(){
+            
+                gaugeBoxOne.style.backgroundColor = "transparent";
+                gaugeBoxTwo.style.backgroundColor = "transparent";
+                gaugeBoxThree.style.backgroundColor = "transparent";
+                
+                npcTakesDMG(15);
+                addChargeSprite();
+                
+                chargeGauge = 0;
+            
+            },500);
+            
+            
+            break;
+            
+            
+        }
+
+    }
+
+}
+
 function tigerBloodyBlock(){
 
 
@@ -570,7 +634,7 @@ function playerTakesDMG(npcCard){
     
     if(pHPBlock.innerHTML <= 0){
 
-        gameEndedToggle();
+        gameEnded = true;
         npcWins = true;
         pHPBlock.innerHTML = "0";
         pBar.style.width = "0";
@@ -632,7 +696,7 @@ function npcTakesDMG(pCard){
     
     if(npcHPBlock.innerHTML <= 0){
 
-        gameEndedToggle();
+        gameEnded = true;
         
         playerWins = true;
         npcHPBlock.innerHTML = "0";
@@ -654,6 +718,24 @@ function npcTakesDMG(pCard){
 
     }
     
+
+}
+
+function addChargeSprite(){
+
+    var elem = document.createElement("img");
+    elem.classList.add("effect-sprites");
+    elem.src = 'IMG/player_charging.png';
+    currentCharacter.appendChild(elem);
+
+    // sfx.chargingSound.play();
+
+    setTimeout(function(){
+
+        elem.remove();
+        
+        
+    }, 1000)
 
 }
 
@@ -1018,7 +1100,7 @@ function submitCardsSelection(){
 
                     fightDialogue.innerHTML = "The enemy hits you with " + npcCards[current].hitPoints + " hitpoints. <br> And you hit the enemy with " + threeCards[current].hitPoints + "  hitpoints";
 
-                }else if(npcCards[current].cardName === "special"){
+                }else if(npcCards[current].cardName === "Special"){
 
                     fightDialogue.innerHTML ="The Enemy hits you with a Ki blast of " + npcCards[current].hitPoints + " hitpoints. </br> You hit the enemy with " + threeCards[current].hitPoints + " hitpoints.";
 
@@ -1106,7 +1188,7 @@ function submitCardsSelection(){
 
                 playerDef();
 
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
+                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
 
                     npcAtk();
                     sfx.blockedSound.play();
@@ -1157,7 +1239,7 @@ function submitCardsSelection(){
 
             case "Evasion":
 
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
+                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
 
                     npcAtk();
 
@@ -1224,7 +1306,7 @@ function submitCardsSelection(){
 
             case "Heal":
 
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "special"){
+                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
 
                     npcAtk();
 
@@ -1265,7 +1347,7 @@ function submitCardsSelection(){
 
             break;
             
-            case "special":
+            case "Special":
 
                 playerKiBlast();
 
@@ -1278,7 +1360,7 @@ function submitCardsSelection(){
                     npcTakesDMG(threeCards[current].hitPoints);
                     playerTakesDMG(npcCards[current].hitPoints);
 
-                }else if(npcCards[current].cardName === "special"){
+                }else if(npcCards[current].cardName === "Special"){
 
                     fightDialogue.innerHTML = "You both launch a ki blast! ===o)(o=== ";
 
@@ -1376,6 +1458,49 @@ function submitCardsSelection(){
 
             break;
 
+            case "Charge" :
+
+                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
+
+                    npcAtk();
+                    sfx.punchSound.play();
+
+                    if(threeCards[current].hitPoints < npcCards[current].hitPoints){
+
+                        let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
+
+                        pHealth -= dmg;
+
+                        fightDialogue.innerHTML = " You tried to charge your Ki but the enemy attacks you for " + npcCards[current].hitPoints + ".";
+
+                        pHPBlock.innerHTML = pHealth;
+
+                    }
+                    
+                }else if(npcCards[current].cardName === "Defence"){
+
+                    fightDialogue.innerHTML = "The enemy puts up his guard while you charged your Ki.";
+                    npcDef();
+                    sfx.dodgingSound.play();
+                    jackMachinGunPunch();
+
+                }else if(npcCards[current].cardName === "Evasion"){
+
+                    fightDialogue.innerHTML ="The enemy flinch while you charge your Ki.";
+                    npcDodge();
+                    sfx.dodgingSound.play();
+                    jackMachinGunPunch();
+
+                }else if( npcCards[current].cardName === "Heal"){
+
+                    npcHeal(npcCards[current].hitPoints);
+                    jackMachinGunPunch();
+
+                }
+
+
+            break;
+
         }
 
 
@@ -1415,6 +1540,8 @@ function submitCardsSelection(){
             clearInterval(countDown);
             clearInterval(nIntervID);
 
+            gameOverLaunched = false;
+            gameEnded = false;
             playerWins = false;
             npcWins = false;
             playerCards.length = 0;
@@ -1472,6 +1599,8 @@ function submitCardsSelection(){
             clearInterval(countDown);
             clearInterval(nIntervID);
 
+            gameOverLaunched = false;
+            gameEnded = false;
             playerWins = false;
             npcWins = false;
             playerCards.length = 0;
@@ -1529,6 +1658,7 @@ function submitCardsSelection(){
 
     function gameEndedToggle(){
 
+
         if(gameEnded === false){
 
             gameEnded = true;
@@ -1542,13 +1672,23 @@ function submitCardsSelection(){
 
     }
     
+    var gameOverLaunched = false;
     
     function gameOver(){
 
         clearInterval(nIntervID);
 
-        if(gameEnded === true){
+        if(gameEnded === true && gameOverLaunched === false){
 
+            if(gameOverLaunched === false){
+
+                gameOverLaunched = true;
+    
+            }else{
+    
+                gameOverLaunched = false;
+    
+            }
             
             var transition = document.createElement("div");
             transition.classList.add("gameover-background");
@@ -1744,29 +1884,64 @@ function cardChance (){
 
     var result = Math.floor(Math.random() * ( max - min));
 
-    if(result <= 10){
+    if(whatCharacter.firstName === "Jack"){
 
-        cardType = healCard;
 
-    }else if(result > 10 && result <= 35){
+        if(result <= 10){
 
-        cardType = evaCard;
-
-    }else if(result > 35 && result <= 65){
-
-        cardType = defCard;
-
-    }else if(result > 65 && result <= 95){
-
-        cardType = atkCard;
+            cardType = healCard;
     
+        }else if(result > 10 && result <= 25){
+    
+            cardType = evaCard;
+    
+        }else if(result > 25 && result <= 35){
+
+            cardType = chargeCard;
+
+        }else if(result > 35 && result <= 65){
+    
+            cardType = defCard;
+    
+        }else if(result > 65 && result <= 95){
+    
+            cardType = atkCard;
+        
+        }else{
+    
+            cardType = specialAtk;
+    
+        }
+    
+        return cardType;
+
     }else{
 
-        cardType = specialAtk;
+        if(result <= 10){
+
+            cardType = healCard;
+    
+        }else if(result > 10 && result <= 35){
+    
+            cardType = evaCard;
+    
+        }else if(result > 35 && result <= 65){
+    
+            cardType = defCard;
+    
+        }else if(result > 65 && result <= 95){
+    
+            cardType = atkCard;
+        
+        }else{
+    
+            cardType = specialAtk;
+    
+        }
+    
+        return cardType;
 
     }
-
-    return cardType;
             
 
 }
@@ -1881,7 +2056,7 @@ let deepCopy;
 
             if(playerCard.hitPoints < 0){
             
-                playerCards.hitPoints = 0;
+                playerCard.hitPoints = 0;
             
             }
 
@@ -1897,7 +2072,7 @@ let deepCopy;
 
             if(playerCard.hitPoints < 0){
             
-                playerCards.hitPoints = 0;
+                playerCard.hitPoints = 0;
             
             }
 
@@ -1915,7 +2090,7 @@ let deepCopy;
 
             if(playerCard.hitPoints < 0){
             
-                playerCards.hitPoints = 0;
+                playerCard.hitPoints = 0;
             
             }
 
@@ -1924,7 +2099,14 @@ let deepCopy;
 
             break;
 
-            case "special" : 
+            case "Special" : 
+
+            deepCopy = JSON.parse(JSON.stringify(playerCard));
+            playerCards.push(deepCopy);
+
+            break;
+
+            case "Charge" :
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
@@ -2031,7 +2213,7 @@ function npcRandomCards(){
 
             break;
 
-            case "special" : 
+            case "Special" : 
 
            
 

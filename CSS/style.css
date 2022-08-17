@@ -755,6 +755,21 @@ body{
 
 }
 
+.tutorial-text-box{
+
+    position: absolute;
+    bottom: 33%;
+    left: 50%;
+    width: 65%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:9999;
+    font-size:1rem;
+    
+
+}
 
 
 

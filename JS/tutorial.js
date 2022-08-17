@@ -33,17 +33,120 @@ function tutorialScreen(){
                 yesnoContainer.classList.add("yesno-container");
                 
                 var yesBox = document.createElement("div");
-                yesBox.classList.add("yesno-boxes");
+              yesBox.classList.add("yesno-boxes");
 
                 yesBox.addEventListener("click", function(){
                 
-                transition.remove();
-      document.querySelector(".how-to-play-container").style.transform = "translateX(0)";
+                    continueContainer.innerHTML = "";
+                    var tutorialBackground = document.createElement("img");
+                    tutorialBackground.src = "IMG/tutorial-background.png";
+                    continueContainer.appendChild(tutorialBackground);
+                    tutorialBackground.style.width = "100%";
+                    continueContainer.style.height = "auto";
+                    
+                    var tutorialTextBox = document.createElement("div");
+                    tutorialTextBox.classList.add("tutorial-text-box");
+ continueContainer.appendChild(tutorialTextBox);                   
+    
+    
+                    var j = 0;
+                    
+                    var txtOne = "So you're the new recruit...";
+                    var txtTwo =  "My name is Yuria I'm Miko's sister.";
+                    var txtThree = "Since you're new around here let me show you how things work.";
+                    
+      
+      setTimeout(typeWriter,500);
+      
+      //setTimeout(typeWriter(txtTwo),2000);
+      
+      //setTimeout(typeWriter(txtThree),5000);
+      
+    
+    function typeWriter(){
+    
+    
+        if(j < txtOne.length){
+            
+            tutorialTextBox.innerHTML += txtOne.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriter,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            setTimeout(typeWriterTwo,1000);
+            
+        }
+        
+    }
+    
+    function typeWriterTwo(){
+    
+    
+        if(j < txtTwo.length){
+            
+            tutorialTextBox.innerHTML += txtTwo.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterTwo,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            setTimeout(typeWriterThree,1000);
+            
+        }
+        
+    }
+    
+    function typeWriterThree(){
+    
+    
+        if(j < txtThree.length){
+            
+            tutorialTextBox.innerHTML += txtThree.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterThree,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            
+            
+        }
+        
+    }
+    
+    });
+                            
 
-            document.querySelector(".close-how-to-play").addEventListener("click",function(){
-            document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";
-            })             
-                });
                 
                 yesBox.innerHTML = "YES";
                 

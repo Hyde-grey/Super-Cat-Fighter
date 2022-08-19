@@ -50,18 +50,54 @@ function tutorialScreen(){
     
     
                     var j = 0;
+                    var k = 0;
                     
                     var txtOne = "So you're the new recruit...";
                     var txtTwo =  "My name is Yuria I'm Miko's sister.";
                     var txtThree = "Since you're new around here let me show you how things work.";
                     
+                    var txtFour = "Click on Draw to draw 5 random cards.";
+                    var txtFive = "The five main cards are...";
+                    var txtSix = "Attack, Defence, Evasion, Heal and Special.";
+                    
+                    var txtSeven = "Choose three cards in the order you'd like to play.";
+                    
+                    const texts = [txtOne, txtTwo, txtThree, txtFour, txtFive, txtSix, txtSeven];
       
       setTimeout(typeWriter,500);
       
-      //setTimeout(typeWriter(txtTwo),2000);
+      //setTimeout(typeWriter(texts[k]),2000);
       
       //setTimeout(typeWriter(txtThree),5000);
-      
+     
+     /*function typeWriter(){
+
+     
+      if( j < text.length){
+            
+            tutorialTextBox.innerHTML += txtOne.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriter,55);
+    
+        }else{
+        
+            j = 0;
+            
+            k++;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            setTimeout(typeWriter(txtTwo),1000);
+            
+        }
+     
+     }*/
     
     function typeWriter(){
     

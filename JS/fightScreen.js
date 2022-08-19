@@ -1182,11 +1182,10 @@ function submitCardsSelection(){
                     
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    fightDialogue.innerHTML = "You deal " + threeCards[current].hitPoints + " hitpoints.";
+                    fightDialogue.innerHTML = "The enemy tries to heal but You attacked and dealt " + threeCards[current].hitPoints + " hitpoints.";
 
                     npcTakesDMG(threeCards[current].hitPoints);
 
-                    npcHeal(npcCards[current].hitPoints);
 
                 }
 
@@ -1319,7 +1318,8 @@ function submitCardsSelection(){
                     npcAtk();
 
                     playerTakesDMG(npcCards[current].hitPoints);
-                    playerHeal(threeCards[current].hitPoints);
+                    
+                    fightDialogue.innerHTML = "You tried to Heal but the enemy attacked you for "+ npcCards[current].hitPoints + " hitPoints.";
                     
 
                 }else if(npcCards[current].cardName === "Defence"){

@@ -43,6 +43,7 @@ function tutorialScreen(){
                     continueContainer.appendChild(tutorialBackground);
                     tutorialBackground.style.width = "100%";
                     continueContainer.style.height = "auto";
+                    continueContainer.style.position = "relative";
                     
                     var tutorialTextBox = document.createElement("div");
                     tutorialTextBox.classList.add("tutorial-text-box");
@@ -61,6 +62,10 @@ function tutorialScreen(){
                     var txtSix = "Attack, Defence, Evasion, Heal and Special.";
                     
                     var txtSeven = "Choose three cards in the order you'd like to play.";
+                    
+                    var txtEight = 'Click "Submit Selection" to start the round.';
+                    
+                    var txtNine = "The fight is over when either you or your oponent's HP reaches 0.";
                     
                     const texts = [txtOne, txtTwo, txtThree, txtFour, txtFive, txtSix, txtSeven];
       
@@ -174,11 +179,132 @@ function tutorialScreen(){
             
             },1000);
             
+            setTimeout(typeWriterFour,1000);
             
+            var tutorialGifOne = document.createElement("img");
+            
+            tutorialGifOne.src = "IMG/tutorial-one.gif";
+            
+            continueContainer.appendChild(tutorialGifOne);
+            
+            continueContainer.style.position = "relative";
+            tutorialGifOne.style.position = "absolute";
+            tutorialGifOne.style.top = "35%";
+            tutorialGifOne.style.right = "5%";
+            tutorialGifOne.style.width = "60%";
             
         }
         
     }
+    
+    function typeWriterFour(){
+    
+      if(j < txtThree.length){
+            
+            tutorialTextBox.innerHTML += txtFour.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterFour,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            setTimeout(typeWriterFive,1000);
+            
+            
+        }
+    
+    }
+    
+    function typeWriterFive(){
+    
+      if(j < txtThree.length){
+            
+            tutorialTextBox.innerHTML += txtFive.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterFive,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },300);
+            
+            setTimeout(typeWriterSix,300);
+            
+            
+        }
+    
+    }
+    
+    
+    function typeWriterSix(){
+    
+      if(j < txtThree.length){
+            
+            tutorialTextBox.innerHTML += txtSix.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterSix,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            setTimeout(typeWriterSeven,1000);
+            
+            
+        }
+    
+    }
+    
+    
+    function typeWriterSeven(){
+    
+      if(j < txtThree.length){
+            
+            tutorialTextBox.innerHTML += txtSeven.charAt(j);
+                
+            j++;
+            
+            setTimeout(typeWriterSeven,55);
+    
+        }else{
+        
+            j = 0;
+            
+            setTimeout(function(){
+            
+                  tutorialTextBox.innerHTML = " ";
+            
+            },1000);
+            
+            
+            
+        }
+    
+    } 
     
     });
                             

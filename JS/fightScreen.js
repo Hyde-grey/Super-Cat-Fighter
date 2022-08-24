@@ -1455,12 +1455,12 @@ function submitCardsSelection(){
                     
                 }else if( npcCards[current].cardName === "Heal"){
 
-                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o)";
+                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) while the enemy tries to heal and dealt 25 hitpoints.";
 
                     npcHealth -= threeCards[current].hitPoints;
                     npcHPBlock.innerHTML = npcHealth;
 
-                    npcHeal(npcCards[current].hitPoints);
+                    
 
                 }
 
@@ -1653,7 +1653,9 @@ function submitCardsSelection(){
             yesnoContainer.remove();
 
 
-        }   
+        }
+            
+            
     
     }
 

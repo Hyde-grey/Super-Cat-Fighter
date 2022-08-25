@@ -50,6 +50,8 @@ function tutorialScreen(){
  continueContainer.appendChild(tutorialTextBox);                   
     
     
+    var tutorialGifOne;
+    
                     var j = 0;
                     var k = 0;
                     
@@ -63,24 +65,135 @@ function tutorialScreen(){
                     
                     var txtSeven = "Choose three cards in the order you'd like to play.";
                     
-                    var txtEight = 'Click "Submit Selection" to start the round.';
+                    var txtEight = 'Click "Submit" to start the round.';
                     
                     var txtNine = "The fight is over when either you or your oponent's HP reaches 0.";
                     
-                    const texts = [txtOne, txtTwo, txtThree, txtFour, txtFive, txtSix, txtSeven];
+                    var txtTen;
+                    
+                    var txtEleven;
+                    
+                    var txtTwelve;
+                    
+                    var txtThirteen = "That's all the information you need for now.";
+                    
+                    var txtFourteen = "Good Luck out there.";
+                    
+                    
+                    switch(whatCharacter.firstName){
+                    
+                    case "Miko" :
+                    
+                    txtTen = "Miko is very agile, she has higher chances to evade attacks but has lower HP";
+                    
+                    txtEleven = "Every time Miko succesfully dodge an ATK she charges her Super.";
+                    
+                    txtTwelve = "At 3 charges she'll atomatically uses her Super : Dodge Strike";
+                    
+                    break;
+                    
+                    case "Jack" :
+                    
+                    txtTen = "Jack is the best striker i know, he has higher ATK but lower DEF.";
+                    
+                    break;
+                    
+                    case "Tiger" :
+                    
+                    txtTen = "Tiger is a tank, his DEF is very high but his ATK is Lower.";
+                    
+                    break;
+                    
+                    }
+                    
+                    const texts = [txtOne, txtTwo, txtThree, txtFour, txtFive, txtSix, txtSeven, txtEight, txtNine, txtTen, txtEleven, txtTwelve, txtThirteen, txtFourteen];
       
-      setTimeout(typeWriter,500);
       
-      //setTimeout(typeWriter(texts[k]),2000);
+     setTimeout(typeWriter,500);
       
-      //setTimeout(typeWriter(txtThree),5000);
      
-     /*function typeWriter(){
+     function typeWriter(){
 
+     if(k === 3){
      
-      if( j < text.length){
+       tutorialGifOne = document.createElement("img");
             
-            tutorialTextBox.innerHTML += txtOne.charAt(j);
+            tutorialGifOne.src = "IMG/tutorial-one.gif";
+            
+            continueContainer.appendChild(tutorialGifOne);
+            
+            continueContainer.style.position = "relative";
+            tutorialGifOne.style.position = "absolute";
+            tutorialGifOne.style.top = "2%";
+            tutorialGifOne.style.right = "5%";
+            tutorialGifOne.style.width = "60%";
+     
+     }
+     
+     if(k === 10){
+     
+     
+          switch(whatCharacter.firstName){
+          
+               case "Miko" :
+               
+               tutorialGifOne.src = "IMG/tutorial-miko.gif";
+               break;
+               
+               case "Jack" :
+               
+               tutorialGifOne.src = "IMG/tutorial-jack.gif";
+               break;
+               
+               case "Tiger" :
+               
+               tutorialGifOne.src = "IMG/tutorial-tiger.gif";
+               break;
+               
+          }
+     }
+     
+     
+     if(k === 11){
+     
+          switch(whatCharacter.firstName){
+          
+               case "Miko" :
+               
+               tutorialGifOne.src = "IMG/tutorial-miko2.gif";
+               break;
+               
+               case "Jack" :
+               
+               tutorialGifOne.src = "IMG/tutorial-jack2.gif";
+               break;
+               
+               case "Tiger" :
+               
+               tutorialGifOne.src = "IMG/tutorial-tiger3.gif";
+               break;
+               
+          }
+     
+     }
+     
+     if(k === 14){
+     
+          setTimeout(function(){
+     
+               transition.remove();
+          
+               return;
+     
+          },1000);
+     
+     
+      }
+     
+     
+      if( j < texts[k].length){
+            
+            tutorialTextBox.innerHTML += texts[k].charAt(j);
                 
             j++;
             
@@ -98,213 +211,12 @@ function tutorialScreen(){
             
             },1000);
             
-            setTimeout(typeWriter(txtTwo),1000);
+            setTimeout(typeWriter,1000);
             
         }
      
-     }*/
-    
-    function typeWriter(){
-    
-    
-        if(j < txtOne.length){
-            
-            tutorialTextBox.innerHTML += txtOne.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriter,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            setTimeout(typeWriterTwo,1000);
-            
-        }
-        
-    }
-    
-    function typeWriterTwo(){
-    
-    
-        if(j < txtTwo.length){
-            
-            tutorialTextBox.innerHTML += txtTwo.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterTwo,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            setTimeout(typeWriterThree,1000);
-            
-        }
-        
-    }
-    
-    function typeWriterThree(){
-    
-    
-        if(j < txtThree.length){
-            
-            tutorialTextBox.innerHTML += txtThree.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterThree,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            setTimeout(typeWriterFour,1000);
-            
-            var tutorialGifOne = document.createElement("img");
-            
-            tutorialGifOne.src = "IMG/tutorial-one.gif";
-            
-            continueContainer.appendChild(tutorialGifOne);
-            
-            continueContainer.style.position = "relative";
-            tutorialGifOne.style.position = "absolute";
-            tutorialGifOne.style.top = "35%";
-            tutorialGifOne.style.right = "5%";
-            tutorialGifOne.style.width = "60%";
-            
-        }
-        
-    }
-    
-    function typeWriterFour(){
-    
-      if(j < txtThree.length){
-            
-            tutorialTextBox.innerHTML += txtFour.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterFour,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            setTimeout(typeWriterFive,1000);
-            
-            
-        }
-    
-    }
-    
-    function typeWriterFive(){
-    
-      if(j < txtThree.length){
-            
-            tutorialTextBox.innerHTML += txtFive.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterFive,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },300);
-            
-            setTimeout(typeWriterSix,300);
-            
-            
-        }
-    
-    }
-    
-    
-    function typeWriterSix(){
-    
-      if(j < txtThree.length){
-            
-            tutorialTextBox.innerHTML += txtSix.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterSix,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            setTimeout(typeWriterSeven,1000);
-            
-            
-        }
-    
-    }
-    
-    
-    function typeWriterSeven(){
-    
-      if(j < txtThree.length){
-            
-            tutorialTextBox.innerHTML += txtSeven.charAt(j);
-                
-            j++;
-            
-            setTimeout(typeWriterSeven,55);
-    
-        }else{
-        
-            j = 0;
-            
-            setTimeout(function(){
-            
-                  tutorialTextBox.innerHTML = " ";
-            
-            },1000);
-            
-            
-            
-        }
-    
-    } 
+     }
+     
     
     });
                             

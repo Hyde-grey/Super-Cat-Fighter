@@ -88,7 +88,7 @@ function tutorialScreen(){
                     
                     txtEleven = "Every time Miko succesfully dodge an ATK she charges her Super.";
                     
-                    txtTwelve = "At 3 charges she'll atomatically uses her Super : Dodge Strike";
+                    txtTwelve = "At 3 charges she'll atomaticaly uses her Super : Dodge Strike";
                     
                     break;
                     
@@ -96,11 +96,19 @@ function tutorialScreen(){
                     
                     txtTen = "Jack is the best striker i know, he has higher ATK but lower DEF.";
                     
+                    txtEleven = 'Charge his special skill with a "Charge" card.';
+                    
+                    txtTwelve = "At 3 charges he'll atomatically uses his Super : Machine Gun Punch";
+                    
                     break;
                     
                     case "Tiger" :
                     
                     txtTen = "Tiger is a tank, his DEF is very high but his ATK is Lower.";
+                    
+                    txtEleven = 'Everytime Tiger succesfuly block and ATK with higher DEF he gains a super charge.';
+                    
+                    txtTwelve = "At 3 charges he'll atomatically uses his Super : Bloody Shield";
                     
                     break;
                     

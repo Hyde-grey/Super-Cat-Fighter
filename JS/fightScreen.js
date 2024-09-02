@@ -20,7 +20,7 @@ var selectedCards = [];
 
 var turns = 1;
 var current = 0; 
-var npcHealth = 40;
+var npcHealth = 40000000;
 
 var pHealth;
 var pMaxHealth;

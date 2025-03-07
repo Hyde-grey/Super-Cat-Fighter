@@ -1,7 +1,7 @@
 # Super Cat Fighter
 
 <div align="center">
-  <img src="IMG/Not_Nintendo.png" alt="Not Nintendo Logo">
+  <img src="IMG/Not_Nintendo.png" alt="Not Nintendo Logo" loop>
 </div>
 
 ![Super Cat Fighter](IMG/start.png)
@@ -20,15 +20,7 @@ This project represents my journey into JavaScript development. What started as 
 - Sound effects and background music
 - Responsive design
 
-<div align="center">
-  <img src="IMG/start.png" id="start" alt="Starting screen">
-</div>
-
 ### Game Features
-
-<div align="center">
-  <a href="https://ibb.co/HD8xbKsr"><img src="https://i.ibb.co/Lz7Jc0WC/character-Selection.png" alt="Character Selection Screen" border="0"></a>
-</div>
 
 - **Three Unique Characters**: Choose between Miko (agile, high evasion), Jack (high attack), or Tiger (tank, high defense)
 

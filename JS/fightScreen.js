@@ -14,13 +14,12 @@ var characterSprite = document.querySelector(".character-sprite");
 var menuContent = document.querySelector(".menu-content");
 var fightDialogue = document.querySelector(".fight-dialogue");
 
-
 var threeCards = [];
 var selectedCards = [];
 
 var turns = 1;
-var current = 0; 
-var npcHealth = 40000000;
+var current = 0;
+var npcHealth = 200;
 
 var pHealth;
 var pMaxHealth;
@@ -34,7 +33,6 @@ var blockGauge = 0;
 var chargeGauge = 0;
 var gameEnded = false;
 
-
 var min = 0;
 var max = 10;
 
@@ -47,601 +45,453 @@ var npcWins = false;
 /////////////////////////////////////////PLAYER CARDS/////////////////////////////////
 
 var atkCard = {
+  cardName: "Attack",
 
-    cardName : "Attack",
-
-    hitPoints :  0
-
-}
+  hitPoints: 0,
+};
 
 var defCard = {
+  cardName: "Defence",
 
-    cardName : "Defence",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var evaCard = {
+  cardName: "Evasion",
 
-    cardName : "Evasion",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var healCard = {
+  cardName: "Heal",
 
-    cardName : "Heal",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var specialAtk = {
+  cardName: "Special",
 
-    cardName : "Special",
-
-    hitPoints : 25
-
-}
+  hitPoints: 25,
+};
 
 var chargeCard = {
+  cardName: "Charge",
 
-    cardName : "Charge",
-
-    hitPoints : 1
-
-}
+  hitPoints: 1,
+};
 
 //////////////////////////////NPCCARDS///////////////////////////////////////////////
 
 var natkCard = {
+  cardName: "Attack",
 
-    cardName : "Attack",
-
-    hitPoints :  0
-
-}
+  hitPoints: 0,
+};
 
 var ndefCard = {
+  cardName: "Defence",
 
-    cardName : "Defence",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var nevaCard = {
+  cardName: "Evasion",
 
-    cardName : "Evasion",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var nhealCard = {
+  cardName: "Heal",
 
-    cardName : "Heal",
-
-    hitPoints : 0
-
-}
+  hitPoints: 0,
+};
 
 var nspecialAtk = {
+  cardName: "Special",
 
-    cardName : "Special",
+  hitPoints: 25,
+};
 
-    hitPoints : 25
+var cardList = [atkCard, defCard, evaCard, healCard, specialAtk, chargeCard];
+var npcCardList = [natkCard, ndefCard, nevaCard, nhealCard, nspecialAtk];
 
-}
+function isOnFight() {
+  tutorialScreen();
 
-var cardList = [atkCard,defCard,evaCard,healCard,specialAtk,chargeCard]; 
-var npcCardList = [natkCard,ndefCard,nevaCard,nhealCard,nspecialAtk];
+  if (onFightScreen === true) {
+    var menuOpened = false;
 
+    console.log(
+      "onFightScreen is = " +
+        onFightScreen +
+        " you are now on the fight screen."
+    );
 
-
-function isOnFight(){
-
-tutorialScreen();
-
-
-    if(onFightScreen === true){
-    
-    
-        var menuOpened = false;
-
-    console.log('onFightScreen is = ' + onFightScreen + ' you are now on the fight screen.');
-    
-    
-    
     var openHowToPlay = document.querySelector(".open-how-to-play");
 
-    openHowToPlay.addEventListener('click', function(){
-
-            document.querySelector(".how-to-play-container").style.transform = "translateX(0)";
-            document.querySelector(".close-how-to-play").addEventListener("click",function(){
-            document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";    
-        })
-
+    openHowToPlay.addEventListener("click", function () {
+      document.querySelector(".how-to-play-container").style.transform =
+        "translateX(0)";
+      document
+        .querySelector(".close-how-to-play")
+        .addEventListener("click", function () {
+          document.querySelector(".how-to-play-container").style.transform =
+            "translateX(-100%)";
+        });
     });
 
-
     var selectButton = document.querySelector(".select-button");
-    
-    selectButton.addEventListener("click",function(){
 
+    selectButton.addEventListener("click", function () {
+      if (menuOpened === true) {
+        document.querySelector(".how-to-play-container").style.transform =
+          "translateX(-100%)";
+        menuOpened = false;
+      } else if (menuOpened === false) {
+        document.querySelector(".how-to-play-container").style.transform =
+          "translateX(0)";
+        menuOpened = true;
 
-        if(menuOpened === true){
+        document
+          .querySelector(".close-how-to-play")
+          .addEventListener("click", function () {
+            document.querySelector(".how-to-play-container").style.transform =
+              "translateX(-100%)";
+          });
+      }
+    });
 
-            document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";
-            menuOpened = false;
+    gamePad.addEventListener("click", gamePadSlide);
 
-        }else if(menuOpened === false){
-
-            document.querySelector(".how-to-play-container").style.transform = "translateX(0)";
-            menuOpened = true;
-
-            document.querySelector(".close-how-to-play").addEventListener("click", function(){
-            
-                document.querySelector(".how-to-play-container").style.transform = "translateX(-100%)";
-                
-            });
-    
-        }
-});    
-    
-    
-    gamePad.addEventListener('click', gamePadSlide); 
-    
     var clicked = false;
-    
-    function gamePadSlide(){
-    
-    
 
-    if(clicked === false){
-    
-    gamePad.style.transform = "translateY(0%)";
-    
-    clicked = true;
-    console.log(clicked);
-    
-    }else{
-    
-    gamePad.style.transform = "translateY(20%)";
-    
-    clicked = false;
-    console.log(clicked);
-    
+    function gamePadSlide() {
+      if (clicked === false) {
+        gamePad.style.transform = "translateY(0%)";
+
+        clicked = true;
+        console.log(clicked);
+      } else {
+        gamePad.style.transform = "translateY(20%)";
+
+        clicked = false;
+        console.log(clicked);
+      }
     }
-}
-///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
+    ///////////////////////////////////DODGING ANIMATIONS////////////////////////////////////
 
-function atkSound(){
+    function atkSound() {
+      sfx.punchSound.play();
+    }
 
-    sfx.punchSound.play();
+    function playerAtk() {
+      let elem;
 
-}
-
-function playerAtk(){
-
-    let elem;
-
-    switch(whatCharacter.firstName){
-
+      switch (whatCharacter.firstName) {
         case "Miko":
-        
-        elem = document.querySelector(".miko_stance");
-        elem.src = "IMG/miko_atk.png";
+          elem = document.querySelector(".miko_stance");
+          elem.src = "IMG/miko_atk.png";
 
-        
+          setTimeout(function () {
+            elem.src = "IMG/miko_stance.png";
+          }, 700);
 
-        setTimeout(function(){
+          break;
 
-            elem.src = "IMG/miko_stance.png"
+        case "Jack":
+          elem = document.querySelector(".jack_stance");
+          elem.src = "IMG/jack_atk.png";
 
-        },700);
+          console.log(gameEnded);
 
-        break;
+          if (gameEnded === false) {
+            setTimeout(function () {
+              atkSound();
+              npcTakesDMGAnimation();
+              let extraHit = Math.round(Math.random() * (3 - 1)) + 1;
+              npcTakesDMG(extraHit);
+            }, 600);
+          } else if (gameEnded === true) {
+            console.log(
+              "Gameended is true so there won't be any dmg on second hit"
+            );
+            setTimeout(function () {
+              atkSound();
+              npcTakesDMGAnimation();
+            }, 600);
+          }
 
-        case "Jack" :
-            
-            elem = document.querySelector(".jack_stance");
-            elem.src = "IMG/jack_atk.png";
-            
-            console.log(gameEnded);
-            
-            if( gameEnded === false ){
+          setTimeout(function () {
+            elem.src = "IMG/jack_stance.png";
+          }, 1000);
 
-                setTimeout(function(){
+          break;
 
-                    atkSound();
-                    npcTakesDMGAnimation();
-                    let extraHit = Math.round(Math.random() * (3 - 1)) + 1
-                    npcTakesDMG(extraHit);
+        case "Tiger":
+          elem = document.querySelector(".tiger_stance");
+          elem.src = "IMG/tiger_atk.png";
 
-                },600);
-            
-            }else if(gameEnded === true){
-            
-                console.log("Gameended is true so there won't be any dmg on second hit");
-              setTimeout(function(){
+          setTimeout(function () {
+            elem.src = "IMG/tiger_stance.png";
+          }, 1000);
 
-                    atkSound();
-                    npcTakesDMGAnimation();
-                    
-
-                },600);  
-            
-            }
-    
-            setTimeout(function(){
-    
-                elem.src = "IMG/jack_stance.png"
-    
-            },1000);
-
-        break;
-
-        case "Tiger" : 
-        
-        elem = document.querySelector(".tiger_stance");
-        elem.src = "IMG/tiger_atk.png";
-
-        
-
-        setTimeout(function(){
-
-            elem.src = "IMG/tiger_stance.png"
-
-        },1000);
-
-        break;
-
+          break;
+      }
     }
 
+    function playerKiBlast() {
+      playerAtk();
+      let elem = document.createElement("img");
+      elem.classList.add("effect-sprites");
+      elem.src = "IMG/player-ki-blast.png";
 
-}
+      currentCharacter.appendChild(elem);
 
-function playerKiBlast(){
+      sfx.kiBlastSound.play();
 
-
-    playerAtk();
-    let elem = document.createElement("img");
-    elem.classList.add("effect-sprites");
-    elem.src = "IMG/player-ki-blast.png";
-
-    currentCharacter.appendChild(elem);
-
-    sfx.kiBlastSound.play();
-
-    setTimeout(function(){
-
+      setTimeout(function () {
         elem.remove();
+      }, 500);
+    }
 
-    },500);  
+    function playerDef() {
+      let elem;
 
-}
-
-function playerDef(){
-
-    let elem;
-
-    switch(whatCharacter.firstName){
-
+      switch (whatCharacter.firstName) {
         case "Miko":
-        
-        elem = document.querySelector(".miko_stance");
-        elem.src = "IMG/miko_def.png";
+          elem = document.querySelector(".miko_stance");
+          elem.src = "IMG/miko_def.png";
 
-        setTimeout(function(){
+          setTimeout(function () {
+            elem.src = "IMG/miko_stance.png";
+          }, 700);
 
-            elem.src = "IMG/miko_stance.png"
+          break;
 
-        },700);
+        case "Jack":
+          elem = document.querySelector(".jack_stance");
+          elem.src = "IMG/jack_def.png";
 
-        break;
+          setTimeout(function () {
+            elem.src = "IMG/jack_stance.png";
+          }, 700);
 
-        case "Jack" :
-            
-            elem = document.querySelector(".jack_stance");
-            elem.src = "IMG/jack_def.png";
-    
-            setTimeout(function(){
-    
-                elem.src = "IMG/jack_stance.png"
-    
-            },700);
+          break;
 
-        break;
+        case "Tiger":
+          elem = document.querySelector(".tiger_stance");
+          elem.src = "IMG/tiger_def.png";
 
-        case "Tiger" : 
-        
-        elem = document.querySelector(".tiger_stance");
-        elem.src = "IMG/tiger_def.png";
+          setTimeout(function () {
+            elem.src = "IMG/tiger_stance.png";
+          }, 1000);
 
-        setTimeout(function(){
-
-            elem.src = "IMG/tiger_stance.png"
-
-        },1000);
-
-        break;
-
+          break;
+      }
     }
 
+    function npcAtk() {
+      let elem;
 
-}
+      elem = document.querySelector(".mr-mustache");
 
-function npcAtk(){
+      elem.src = "IMG/mr_mustache_atk.png";
 
-    let elem;
-
-    elem = document.querySelector(".mr-mustache");
-
-    elem.src = "IMG/mr_mustache_atk.png";
-
-    setTimeout(function(){
-
-        elem.src = "IMG/mr-mustache.png"
-
-    },700);
-
-}
-
-function npcDef(){
-
-    let elem;
-
-    elem = document.querySelector(".mr-mustache");
-
-    elem.src = "IMG/mr_mustache_def.png";
-
-    setTimeout(function(){
-
-        elem.src = "IMG/mr-mustache.png"
-
-    },600);
-
-}
-
-
-function npcDodge(){
-
-    npcSprite.animate([
-
-        { transform: "translatex(0)" },
-        { transform: "translatex(5%)" },
-        { transform: "translatex(0)" }
-        
-    ],
-    {duration: 400});
-
-}
-
-function mikoDodgeStrike(){
-
-
-var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
-
-var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
-
-var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
-
-if(whatCharacter.firstName === "Miko"){
-    
-    dodgeGauge ++;
-    
-    switch(dodgeGauge){
-    
-        case 1:
-        
-        gaugeBoxOne.style.backgroundColor = "white";
-        addChargeSprite();
-        
-        break;
-        
-        case 2:
-    
-        gaugeBoxTwo.style.backgroundColor = "white";
-        addChargeSprite();
-        
-        break;
-        
-        case 3:
-        
-        gaugeBoxThree.style.backgroundColor = "white";
-        addChargeSprite();
-        
-        setTimeout(function(){
-        
-            gaugeBoxOne.style.backgroundColor = "transparent";
-            gaugeBoxTwo.style.backgroundColor = "transparent";
-            gaugeBoxThree.style.backgroundColor = "transparent";
-            
-            playerAtk();
-            npcTakesDMG(25);
-            dodgeGauge = 0;
-        
-        },500);
-    
-    
-        break;
-    
-    
+      setTimeout(function () {
+        elem.src = "IMG/mr-mustache.png";
+      }, 700);
     }
 
+    function npcDef() {
+      let elem;
+
+      elem = document.querySelector(".mr-mustache");
+
+      elem.src = "IMG/mr_mustache_def.png";
+
+      setTimeout(function () {
+        elem.src = "IMG/mr-mustache.png";
+      }, 600);
     }
-    
 
-}
+    function npcDodge() {
+      npcSprite.animate(
+        [
+          { transform: "translatex(0)" },
+          { transform: "translatex(5%)" },
+          { transform: "translatex(0)" },
+        ],
+        { duration: 400 }
+      );
+    }
 
-function jackMachinGunPunch(){
+    function mikoDodgeStrike() {
+      var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
 
+      var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
 
-    var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
+      var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
 
-    var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
+      if (whatCharacter.firstName === "Miko") {
+        dodgeGauge++;
 
-    var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
-
-    if(whatCharacter.firstName === "Jack"){
-        
-        chargeGauge ++;
-        
-        switch(chargeGauge){
-        
-            case 1:
-            
+        switch (dodgeGauge) {
+          case 1:
             gaugeBoxOne.style.backgroundColor = "white";
             addChargeSprite();
-                
+
             break;
-            
-            case 2:
-        
+
+          case 2:
             gaugeBoxTwo.style.backgroundColor = "white";
             addChargeSprite();
-                
+
             break;
-            
-            case 3:
-            
+
+          case 3:
             gaugeBoxThree.style.backgroundColor = "white";
             addChargeSprite();
-                
-            setTimeout(function(){
-            
-                gaugeBoxOne.style.backgroundColor = "transparent";
-                gaugeBoxTwo.style.backgroundColor = "transparent";
-                gaugeBoxThree.style.backgroundColor = "transparent";
-                
-                npcTakesDMG(20);
-                sfx.jackSpecial.play();
-                chargeGauge = 0;
-            
-            },500);
-            
-            
-            break;
-            
-            
-        }
 
+            setTimeout(function () {
+              gaugeBoxOne.style.backgroundColor = "transparent";
+              gaugeBoxTwo.style.backgroundColor = "transparent";
+              gaugeBoxThree.style.backgroundColor = "transparent";
+
+              playerAtk();
+              npcTakesDMG(25);
+              dodgeGauge = 0;
+            }, 500);
+
+            break;
+        }
+      }
     }
 
-}
+    function jackMachinGunPunch() {
+      var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
 
-function tigerBloodyBlock(){
+      var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
 
+      var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
 
-    var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
+      if (whatCharacter.firstName === "Jack") {
+        chargeGauge++;
 
-    var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
-
-    var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
-
-    if(whatCharacter.firstName === "Tiger"){
-        
-        blockGauge ++;
-        
-        switch(blockGauge){
-        
-            case 1:
-            
+        switch (chargeGauge) {
+          case 1:
             gaugeBoxOne.style.backgroundColor = "white";
             addChargeSprite();
-            
+
             break;
-            
-            case 2:
-        
+
+          case 2:
             gaugeBoxTwo.style.backgroundColor = "white";
             addChargeSprite();
-            
+
             break;
-            
-            case 3:
-            
+
+          case 3:
             gaugeBoxThree.style.backgroundColor = "white";
             addChargeSprite();
-            
-            setTimeout(function(){
-            
-                gaugeBoxOne.style.backgroundColor = "transparent";
-                gaugeBoxTwo.style.backgroundColor = "transparent";
-                gaugeBoxThree.style.backgroundColor = "transparent";
-                
-                npcTakesDMG(15);
-                blockGauge = 0;
-            
-            },500);
-            
-            
-            break;
-            
-            
-        }
 
+            setTimeout(function () {
+              gaugeBoxOne.style.backgroundColor = "transparent";
+              gaugeBoxTwo.style.backgroundColor = "transparent";
+              gaugeBoxThree.style.backgroundColor = "transparent";
+
+              npcTakesDMG(20);
+              sfx.jackSpecial.play();
+              chargeGauge = 0;
+            }, 500);
+
+            break;
+        }
+      }
     }
 
-}
+    function tigerBloodyBlock() {
+      var gaugeBoxOne = document.querySelector(".gaugeBoxOne");
 
-function playerDodge(){
+      var gaugeBoxTwo = document.querySelector(".gaugeBoxTwo");
 
-    currentCharacter.animate([
+      var gaugeBoxThree = document.querySelector(".gaugeBoxThree");
 
-        { transform: "translatex(0%)" },
-        { transform: "translatex(-5%)" },
-        { transform: "translatex(0%)" }
-    ],
-    {duration: 500});
+      if (whatCharacter.firstName === "Tiger") {
+        blockGauge++;
 
+        switch (blockGauge) {
+          case 1:
+            gaugeBoxOne.style.backgroundColor = "white";
+            addChargeSprite();
 
-}
+            break;
 
-function playerTakesDMG(npcCard){
+          case 2:
+            gaugeBoxTwo.style.backgroundColor = "white";
+            addChargeSprite();
 
+            break;
 
-    atkSound();
-    
-    playerTakesDMGAnimation();
+          case 3:
+            gaugeBoxThree.style.backgroundColor = "white";
+            addChargeSprite();
 
-    let elem = document.createElement("div");
-    elem.classList.add("dmg-info");
-    
-    let y = Math.floor(Math.random()*(40-10));
-    let x = Math.floor(Math.random()*(40-20));
-        
-        elem.style.bottom = y +"%";
-        elem.style.left = x +"%";
-    
-    
-    elem.innerHTML = "-" + npcCard + "HP";
-    currentCharacter.appendChild(elem);
-    
-    elem.animate([
+            setTimeout(function () {
+              gaugeBoxOne.style.backgroundColor = "transparent";
+              gaugeBoxTwo.style.backgroundColor = "transparent";
+              gaugeBoxThree.style.backgroundColor = "transparent";
 
-        { transform: "translatey(-30%)" },
-        { opacity : 0 }
-    
-    ],
-    {duration: 2000});
+              npcTakesDMG(15);
+              blockGauge = 0;
+            }, 500);
 
-    setTimeout(function(){
+            break;
+        }
+      }
+    }
 
+    function playerDodge() {
+      currentCharacter.animate(
+        [
+          { transform: "translatex(0%)" },
+          { transform: "translatex(-5%)" },
+          { transform: "translatex(0%)" },
+        ],
+        { duration: 500 }
+      );
+    }
+
+    function playerTakesDMG(npcCard) {
+      atkSound();
+
+      playerTakesDMGAnimation();
+
+      let elem = document.createElement("div");
+      elem.classList.add("dmg-info");
+
+      let y = Math.floor(Math.random() * (40 - 10));
+      let x = Math.floor(Math.random() * (40 - 20));
+
+      elem.style.bottom = y + "%";
+      elem.style.left = x + "%";
+
+      elem.innerHTML = "-" + npcCard + "HP";
+      currentCharacter.appendChild(elem);
+
+      elem.animate([{ transform: "translatey(-30%)" }, { opacity: 0 }], {
+        duration: 2000,
+      });
+
+      setTimeout(function () {
         elem.remove();
+      }, 2000);
 
-    },2000)
+      pHealth -= npcCard;
 
-    pHealth -= npcCard;
-    
-    pHPBlock.innerHTML = pHealth;
-    playerHealthChange();
-    
-    if(pHPBlock.innerHTML <= 0){
+      pHPBlock.innerHTML = pHealth;
+      playerHealthChange();
 
+      if (pHPBlock.innerHTML <= 0) {
         gameEnded = true;
         npcWins = true;
         pHPBlock.innerHTML = "0";
@@ -651,61 +501,47 @@ function playerTakesDMG(npcCard){
         clearInterval(nIntervID);
         console.log("interval was stopped Game is over");
 
-        fightDialogue.innerHTML.innerHTML = "Your health reached 0... <br> Game Over You Lose...";
-        
-        setTimeout(function(){
+        fightDialogue.innerHTML.innerHTML =
+          "Your health reached 0... <br> Game Over You Lose...";
 
-            gameOver();
-
-        },2000)
-            
-
+        setTimeout(function () {
+          gameOver();
+        }, 2000);
+      }
     }
-    
 
-}
+    function npcTakesDMG(pCard) {
+      atkSound();
 
-function npcTakesDMG(pCard){
+      npcTakesDMGAnimation();
 
-    atkSound();
+      let elem = document.createElement("div");
+      elem.classList.add("npc-dmg-info");
 
-    npcTakesDMGAnimation();
+      let y = Math.floor(Math.random() * (40 - 10));
+      let x = Math.floor(Math.random() * (40 - 20));
 
-    let elem = document.createElement("div");
-    elem.classList.add("npc-dmg-info");
-    
-    let y = Math.floor(Math.random()*(40-10));
-    let x = Math.floor(Math.random()*(40-20));
-    
-    elem.style.top = y +"%";
-    elem.style.right = x +"%";
-    
-    
-    elem.innerHTML = "-" + pCard + "HP";
-    currentCharacter.appendChild(elem);
-    
-    elem.animate([
+      elem.style.top = y + "%";
+      elem.style.right = x + "%";
 
-        { transform: "translatey(-30%)" },
-        { opacity : 0 }
-    
-    ],
-    {duration: 2000});
+      elem.innerHTML = "-" + pCard + "HP";
+      currentCharacter.appendChild(elem);
 
-    setTimeout(function(){
+      elem.animate([{ transform: "translatey(-30%)" }, { opacity: 0 }], {
+        duration: 2000,
+      });
 
+      setTimeout(function () {
         elem.remove();
+      }, 2000);
 
-    },2000)
+      npcHealth -= pCard;
+      npcHPBlock.innerHTML = npcHealth;
+      npcHealthChange();
 
-    npcHealth -= pCard;
-    npcHPBlock.innerHTML = npcHealth;
-    npcHealthChange();
-    
-    if(npcHPBlock.innerHTML <= 0){
-
+      if (npcHPBlock.innerHTML <= 0) {
         gameEnded = true;
-        
+
         playerWins = true;
         npcHPBlock.innerHTML = "0";
         npcBar.style.width = "0";
@@ -715,1158 +551,991 @@ function npcTakesDMG(pCard){
         clearInterval(nIntervID);
         console.log("interval was stopped Game is over");
 
-        fightDialogue.innerHTML = "The enemy's health reached 0. <br> Game Over You Win !!!";            
-        
-        setTimeout(function(){
+        fightDialogue.innerHTML =
+          "The enemy's health reached 0. <br> Game Over You Win !!!";
 
-            gameOver();
-
-        },2000)
-
-
+        setTimeout(function () {
+          gameOver();
+        }, 2000);
+      }
     }
-    
 
-}
+    function addChargeSprite() {
+      var elem = document.createElement("img");
+      elem.classList.add("effect-sprites");
+      elem.src = "IMG/player_charging.png";
+      currentCharacter.appendChild(elem);
 
-function addChargeSprite(){
+      sfx.chargingSound.play();
 
-    var elem = document.createElement("img");
-    elem.classList.add("effect-sprites");
-    elem.src = 'IMG/player_charging.png';
-    currentCharacter.appendChild(elem);
-
-    sfx.chargingSound.play();
-
-    setTimeout(function(){
-
+      setTimeout(function () {
         elem.remove();
-        
-        
-    }, 1000)
+      }, 1000);
+    }
 
-}
+    function addHealSprite() {
+      var elem = document.createElement("img");
+      elem.classList.add("effect-sprites");
+      elem.src = "IMG/player_healing.png";
+      currentCharacter.appendChild(elem);
 
-function addHealSprite(){
+      sfx.healingSound.play();
 
-    var elem = document.createElement("img");
-    elem.classList.add("effect-sprites");
-    elem.src = 'IMG/player_healing.png';
-    currentCharacter.appendChild(elem);
-
-    sfx.healingSound.play();
-
-    setTimeout(function(){
-
+      setTimeout(function () {
         elem.remove();
-        
-        
-    }, 1000)
+      }, 1000);
 
-    let healElem = document.createElement("div");
-    healElem.classList.add("heal-info");
-    
-    let y = Math.floor(Math.random()*(40-10));
-    let x = Math.floor(Math.random()*(70-50));
-    
-    healElem.style.bottom = y +"%";
-    healElem.style.left = x +"%";
-    
-    healElem.innerHTML = "+" + pCard + "HP";
-    currentCharacter.appendChild(healElem);
-    
-    healElem.animate([
+      let healElem = document.createElement("div");
+      healElem.classList.add("heal-info");
 
-        { transform: "translatey(30%)" },
-        { opacity: "0"}
-    
-    ],
-    {duration: 2000});
+      let y = Math.floor(Math.random() * (40 - 10));
+      let x = Math.floor(Math.random() * (70 - 50));
 
-    setTimeout(function(){
+      healElem.style.bottom = y + "%";
+      healElem.style.left = x + "%";
 
+      healElem.innerHTML = "+" + pCard + "HP";
+      currentCharacter.appendChild(healElem);
+
+      healElem.animate([{ transform: "translatey(30%)" }, { opacity: "0" }], {
+        duration: 2000,
+      });
+
+      setTimeout(function () {
         healElem.remove();
+      }, 2000);
+    }
 
-    },2000)
-
-}
-
-function playerHeal(pCard){
-
-    function addHealSprite(){
-
+    function playerHeal(pCard) {
+      function addHealSprite() {
         var elem = document.createElement("img");
         elem.classList.add("effect-sprites");
-        elem.src = 'IMG/player_healing.png';
+        elem.src = "IMG/player_healing.png";
         currentCharacter.appendChild(elem);
 
         sfx.healingSound.play();
 
-        setTimeout(function(){
-
-            elem.remove();
-        
-            
-        }, 1000)
+        setTimeout(function () {
+          elem.remove();
+        }, 1000);
 
         let healElem = document.createElement("div");
         healElem.classList.add("heal-info");
-        
-        let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-20));
-        
-        healElem.style.bottom = y +"%";
-        healElem.style.left = x +"%";
-        
+
+        let y = Math.floor(Math.random() * (40 - 10));
+        let x = Math.floor(Math.random() * (40 - 20));
+
+        healElem.style.bottom = y + "%";
+        healElem.style.left = x + "%";
+
         healElem.innerHTML = "+" + pCard + "HP";
         currentCharacter.appendChild(healElem);
-        
-        healElem.animate([
-    
-            { transform: "translatey(30%)" },
-            { opacity: "0"}
-        
-        ],
-        {duration: 2000});
-    
-        setTimeout(function(){
-    
-            healElem.remove();
-    
-        },2000)
 
-    }
+        healElem.animate([{ transform: "translatey(30%)" }, { opacity: "0" }], {
+          duration: 2000,
+        });
 
-    if(pHPBlock.innerHTML >= pMaxHealth){
+        setTimeout(function () {
+          healElem.remove();
+        }, 2000);
+      }
 
+      if (pHPBlock.innerHTML >= pMaxHealth) {
         fightDialogue.innerHTML = "You tried to heal but nothing happened";
+      } else if (pHPBlock.innerHTML < pMaxHealth) {
+        pHealth = pCard + parseInt(pHPBlock.innerHTML);
 
-    }else if(pHPBlock.innerHTML < pMaxHealth){
-
-        pHealth = (pCard + parseInt(pHPBlock.innerHTML));
-        
-
-        if(pHealth < pMaxHealth){
-
-            pHPBlock.innerHTML = pHealth;
-            fightDialogue.innerHTML = "You healed for " + pCard + " HP.";
-            addHealSprite();
-            
-
-        }else if(pHealth >= pMaxHealth){
-
-            pHPBlock.innerHTML = pMaxHealth;
-            fightDialogue.innerHTML = "You healed for " + pCard + " HP and reached max HP.";
-            addHealSprite();
-
+        if (pHealth < pMaxHealth) {
+          pHPBlock.innerHTML = pHealth;
+          fightDialogue.innerHTML = "You healed for " + pCard + " HP.";
+          addHealSprite();
+        } else if (pHealth >= pMaxHealth) {
+          pHPBlock.innerHTML = pMaxHealth;
+          fightDialogue.innerHTML =
+            "You healed for " + pCard + " HP and reached max HP.";
+          addHealSprite();
         }
-
+      }
     }
 
-}
-
-function npcHeal(npcCard){
-
-    function addNpcHealingSprite(){
-
+    function npcHeal(npcCard) {
+      function addNpcHealingSprite() {
         var elem = document.createElement("img");
-            elem.classList.add("effect-sprites");
-            elem.src = 'IMG/npc_healing.png';
-            npcSprite.appendChild(elem);
-    
-            sfx.healingSound.play();
-    
-            setTimeout(function(){
-    
-                elem.remove();
-                
-            }, 1000)
-    
-            let healElem = document.createElement("div");
-            healElem.classList.add("npc-heal-info");
-            
-            let y = Math.floor(Math.random()*(40-10));
-        let x = Math.floor(Math.random()*(40-10));
-        
-        healElem.style.top = y +"%";
-        healElem.style.right = x +"%";
-            
-            healElem.innerHTML = "+" + npcCard + "HP";
-            npcSprite.appendChild(healElem);
-            
-            healElem.animate([
-        
-                { transform: "translatey(30%)" },
-                { opacity: "0"}
-            
-            ],
-            {duration: 2000});
-        
-            setTimeout(function(){
-        
-                healElem.remove();
-        
-            },2000)
-    
-    }
+        elem.classList.add("effect-sprites");
+        elem.src = "IMG/npc_healing.png";
+        npcSprite.appendChild(elem);
 
+        sfx.healingSound.play();
 
-    if(npcHPBlock.innerHTML >= npcMaxHealth){
+        setTimeout(function () {
+          elem.remove();
+        }, 1000);
 
-        fightDialogue.innerHTML = "The enemy tries to heal but nothing happened";
+        let healElem = document.createElement("div");
+        healElem.classList.add("npc-heal-info");
 
-    }else if(npcHPBlock.innerHTML < npcMaxHealth){
+        let y = Math.floor(Math.random() * (40 - 10));
+        let x = Math.floor(Math.random() * (40 - 10));
 
-        npcHealth = (npcCard + parseInt(npcHPBlock.innerHTML));
+        healElem.style.top = y + "%";
+        healElem.style.right = x + "%";
 
-        if(npcHealth < npcMaxHealth){
+        healElem.innerHTML = "+" + npcCard + "HP";
+        npcSprite.appendChild(healElem);
 
-            addNpcHealingSprite();
+        healElem.animate([{ transform: "translatey(30%)" }, { opacity: "0" }], {
+          duration: 2000,
+        });
 
-            npcHPBlock.innerHTML = npcHealth;
-            fightDialogue.innerHTML ="The enemy healed for " + npcCard + " HP.";
-            
+        setTimeout(function () {
+          healElem.remove();
+        }, 2000);
+      }
 
-        }else if(npcHealth >= npcMaxHealth){
+      if (npcHPBlock.innerHTML >= npcMaxHealth) {
+        fightDialogue.innerHTML =
+          "The enemy tries to heal but nothing happened";
+      } else if (npcHPBlock.innerHTML < npcMaxHealth) {
+        npcHealth = npcCard + parseInt(npcHPBlock.innerHTML);
 
-            addNpcHealingSprite();
+        if (npcHealth < npcMaxHealth) {
+          addNpcHealingSprite();
 
-            npcHPBlock.innerHTML = npcMaxHealth;
-            fightDialogue.innerHTML = "The enemy healed for " + npcCard + " points and reached max HP.";
+          npcHPBlock.innerHTML = npcHealth;
+          fightDialogue.innerHTML = "The enemy healed for " + npcCard + " HP.";
+        } else if (npcHealth >= npcMaxHealth) {
+          addNpcHealingSprite();
 
+          npcHPBlock.innerHTML = npcMaxHealth;
+          fightDialogue.innerHTML =
+            "The enemy healed for " + npcCard + " points and reached max HP.";
         }
-
+      }
     }
 
-}
+    ////////////////////////////////////////END OF DODGING ANIMATION/////////////////////////////////////
 
-////////////////////////////////////////END OF DODGING ANIMATION/////////////////////////////////////
+    /////////////////////////////////////////////GETTING HIT ANIMATION///////////////////////////////////////
 
-/////////////////////////////////////////////GETTING HIT ANIMATION///////////////////////////////////////
+    function playerTakesDMGAnimation() {
+      currentCharacter.animate(
+        [
+          { transform: "translatex(0)" },
+          { transform: "translatex(1%)" },
+          { transform: "translatex(-1%)" },
+          { transform: "translatex(1%)" },
+          { transform: "translatex(-1%)" },
+          { transform: "translatex(0)" },
+        ],
+        { duration: 500 }
+      );
+    }
 
-function playerTakesDMGAnimation(){
+    function npcTakesDMGAnimation() {
+      npcSprite.animate(
+        [
+          { transform: "translatex(0)" },
+          { transform: "translatex(1%)" },
+          { transform: "translatex(-1%)" },
+          { transform: "translatex(1%)" },
+          { transform: "translatex(-1%)" },
+          { transform: "translatex(0)" },
+        ],
+        { duration: 500 }
+      );
+    }
 
-    currentCharacter.animate([
+    /////////////////////////////////////////////GETTING HIT ANIMATION END///////////////////////////////////////
 
-        { transform: "translatex(0)" },
-        { transform: "translatex(1%)" },
-        { transform: "translatex(-1%)" },
-        { transform: "translatex(1%)" },
-        { transform: "translatex(-1%)" },
-        { transform: "translatex(0)" },
-    ],
-    {duration: 500});
+    function startRound() {
+      menuContent.classList.add("hidden");
+      fightDialogue.classList.remove("hidden");
 
-}
-
-function npcTakesDMGAnimation(){
-
-    npcSprite.animate([
-
-        { transform: "translatex(0)" },
-        { transform: "translatex(1%)" },
-        { transform: "translatex(-1%)" },
-        { transform: "translatex(1%)" },
-        { transform: "translatex(-1%)" },
-        { transform: "translatex(0)" },
-    ],
-    {duration: 500});
-
-}
-
-/////////////////////////////////////////////GETTING HIT ANIMATION END///////////////////////////////////////
-
-function startRound(){
-
-    menuContent.classList.add("hidden");
-    fightDialogue.classList.remove("hidden");
-
-    if(turns === 1){
-
+      if (turns === 1) {
         sfx.menuSound.play();
         fightDialogue.innerHTML = "FIGHT!!";
 
-        setTimeout(function(){
+        setTimeout(function () {
+          submitCardsSelection();
+        }, 1000);
+      }
 
-    
-            submitCardsSelection();
+      nIntervID = setInterval(function () {
+        turns++;
 
-            
+        if (turns < 4) {
+          submitCardsSelection();
 
-        },1000)
+          console.log("interval is launched");
+
+          nIntervID;
+        } else if (turns === 4) {
+          console.log("interval was stopped");
+
+          clearInterval(nIntervID);
+          turns = 1;
+          menuContent.classList.remove("hidden");
+          fightDialogue.classList.add("hidden");
+
+          playerCards = [];
+          threeCards = [];
+          npcCards = [];
+          drawnCards.innerHTML = "";
+          playerCards.length = 0;
+        }
+      }, 3000);
     }
 
-    nIntervID = setInterval(function(){
-    
-    turns ++;
+    function playerHealthChange() {
+      console.log("The current Player health is " + pHPBlock.innerHTML);
+      var phpDecrease = pMaxHealth - parseInt(pHPBlock.innerHTML);
+      var pPercentage = Math.floor((phpDecrease / pMaxHealth) * 100);
 
-        
-        if( turns < 4){
-            
-            submitCardsSelection();
-            
-            console.log("interval is launched");
-            
-            nIntervID;
-    
-        }else if(turns === 4){
-    
-            console.log("interval was stopped");
-           
-            clearInterval(nIntervID);
-            turns = 1;
-            menuContent.classList.remove("hidden");
-            fightDialogue.classList.add("hidden");
+      let newHP = 100 - pPercentage;
 
-            playerCards = [];
-            threeCards =[];
-            npcCards = [];
-            drawnCards.innerHTML = "";
-            playerCards.length = 0;
-           
-    
-        }
-    
-    }, 3000);
+      pBar.style.width = newHP + "%";
 
-}
-
-function playerHealthChange(){
-
-    console.log("The current Player health is " + pHPBlock.innerHTML);  
-    var phpDecrease =  (pMaxHealth - parseInt(pHPBlock.innerHTML));
-    var pPercentage = Math.floor((phpDecrease/pMaxHealth) * 100);
-    
-    
-    let newHP = 100 - pPercentage;
-   
-    pBar.style.width = newHP +"%";
-
-    if ( newHP < 20 ){
-
+      if (newHP < 20) {
         pBar.style.backgroundColor = "#f9332c";
-
-    }else if ( newHP > 20){
-
+      } else if (newHP > 20) {
         pBar.style.backgroundColor = "aliceblue";
-
+      }
     }
 
-}
+    function npcHealthChange() {
+      console.log("The current NPC health is " + npcHPBlock.innerHTML);
+      var npchpDecrease = npcMaxHealth - parseInt(npcHPBlock.innerHTML);
+      var npcPercentage = Math.floor((npchpDecrease / npcMaxHealth) * 100);
 
-function npcHealthChange(){
+      let newHP = 100 - npcPercentage;
 
-    
-    console.log("The current NPC health is " + npcHPBlock.innerHTML);         
-    var npchpDecrease =  (npcMaxHealth - parseInt(npcHPBlock.innerHTML));
-    var npcPercentage = Math.floor((npchpDecrease/npcMaxHealth) * 100);
+      if (newHP > 100) {
+        newHP = 100;
+      }
 
-    let newHP = 100 - npcPercentage;
-    
-    if(newHP > 100){
-    
-    newHP = 100;
-    
-    }
+      npcBar.style.width = newHP + "%";
 
-    npcBar.style.width = newHP +"%";
-
-    if ( newHP < 20 ){
-
+      if (newHP < 20) {
         npcBar.style.backgroundColor = "#f9332c";
-
-    }else if ( newHP > 20){
-
+      } else if (newHP > 20) {
         npcBar.style.backgroundColor = "aliceblue";
-
+      }
     }
 
-
-}
-
-
-
-function submitCardsSelection(){
-
-    pHealth = pHPBlock.innerHTML;
-    pMaxHealth = whatCharacter.hp;
-    npcMaxHealth = 40;
-
-    console.log("The current card being read is " + threeCards[current].cardName + " with " + threeCards[current].hitPoints + " hitpoints.");
-
-        switch(threeCards[current].cardName){
-
-            case "Attack":
-            
-                playerAtk();
-
-                if(npcCards[current].cardName === "Attack"){
-
-                    npcAtk();
-                    npcTakesDMG(threeCards[current].hitPoints);
-                    playerTakesDMG(npcCards[current].hitPoints);
-
-                    fightDialogue.innerHTML = "The enemy hits you with " + npcCards[current].hitPoints + " hitpoints. <br> And you hit the enemy with " + threeCards[current].hitPoints + "  hitpoints";
-
-                }else if(npcCards[current].cardName === "Special"){
-
-                    fightDialogue.innerHTML ="The Enemy hits you with a Ki blast of " + npcCards[current].hitPoints + " hitpoints. </br> You hit the enemy with " + threeCards[current].hitPoints + " hitpoints.";
-
-                    playerTakesDMG(npcCards[current].hitPoints);
-                    npcTakesDMG(threeCards[current].hitPoints);
-
-                }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints < threeCards[current].hitPoints ){
-
-                    fightDialogue.innerHTML = "You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.";
-
-                    let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;
-
-                    npcDef();
-                    npcTakesDMG(dmg);
-                    sfx.blockedSound.play();
-                    
-
-                }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
-
-                    fightDialogue.innerHTML = "You're attacking with " + threeCards[current].hitPoints + " and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points.";
-
-                    let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
-                    
-                    npcDef();
-                    playerTakesDMG(dmg);
-                    sfx.blockedSound.play();
-
-                }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
-
-                    fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
-                    npcDef();
-                    sfx.blockedSound.play();
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    fightDialogue.innerHTML = "the enemy attemps to evade your attack with " + npcCards[current].hitPoints + "0% chance of success.";
-
-                    let successRate = npcCards[current].hitPoints;
-                    let max = 10;
-                    let evadeChance = max - successRate;
-
-                    if(npcCards[current].hitPoints > 10){
-
-                        successRate = 10;
-                        npcDodge();
-                        sfx.dodgingSound.play();
-                        fightDialogue.innerHTML = "The enemy evades your attack !";
-                        break;
-
-                    }
-
-                    let calcEvaChance = Math.floor(Math.random() * ( max - 1) +1);
-
-                    console.log(" npc rolled " + calcEvaChance);
-
-                    if(calcEvaChance >= evadeChance){
-
-                        npcDodge();
-                        sfx.dodgingSound.play();
-                        fightDialogue.innerHTML = "The enemy evades your attack !";
-
-                        
-                    }else{
-
-                       
-                        fightDialogue.innerHTML = "The enemy was too slow and took " + threeCards[current].hitPoints + " hitpoints !";
-                        npcTakesDMG(threeCards[current].hitPoints);
-                      
-
-                    }
-                    
-                }else if( npcCards[current].cardName === "Heal"){
-
-                    fightDialogue.innerHTML = "The enemy tries to heal but You attacked and dealt " + threeCards[current].hitPoints + " hitpoints.";
-
-                    npcTakesDMG(threeCards[current].hitPoints);
-
-
-                }
-
-            break;
-
-            case "Defence":
-
-                playerDef();
-
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
-
-                    npcAtk();
-                    sfx.blockedSound.play();
-
-                    if(threeCards[current].hitPoints < npcCards[current].hitPoints){
-
-                        let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
-
-                        pHealth -= dmg;
-
-                        fightDialogue.innerHTML = "The enemy attacks you for " + npcCards[current].hitPoints + " hitpoints but you've blocked " + threeCards[current].hitPoints + " of DMG ";
-
-                        pHPBlock.innerHTML = pHealth;
-
-                    }else if(threeCards[current].hitPoints > npcCards[current].hitPoints){
-
-                        let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;;
-
-                        npcTakesDMG(dmg);
-                        tigerBloodyBlock();
-
-                        fightDialogue.innerHTML = "You've managed to counter the enemy some of the dmg is returned!";
-
-                        
-
-                    }
-                    
-                }else if(npcCards[current].cardName === "Defence"){
-
-                    fightDialogue.innerHTML = "You both put up your guards";
-                    npcDef();
-                    sfx.dodgingSound.play();
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    fightDialogue.innerHTML ="You feinted an attack and made the enemy flinch.";
-                    npcDodge();
-                    sfx.dodgingSound.play();
-
-                }else if( npcCards[current].cardName === "Heal"){
-
-                    npcHeal(npcCards[current].hitPoints);
-                    sfx.dodgingSound.play();
-
-                }
-
-            break;
-
-            case "Evasion":
-
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
-
-                    npcAtk();
-
-                    let successRate = 10 - threeCards[current].hitPoints;
-
-                    if(threeCards[current].hitPoints >= 10){
-
-                        successRate = 10;
-                        playerDodge();
-                        mikoDodgeStrike();
-                        sfx.dodgingSound.play();
-                        fightDialogue.innerHTML = "You dodged the enemy's attack !";
-                        break;
-                        
-
-                    }
-
-                    let calcEvaChance = Math.floor(Math.random() * ( 10 - 1) +1);
-
-                    console.log(" You rolled " + calcEvaChance);
-
-                    if(calcEvaChance >= successRate){
-
-                        fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You evade the attack !";
-                        playerDodge();
-                        mikoDodgeStrike();
-                        sfx.dodgingSound.play();
-
-                    }else{
-
-                        fightDialogue.innerHTML = "The enemy attacks with " + npcCards[current].hitPoints + " You attemps to evade the enemy's attack with " + threeCards[current].hitPoints + "0% chance of success. <br> You were too slow and took the attack !";
-
-                        playerTakesDMG(npcCards[current].hitPoints);
-
-                    }
-                    
-                }else if( npcCards[current].cardName === "Heal"){
-
-                    playerDodge();
-                    sfx.dodgingSound.play();
-                    
-  
-                    npcHeal(npcCards[current].hitPoints);
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    fightDialogue.innerHTML = "You both though the other was going to attack and moved to dodge.";
-                    npcDodge();
-                    playerDodge();
-                    
-                    sfx.dodgingSound.play();
-
-                }else if(npcCards[current].cardName === "Defence"){
-
-                    playerDodge();
-                    
-                    sfx.dodgingSound.play();
-                    
-                    fightDialogue.innerHTML = "You moved while the enemy puts his guard up.";
-                    npcDef();
-                }       
-
-            break;
-
-            case "Heal":
-
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
-
-                    npcAtk();
-
-                    playerTakesDMG(npcCards[current].hitPoints);
-                    
-                    fightDialogue.innerHTML = "You tried to Heal but the enemy attacked you for "+ npcCards[current].hitPoints + " hitPoints.";
-                    
-
-                }else if(npcCards[current].cardName === "Defence"){
-                    
-                    playerHeal(threeCards[current].hitPoints);
-                    npcDef();
-                    sfx.dodgingSound.play();
-
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    npcDodge();
-                    sfx.dodgingSound.play();
-                    
-                    
-                    sfx.dodgingSound.play();
-                    playerHeal(threeCards[current].hitPoints);
-   
-
-                }else if(npcCards[current].cardName === "Heal"){
-
-                    fightDialogue.innerHTML = "Looks like you both needed a heal";
-
-                    if(npcCards[current].cardName === "Heal"){
-    
-                        npcHeal(npcCards[current].hitPoints);
-
-                        playerHeal(threeCards[current].hitPoints);
-
-                        
-                    }
-                }    
-
-            break;
-            
-            case "Special":
-
-                playerKiBlast();
-
-                if(npcCards[current].cardName === "Attack"){
-
-                    npcAtk();
-
-                    fightDialogue.innerHTML ="The enemy hits you with " + npcCards[current].hitPoints + " hitpoints. <br> You hit the enemy with a Ki Blast ===o) dealing " + threeCards[current].hitPoints + " hitpoints.";
-
-                    npcTakesDMG(threeCards[current].hitPoints);
-                    playerTakesDMG(npcCards[current].hitPoints);
-
-                }else if(npcCards[current].cardName === "Special"){
-
-                    fightDialogue.innerHTML = "You both launch a ki blast! ===o)(o=== ";
-
-                    var hitChance = Math.floor(Math.random() * ( 10 - 0));
-
-                    if(hitChance > 5){
-
-                        npcTakesDMG(threeCards[current].hitPoints);
-                        fightDialogue.innerHTML = "Your ki blast ====O) was stronger and the enemy took 25 points of DMG!!";
-
-                    }else if(hitChance == 5){
-
-                        fightDialogue.innerHTML = "You both attacked with equal amount of force and no one took DMG !";
-
-                    }else if(hitChance < 5){
-
-                        
-                        playerTakesDMG(npcCards[current].hitPoints);
-                        fightDialogue.innerHTML = "Your Ki blast was weaker =o)(O=== and you ended up taking the enemy's attack T.T";
-
-                    }
-
-                    
-                }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints < threeCards[current].hitPoints ){
-
-                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) and " + npcsArr[0].firstName + " defends with " + npcCards[current].hitPoints + " points some of the dammage was negated.";
-
-                    let dmg = threeCards[current].hitPoints - npcCards[current].hitPoints;
-
-                    npcDef();
-                    npcTakesDMG(dmg);
-                    sfx.blockedSound.play();
-
-                }else if(npcCards[current].cardName === "Defence" && npcCards[current].hitPoints > threeCards[current].hitPoints ){
-
-                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) " + threeCards[current].hitPoints + "and " + npcsArr[0].firstName + "defends with " + npcCards[current].hitPoints + " points.";
-
-                    let dmg = npcCards[current].hitPoints - threeCards[current].hitPoints;
-
-                    npcDef();
-                    playerTakesDMG(dmg);
-                    sfx.blockedSound.play();
-
-                }else if( npcCards[current].cardName === "Defence" && npcCards[current].hitPoints == threeCards[current].hitPoints){
-
-                    fightDialogue.innerHTML = "The enemy has successfully blocked your attack no DMG was dealt !";
-                    npcDef();
-                    sfx.blockedSound.play();
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    fightDialogue.innerHTML = "the enemy attemps to evade your Ki blast ===o) with " + npcCards[current].hitPoints + "0% chance of success.";
-
-                    let successRate = 10 - npcCards[current].hitPoints;
-
-                    if(npcCards[current].hitPoints >= 10){
-
-                        successRate = 10;
-                        
-                    sfx.dodgingSound.play();
-                    npcDodge();
-                    fightDialogue.innerHTML = "The enemy evades your attack !";
-                    return;
-
-                    }
-
-                    let calcEvaChance = Math.floor(Math.random() * ( max - 1));
-
-                    console.log(" npc rolled " + calcEvaChance);
-
-                    if(calcEvaChance >= successRate){
-
-
-                        npcDodge();
-                        fightDialogue.innerHTML = "The enemy evades your attack !";
-
-                        
-                    }else{
-
-                        fightDialogue.innerHTML ="The enemy was too slow !";
-                        npcTakesDMG(threeCards[current].hitPoints);
-
-                    }
-                    
-                }else if( npcCards[current].cardName === "Heal"){
-
-                    fightDialogue.innerHTML = "You're attacking with a Ki blast ===o) while the enemy tries to heal and dealt 25 hitpoints.";
-
-                    npcHealth -= threeCards[current].hitPoints;
-                    npcHPBlock.innerHTML = npcHealth;
-
-                    
-
-                }
-
-            break;
-
-            case "Charge" :
-
-                if(npcCards[current].cardName === "Attack" || npcCards[current].cardName === "Special"){
-
-                        let dmg = npcCards[current].hitPoints;
-                        
-                        npcAtk();
-                    playerTakesDMG(dmg);
-                    sfx.punchSound.play();
-                        
-                        fightDialogue.innerHTML = " You tried to charge your Ki but the enemy attacks you for " + npcCards[current].hitPoints + ".";
-
-                    
-                }else if(npcCards[current].cardName === "Defence"){
-
-                    fightDialogue.innerHTML = "The enemy puts up his guard while you charged your Ki.";
-                    npcDef();
-                    sfx.dodgingSound.play();
-                    jackMachinGunPunch();
-
-                }else if(npcCards[current].cardName === "Evasion"){
-
-                    fightDialogue.innerHTML ="The enemy flinch while you charge your Ki.";
-                    npcDodge();
-                    sfx.dodgingSound.play();
-                    jackMachinGunPunch();
-
-                }else if( npcCards[current].cardName === "Heal"){
-
-                    npcHeal(npcCards[current].hitPoints);
-                    jackMachinGunPunch();
-
-                }
-
-
-            break;
-
-        }
-
-
-        ///////////Get Health from each turn and display it on screen///////////
+    function submitCardsSelection() {
+      pHealth = pHPBlock.innerHTML;
+      pMaxHealth = whatCharacter.hp;
+      npcMaxHealth = 40;
+
+      console.log(
+        "The current card being read is " +
+          threeCards[current].cardName +
+          " with " +
+          threeCards[current].hitPoints +
+          " hitpoints."
+      );
+
+      switch (threeCards[current].cardName) {
+        case "Attack":
+          playerAtk();
+
+          if (npcCards[current].cardName === "Attack") {
+            npcAtk();
+            npcTakesDMG(threeCards[current].hitPoints);
+            playerTakesDMG(npcCards[current].hitPoints);
+
+            fightDialogue.innerHTML =
+              "The enemy hits you with " +
+              npcCards[current].hitPoints +
+              " hitpoints. <br> And you hit the enemy with " +
+              threeCards[current].hitPoints +
+              "  hitpoints";
+          } else if (npcCards[current].cardName === "Special") {
+            fightDialogue.innerHTML =
+              "The Enemy hits you with a Ki blast of " +
+              npcCards[current].hitPoints +
+              " hitpoints. </br> You hit the enemy with " +
+              threeCards[current].hitPoints +
+              " hitpoints.";
+
+            playerTakesDMG(npcCards[current].hitPoints);
+            npcTakesDMG(threeCards[current].hitPoints);
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints < threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "You're attacking with " +
+              threeCards[current].hitPoints +
+              " and " +
+              npcsArr[0].firstName +
+              " defends with " +
+              npcCards[current].hitPoints +
+              " points.";
+
+            let dmg =
+              threeCards[current].hitPoints - npcCards[current].hitPoints;
+
+            npcDef();
+            npcTakesDMG(dmg);
+            sfx.blockedSound.play();
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints > threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "You're attacking with " +
+              threeCards[current].hitPoints +
+              " and " +
+              npcsArr[0].firstName +
+              " defends with " +
+              npcCards[current].hitPoints +
+              " points.";
+
+            let dmg =
+              npcCards[current].hitPoints - threeCards[current].hitPoints;
+
+            npcDef();
+            playerTakesDMG(dmg);
+            sfx.blockedSound.play();
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints == threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "The enemy has successfully blocked your attack no DMG was dealt !";
+            npcDef();
+            sfx.blockedSound.play();
+          } else if (npcCards[current].cardName === "Evasion") {
+            fightDialogue.innerHTML =
+              "the enemy attemps to evade your attack with " +
+              npcCards[current].hitPoints +
+              "0% chance of success.";
+
+            let successRate = npcCards[current].hitPoints;
+            let max = 10;
+            let evadeChance = max - successRate;
+
+            if (npcCards[current].hitPoints > 10) {
+              successRate = 10;
+              npcDodge();
+              sfx.dodgingSound.play();
+              fightDialogue.innerHTML = "The enemy evades your attack !";
+              break;
+            }
+
+            let calcEvaChance = Math.floor(Math.random() * (max - 1) + 1);
+
+            console.log(" npc rolled " + calcEvaChance);
+
+            if (calcEvaChance >= evadeChance) {
+              npcDodge();
+              sfx.dodgingSound.play();
+              fightDialogue.innerHTML = "The enemy evades your attack !";
+            } else {
+              fightDialogue.innerHTML =
+                "The enemy was too slow and took " +
+                threeCards[current].hitPoints +
+                " hitpoints !";
+              npcTakesDMG(threeCards[current].hitPoints);
+            }
+          } else if (npcCards[current].cardName === "Heal") {
+            fightDialogue.innerHTML =
+              "The enemy tries to heal but You attacked and dealt " +
+              threeCards[current].hitPoints +
+              " hitpoints.";
+
+            npcTakesDMG(threeCards[current].hitPoints);
+          }
+
+          break;
+
+        case "Defence":
+          playerDef();
+
+          if (
+            npcCards[current].cardName === "Attack" ||
+            npcCards[current].cardName === "Special"
+          ) {
+            npcAtk();
+            sfx.blockedSound.play();
+
+            if (threeCards[current].hitPoints < npcCards[current].hitPoints) {
+              let dmg =
+                npcCards[current].hitPoints - threeCards[current].hitPoints;
+
+              pHealth -= dmg;
+
+              fightDialogue.innerHTML =
+                "The enemy attacks you for " +
+                npcCards[current].hitPoints +
+                " hitpoints but you've blocked " +
+                threeCards[current].hitPoints +
+                " of DMG ";
+
+              pHPBlock.innerHTML = pHealth;
+            } else if (
+              threeCards[current].hitPoints > npcCards[current].hitPoints
+            ) {
+              let dmg =
+                threeCards[current].hitPoints - npcCards[current].hitPoints;
+
+              npcTakesDMG(dmg);
+              tigerBloodyBlock();
+
+              fightDialogue.innerHTML =
+                "You've managed to counter the enemy some of the dmg is returned!";
+            }
+          } else if (npcCards[current].cardName === "Defence") {
+            fightDialogue.innerHTML = "You both put up your guards";
+            npcDef();
+            sfx.dodgingSound.play();
+          } else if (npcCards[current].cardName === "Evasion") {
+            fightDialogue.innerHTML =
+              "You feinted an attack and made the enemy flinch.";
+            npcDodge();
+            sfx.dodgingSound.play();
+          } else if (npcCards[current].cardName === "Heal") {
+            npcHeal(npcCards[current].hitPoints);
+            sfx.dodgingSound.play();
+          }
+
+          break;
+
+        case "Evasion":
+          if (
+            npcCards[current].cardName === "Attack" ||
+            npcCards[current].cardName === "Special"
+          ) {
+            npcAtk();
+
+            let successRate = 10 - threeCards[current].hitPoints;
+
+            if (threeCards[current].hitPoints >= 10) {
+              successRate = 10;
+              playerDodge();
+              mikoDodgeStrike();
+              sfx.dodgingSound.play();
+              fightDialogue.innerHTML = "You dodged the enemy's attack !";
+              break;
+            }
+
+            let calcEvaChance = Math.floor(Math.random() * (10 - 1) + 1);
+
+            console.log(" You rolled " + calcEvaChance);
+
+            if (calcEvaChance >= successRate) {
+              fightDialogue.innerHTML =
+                "The enemy attacks with " +
+                npcCards[current].hitPoints +
+                " You attemps to evade the enemy's attack with " +
+                threeCards[current].hitPoints +
+                "0% chance of success. <br> You evade the attack !";
+              playerDodge();
+              mikoDodgeStrike();
+              sfx.dodgingSound.play();
+            } else {
+              fightDialogue.innerHTML =
+                "The enemy attacks with " +
+                npcCards[current].hitPoints +
+                " You attemps to evade the enemy's attack with " +
+                threeCards[current].hitPoints +
+                "0% chance of success. <br> You were too slow and took the attack !";
+
+              playerTakesDMG(npcCards[current].hitPoints);
+            }
+          } else if (npcCards[current].cardName === "Heal") {
+            playerDodge();
+            sfx.dodgingSound.play();
+
+            npcHeal(npcCards[current].hitPoints);
+          } else if (npcCards[current].cardName === "Evasion") {
+            fightDialogue.innerHTML =
+              "You both though the other was going to attack and moved to dodge.";
+            npcDodge();
+            playerDodge();
+
+            sfx.dodgingSound.play();
+          } else if (npcCards[current].cardName === "Defence") {
+            playerDodge();
+
+            sfx.dodgingSound.play();
+
+            fightDialogue.innerHTML =
+              "You moved while the enemy puts his guard up.";
+            npcDef();
+          }
+
+          break;
+
+        case "Heal":
+          if (
+            npcCards[current].cardName === "Attack" ||
+            npcCards[current].cardName === "Special"
+          ) {
+            npcAtk();
+
+            playerTakesDMG(npcCards[current].hitPoints);
+
+            fightDialogue.innerHTML =
+              "You tried to Heal but the enemy attacked you for " +
+              npcCards[current].hitPoints +
+              " hitPoints.";
+          } else if (npcCards[current].cardName === "Defence") {
+            playerHeal(threeCards[current].hitPoints);
+            npcDef();
+            sfx.dodgingSound.play();
+          } else if (npcCards[current].cardName === "Evasion") {
+            npcDodge();
+            sfx.dodgingSound.play();
+
+            sfx.dodgingSound.play();
+            playerHeal(threeCards[current].hitPoints);
+          } else if (npcCards[current].cardName === "Heal") {
+            fightDialogue.innerHTML = "Looks like you both needed a heal";
+
+            if (npcCards[current].cardName === "Heal") {
+              npcHeal(npcCards[current].hitPoints);
+
+              playerHeal(threeCards[current].hitPoints);
+            }
+          }
+
+          break;
+
+        case "Special":
+          playerKiBlast();
+
+          if (npcCards[current].cardName === "Attack") {
+            npcAtk();
+
+            fightDialogue.innerHTML =
+              "The enemy hits you with " +
+              npcCards[current].hitPoints +
+              " hitpoints. <br> You hit the enemy with a Ki Blast ===o) dealing " +
+              threeCards[current].hitPoints +
+              " hitpoints.";
+
+            npcTakesDMG(threeCards[current].hitPoints);
+            playerTakesDMG(npcCards[current].hitPoints);
+          } else if (npcCards[current].cardName === "Special") {
+            fightDialogue.innerHTML = "You both launch a ki blast! ===o)(o=== ";
+
+            var hitChance = Math.floor(Math.random() * (10 - 0));
+
+            if (hitChance > 5) {
+              npcTakesDMG(threeCards[current].hitPoints);
+              fightDialogue.innerHTML =
+                "Your ki blast ====O) was stronger and the enemy took 25 points of DMG!!";
+            } else if (hitChance == 5) {
+              fightDialogue.innerHTML =
+                "You both attacked with equal amount of force and no one took DMG !";
+            } else if (hitChance < 5) {
+              playerTakesDMG(npcCards[current].hitPoints);
+              fightDialogue.innerHTML =
+                "Your Ki blast was weaker =o)(O=== and you ended up taking the enemy's attack T.T";
+            }
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints < threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "You're attacking with a Ki blast ===o) and " +
+              npcsArr[0].firstName +
+              " defends with " +
+              npcCards[current].hitPoints +
+              " points some of the dammage was negated.";
+
+            let dmg =
+              threeCards[current].hitPoints - npcCards[current].hitPoints;
+
+            npcDef();
+            npcTakesDMG(dmg);
+            sfx.blockedSound.play();
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints > threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "You're attacking with a Ki blast ===o) " +
+              threeCards[current].hitPoints +
+              "and " +
+              npcsArr[0].firstName +
+              "defends with " +
+              npcCards[current].hitPoints +
+              " points.";
+
+            let dmg =
+              npcCards[current].hitPoints - threeCards[current].hitPoints;
+
+            npcDef();
+            playerTakesDMG(dmg);
+            sfx.blockedSound.play();
+          } else if (
+            npcCards[current].cardName === "Defence" &&
+            npcCards[current].hitPoints == threeCards[current].hitPoints
+          ) {
+            fightDialogue.innerHTML =
+              "The enemy has successfully blocked your attack no DMG was dealt !";
+            npcDef();
+            sfx.blockedSound.play();
+          } else if (npcCards[current].cardName === "Evasion") {
+            fightDialogue.innerHTML =
+              "the enemy attemps to evade your Ki blast ===o) with " +
+              npcCards[current].hitPoints +
+              "0% chance of success.";
+
+            let successRate = 10 - npcCards[current].hitPoints;
+
+            if (npcCards[current].hitPoints >= 10) {
+              successRate = 10;
+
+              sfx.dodgingSound.play();
+              npcDodge();
+              fightDialogue.innerHTML = "The enemy evades your attack !";
+              return;
+            }
+
+            let calcEvaChance = Math.floor(Math.random() * (max - 1));
+
+            console.log(" npc rolled " + calcEvaChance);
+
+            if (calcEvaChance >= successRate) {
+              npcDodge();
+              fightDialogue.innerHTML = "The enemy evades your attack !";
+            } else {
+              fightDialogue.innerHTML = "The enemy was too slow !";
+              npcTakesDMG(threeCards[current].hitPoints);
+            }
+          } else if (npcCards[current].cardName === "Heal") {
+            fightDialogue.innerHTML =
+              "You're attacking with a Ki blast ===o) while the enemy tries to heal and dealt 25 hitpoints.";
+
+            npcHealth -= threeCards[current].hitPoints;
+            npcHPBlock.innerHTML = npcHealth;
+          }
+
+          break;
+
+        case "Charge":
+          if (
+            npcCards[current].cardName === "Attack" ||
+            npcCards[current].cardName === "Special"
+          ) {
+            let dmg = npcCards[current].hitPoints;
+
+            npcAtk();
+            playerTakesDMG(dmg);
+            sfx.punchSound.play();
+
+            fightDialogue.innerHTML =
+              " You tried to charge your Ki but the enemy attacks you for " +
+              npcCards[current].hitPoints +
+              ".";
+          } else if (npcCards[current].cardName === "Defence") {
+            fightDialogue.innerHTML =
+              "The enemy puts up his guard while you charged your Ki.";
+            npcDef();
+            sfx.dodgingSound.play();
+            jackMachinGunPunch();
+          } else if (npcCards[current].cardName === "Evasion") {
+            fightDialogue.innerHTML =
+              "The enemy flinch while you charge your Ki.";
+            npcDodge();
+            sfx.dodgingSound.play();
+            jackMachinGunPunch();
+          } else if (npcCards[current].cardName === "Heal") {
+            npcHeal(npcCards[current].hitPoints);
+            jackMachinGunPunch();
+          }
+
+          break;
+      }
+
+      ///////////Get Health from each turn and display it on screen///////////
+
+      playerHealthChange();
+      npcHealthChange();
+
+      //////////////////////////////////////////////////////////////////////
+
+      current++;
+
+      if (current < 3) {
+        console.log("Card " + current);
+      } else if (current === 3) {
+        current = 0;
+        draw.style.display = "block";
+        submitSelection.classList.add("hidden");
+        draw.disabled = false;
+      }
+    }
+
+    function retryFight() {
+      playerLives--;
+
+      if (playerLives > 0 && npcWins === true) {
+        clearInterval(countDown);
+        clearInterval(nIntervID);
+
+        gameOverLaunched = false;
+        gameEnded = false;
+        playerWins = false;
+        npcWins = false;
+        playerCards.length = 0;
+        playerCards = [];
+        threeCards.length = 0;
+        threeCards = [];
+        npcCards.length = 0;
+        npcCards = [];
+
+        pHealth = pMaxHealth;
+        pHPBlock.innerHTML = pHealth;
+
+        // npcHealth = npcMaxHealth;
+        // npcHPBlock.innerHTML = npcHealth;
+
+        current = 0;
+        turns = 1;
+
+        fightDialogue.innerHTML = "";
 
         playerHealthChange();
         npcHealthChange();
-        
-        //////////////////////////////////////////////////////////////////////
 
-        current ++;
+        npcSprite.style.opacity = 1;
+        characterSprite.style.opacity = 1;
 
-        if(current < 3){
-            
-            console.log("Card " + (current));
+        var transition = document.querySelector(".gameover-background");
+        transition.remove();
 
-        }else if(current === 3){
+        draw.disabled = false;
+        draw.style.display = "block";
+        menuContent.classList.remove("hidden");
+        submitSelection.classList.add("hidden");
+        drawnCards.innerHTML = "";
+        gameEnded = false;
 
-            current = 0;
-            draw.style.display = "block";
-            submitSelection.classList.add("hidden");
-            draw.disabled = false;
-    
-            
-        }
-        
-
-    }
-    
-    function retryFight(){
-    
-    
-        playerLives --;
-
-        if(playerLives > 0 && npcWins === true){
-
-            clearInterval(countDown);
-            clearInterval(nIntervID);
-
-            gameOverLaunched = false;
-            gameEnded = false;
-            playerWins = false;
-            npcWins = false;
-            playerCards.length = 0;
-            playerCards = [];
-            threeCards.length = 0;
-            threeCards = [];
-            npcCards.length = 0;
-            npcCards = [];
-            
-            pHealth = pMaxHealth;
-            pHPBlock.innerHTML = pHealth;
-            
-            // npcHealth = npcMaxHealth;
-            // npcHPBlock.innerHTML = npcHealth;
-
-            current = 0;
-            turns = 1;
-            
-            fightDialogue.innerHTML = "";
-
-            
-            playerHealthChange();
-            npcHealthChange();
-            
-            npcSprite.style.opacity = 1;
-            characterSprite.style.opacity = 1;
-            
-            var transition = document.querySelector(".gameover-background");
-            transition.remove();
-
-            draw.disabled = false;
-            draw.style.display = "block";
-            menuContent.classList.remove("hidden");
-            submitSelection.classList.add("hidden");
-            drawnCards.innerHTML = "";
-            gameEnded = false;
-
-            sfx.startButtonSound.play();
-            setTimeout(function(){
-
-                sfx.fightScream.play();
-
-            },500);
-            
-
-
-        }else if(playerLives > 0 && playerWins === true){
-
-            if(playerLives < 5){
-
-                playerLives ++;
-
-            }
-            
-            clearInterval(countDown);
-            clearInterval(nIntervID);
-
-            gameOverLaunched = false;
-            gameEnded = false;
-            playerWins = false;
-            npcWins = false;
-            playerCards.length = 0;
-            playerCards = [];
-            threeCards.length = 0;
-            threeCards = [];
-            npcCards.length = 0;
-            npcCards = [];
-            
-            pHealth = pMaxHealth;
-            pHPBlock.innerHTML = pHealth;
-            
-            npcHealth = npcMaxHealth;
-            npcHPBlock.innerHTML = npcHealth;
-
-            current = 0;
-            turns = 1;
-           
-            fightDialogue.innerHTML = "";
-
-            
-            playerHealthChange();
-            npcHealthChange();
-            
-            npcSprite.style.opacity = 1;
-            characterSprite.style.opacity = 1;
-            
-            var transition = document.querySelector(".gameover-background");
-            transition.remove();
-
-            draw.disabled = false;
-            draw.style.display = "block";
-            menuContent.classList.remove("hidden");
-            submitSelection.classList.add("hidden");
-            drawnCards.innerHTML = "";
-            gameEnded = false;
-
-            sfx.startButtonSound.play();
-            setTimeout(function(){
-
-                sfx.fightScream.play();
-
-            },500);
-
-        }else if(playerLives === 0){
-
-            conTextBox.innerHTML = "You Lose";
-            yesnoContainer.remove();
-
-
-        }
-            
-            
-    
-    }
-
-
-    function gameEndedToggle(){
-
-
-        if(gameEnded === false){
-
-            gameEnded = true;
-
-        }else{
-
-            gameEnded = false;
-
+        sfx.startButtonSound.play();
+        setTimeout(function () {
+          sfx.fightScream.play();
+        }, 500);
+      } else if (playerLives > 0 && playerWins === true) {
+        if (playerLives < 5) {
+          playerLives++;
         }
 
-
-    }
-    
-    var gameOverLaunched = false;
-    
-    function gameOver(){
-
+        clearInterval(countDown);
         clearInterval(nIntervID);
 
-        if(gameEnded === true && gameOverLaunched === false){
+        gameOverLaunched = false;
+        gameEnded = false;
+        playerWins = false;
+        npcWins = false;
+        playerCards.length = 0;
+        playerCards = [];
+        threeCards.length = 0;
+        threeCards = [];
+        npcCards.length = 0;
+        npcCards = [];
 
-            if(gameOverLaunched === false){
+        pHealth = pMaxHealth;
+        pHPBlock.innerHTML = pHealth;
 
-                gameOverLaunched = true;
-    
-            }else{
-    
-                gameOverLaunched = false;
-    
-            }
-            
-            var transition = document.createElement("div");
-            transition.classList.add("gameover-background");
-    
-            var fightContainer = document.querySelector(".fight");
-            
-            fightContainer.appendChild(transition);
-            
-            
-            var continueContainer = document.createElement("div");
-            continueContainer.classList.add("continue-container");
-            
-            transition.appendChild(continueContainer);
-            
-            var continueText = document.createElement("div");
-            
-            continueContainer.appendChild(continueText);
-            
-            continueText.innerHTML = "Game Over";
-            
-            var decountContainer = document.createElement("div");
-            
-            continueContainer.appendChild(decountContainer); 
-            
-            if(playerWins === true){
-            
-                var resetFightContainer = document.createElement("div");
-                
-                var conTextBox = document.createElement("div");
-                conTextBox.innerHTML = "CONTINUE ?";
-                resetFightContainer.appendChild(conTextBox);
-                
-                
-                var yesnoContainer = document.createElement("div"); 
-                yesnoContainer.classList.add("yesno-container");
-                
-                var yesBox = document.createElement("div");
-                yesBox.addEventListener("click", retryFight);
-                
-                yesBox.innerHTML = "YES";
-                
-                var noBox = document.createElement("div");
-                noBox.addEventListener("click",function(){
-                
-                    location.reload();
-                
-                });
-            
-            noBox.innerHTML = "NO";
-            
-            yesnoContainer.appendChild(yesBox);
-            yesnoContainer.appendChild(noBox);
-            
-            resetFightContainer.appendChild(yesnoContainer);
-            
-            continueContainer.appendChild(resetFightContainer);
-            
-            }else if(npcWins === true){
-        
-                var resetFightContainer = document.createElement("div");
-                
-                var conTextBox = document.createElement("div");
-                conTextBox.innerHTML = "CONTINUE ?";
-                resetFightContainer.appendChild(conTextBox);
-                
-                
-                var yesnoContainer = document.createElement("div"); 
-                yesnoContainer.classList.add("yesno-container");
-                
-                var yesBox = document.createElement("div");
-                yesBox.addEventListener("click", retryFight);
-                
-                yesBox.innerHTML = "YES";
-                
-                var noBox = document.createElement("div");
-                noBox.addEventListener("click",function(){
-                
-                    location.reload();
-                
-                });
-                
-                noBox.innerHTML = "NO";
-                
-                yesnoContainer.appendChild(yesBox);
-                yesnoContainer.appendChild(noBox);
-                
-                resetFightContainer.appendChild(yesnoContainer);
-                
-                continueContainer.appendChild(resetFightContainer);
-                
-            
-            }
+        npcHealth = npcMaxHealth;
+        npcHPBlock.innerHTML = npcHealth;
 
-            
-            
-            var count = 10;
-            
-            decountContainer.innerHTML = count;
-            
-            
-            countDown = setInterval(decount,1000);
-            
-            
-            function decount(){
-            
-                count --;
-                
-                decountContainer.innerHTML = count;
-            
-                if(count === 0){
-                
-                    decountContainer.innerHTML = count;
-                
-                    location.reload();
-            
-                }
-           
-            }
+        current = 0;
+        turns = 1;
 
+        fightDialogue.innerHTML = "";
+
+        playerHealthChange();
+        npcHealthChange();
+
+        npcSprite.style.opacity = 1;
+        characterSprite.style.opacity = 1;
+
+        var transition = document.querySelector(".gameover-background");
+        transition.remove();
+
+        draw.disabled = false;
+        draw.style.display = "block";
+        menuContent.classList.remove("hidden");
+        submitSelection.classList.add("hidden");
+        drawnCards.innerHTML = "";
+        gameEnded = false;
+
+        sfx.startButtonSound.play();
+        setTimeout(function () {
+          sfx.fightScream.play();
+        }, 500);
+      } else if (playerLives === 0) {
+        conTextBox.innerHTML = "You Lose";
+        yesnoContainer.remove();
+      }
+    }
+
+    function gameEndedToggle() {
+      if (gameEnded === false) {
+        gameEnded = true;
+      } else {
+        gameEnded = false;
+      }
+    }
+
+    var gameOverLaunched = false;
+
+    function gameOver() {
+      clearInterval(nIntervID);
+
+      if (gameEnded === true && gameOverLaunched === false) {
+        if (gameOverLaunched === false) {
+          gameOverLaunched = true;
+        } else {
+          gameOverLaunched = false;
         }
-    
-    }   
 
-function addToSelection(value){
+        var transition = document.createElement("div");
+        transition.classList.add("gameover-background");
 
-    sfx.selectSound.play();
+        var fightContainer = document.querySelector(".fight");
 
-    let cards = Array.from(document.querySelectorAll(".card"));
+        fightContainer.appendChild(transition);
 
-    const index = cards.indexOf(value);
+        var continueContainer = document.createElement("div");
+        continueContainer.classList.add("continue-container");
 
-    console.log(index);
+        transition.appendChild(continueContainer);
 
-    selectedCards.push(value);
-    threeCards.push(playerCards[index]);
+        var continueText = document.createElement("div");
 
-    console.log(threeCards);
+        continueContainer.appendChild(continueText);
 
-    if(threeCards.length === 3){
+        continueText.innerHTML = "Game Over";
 
+        var decountContainer = document.createElement("div");
+
+        continueContainer.appendChild(decountContainer);
+
+        if (playerWins === true) {
+          var resetFightContainer = document.createElement("div");
+
+          var conTextBox = document.createElement("div");
+          conTextBox.innerHTML = "CONTINUE ?";
+          resetFightContainer.appendChild(conTextBox);
+
+          var yesnoContainer = document.createElement("div");
+          yesnoContainer.classList.add("yesno-container");
+
+          var yesBox = document.createElement("div");
+          yesBox.addEventListener("click", retryFight);
+
+          yesBox.innerHTML = "YES";
+
+          var noBox = document.createElement("div");
+          noBox.addEventListener("click", function () {
+            location.reload();
+          });
+
+          noBox.innerHTML = "NO";
+
+          yesnoContainer.appendChild(yesBox);
+          yesnoContainer.appendChild(noBox);
+
+          resetFightContainer.appendChild(yesnoContainer);
+
+          continueContainer.appendChild(resetFightContainer);
+        } else if (npcWins === true) {
+          var resetFightContainer = document.createElement("div");
+
+          var conTextBox = document.createElement("div");
+          conTextBox.innerHTML = "CONTINUE ?";
+          resetFightContainer.appendChild(conTextBox);
+
+          var yesnoContainer = document.createElement("div");
+          yesnoContainer.classList.add("yesno-container");
+
+          var yesBox = document.createElement("div");
+          yesBox.addEventListener("click", retryFight);
+
+          yesBox.innerHTML = "YES";
+
+          var noBox = document.createElement("div");
+          noBox.addEventListener("click", function () {
+            location.reload();
+          });
+
+          noBox.innerHTML = "NO";
+
+          yesnoContainer.appendChild(yesBox);
+          yesnoContainer.appendChild(noBox);
+
+          resetFightContainer.appendChild(yesnoContainer);
+
+          continueContainer.appendChild(resetFightContainer);
+        }
+
+        var count = 10;
+
+        decountContainer.innerHTML = count;
+
+        countDown = setInterval(decount, 1000);
+
+        function decount() {
+          count--;
+
+          decountContainer.innerHTML = count;
+
+          if (count === 0) {
+            decountContainer.innerHTML = count;
+
+            location.reload();
+          }
+        }
+      }
+    }
+
+    function addToSelection(value) {
+      sfx.selectSound.play();
+
+      let cards = Array.from(document.querySelectorAll(".card"));
+
+      const index = cards.indexOf(value);
+
+      console.log(index);
+
+      selectedCards.push(value);
+      threeCards.push(playerCards[index]);
+
+      console.log(threeCards);
+
+      if (threeCards.length === 3) {
         submitSelection.classList.remove("hidden");
-
-    }else if(threeCards.length > 3){
-    
+      } else if (threeCards.length > 3) {
         resetPlayerHand();
-    
+      }
     }
 
-}
+    function resetPlayerHand() {
+      threeCards = [];
+      threeCards.length = 0;
 
-function resetPlayerHand(){
+      let cards = Array.from(document.querySelectorAll(".card"));
 
-    threeCards = [];
-    threeCards.length = 0;
-    
-    let cards = Array.from(document.querySelectorAll(".card"));
-    
-    for(card of cards){
-    
+      for (card of cards) {
         card.classList.remove("selected-card");
-    
+      }
     }
 
-}
+    function removeFromSelection(value) {
+      sfx.selectSound.play();
 
-function removeFromSelection(value){
+      resetPlayerHand();
 
-    sfx.selectSound.play();
-    
-    resetPlayerHand();
-    
-    submitSelection.classList.add("hidden");
-    
-    /*let cards = Array.from(document.querySelectorAll(".card"));
+      submitSelection.classList.add("hidden");
+
+      /*let cards = Array.from(document.querySelectorAll(".card"));
     
     const index = cards.indexOf(value);
 
@@ -1874,194 +1543,133 @@ function removeFromSelection(value){
     threeCards.splice(index,1);
     console.log("ThreeCards length is " + threeCards.length)
     console.log("ThreeCards length is " + threeCards.length);*/
-    
-
-        
-
-}
-
-function cardChance (){
-
-    let min = 1;
-    let max = 100; 
-    var cardType;
-
-    var result = Math.floor(Math.random() * ( max - min));
-
-    if(whatCharacter.firstName === "Jack"){
-
-
-        if(result <= 10){
-
-            cardType = healCard;
-    
-        }else if(result > 10 && result <= 25){
-    
-            cardType = evaCard;
-    
-        }else if(result > 25 && result <= 35){
-
-            cardType = chargeCard;
-
-        }else if(result > 35 && result <= 65){
-    
-            cardType = defCard;
-    
-        }else if(result > 65 && result <= 95){
-    
-            cardType = atkCard;
-        
-        }else{
-    
-            cardType = specialAtk;
-    
-        }
-    
-        return cardType;
-
-    }else{
-
-        if(result <= 10){
-
-            cardType = healCard;
-    
-        }else if(result > 10 && result <= 35){
-    
-            cardType = evaCard;
-    
-        }else if(result > 35 && result <= 65){
-    
-            cardType = defCard;
-    
-        }else if(result > 65 && result <= 95){
-    
-            cardType = atkCard;
-        
-        }else{
-    
-            cardType = specialAtk;
-    
-        }
-    
-        return cardType;
-
     }
-            
 
-}
+    function cardChance() {
+      let min = 1;
+      let max = 100;
+      var cardType;
 
-function npcCardChance (){
+      var result = Math.floor(Math.random() * (max - min));
 
-    let min = 1;
-    let max = 100; 
-    var cardType;
+      if (whatCharacter.firstName === "Jack") {
+        if (result <= 10) {
+          cardType = healCard;
+        } else if (result > 10 && result <= 25) {
+          cardType = evaCard;
+        } else if (result > 25 && result <= 35) {
+          cardType = chargeCard;
+        } else if (result > 35 && result <= 65) {
+          cardType = defCard;
+        } else if (result > 65 && result <= 95) {
+          cardType = atkCard;
+        } else {
+          cardType = specialAtk;
+        }
 
-    var result = Math.floor(Math.random() * ( max - min))
+        return cardType;
+      } else {
+        if (result <= 10) {
+          cardType = healCard;
+        } else if (result > 10 && result <= 35) {
+          cardType = evaCard;
+        } else if (result > 35 && result <= 65) {
+          cardType = defCard;
+        } else if (result > 65 && result <= 95) {
+          cardType = atkCard;
+        } else {
+          cardType = specialAtk;
+        }
 
-    if(result <= 10){
+        return cardType;
+      }
+    }
 
+    function npcCardChance() {
+      let min = 1;
+      let max = 100;
+      var cardType;
+
+      var result = Math.floor(Math.random() * (max - min));
+
+      if (result <= 10) {
         cardType = nhealCard;
-
-    }else if(result > 10 && result <= 35){
-
+      } else if (result > 10 && result <= 35) {
         cardType = nevaCard;
-
-    }else if(result > 35 && result <= 65){
-
+      } else if (result > 35 && result <= 65) {
         cardType = ndefCard;
-
-    }else if(result > 65 && result <= 95){
-
+      } else if (result > 65 && result <= 95) {
         cardType = natkCard;
-    
-    }else{
-
+      } else {
         cardType = nspecialAtk;
+      }
 
+      return cardType;
     }
 
-    return cardType;
-            
+    function playerRandomCards() {
+      console.log(whatCharacter.firstName + " was selected");
 
-}
+      playerCards = [];
 
-function playerRandomCards(){
-
-    console.log(whatCharacter.firstName + " was selected");
-
-    playerCards = [];
-
-    if(!drawnCards.innerHTML == ""){
+      if (!drawnCards.innerHTML == "") {
         drawnCards.innerHTML = "";
-    }
+      }
 
-    playerCards.length = 0;
+      playerCards.length = 0;
 
-    var characterBonus = whatCharacter.bonus;
-    var characterWeakness = whatCharacter.weakness;
+      var characterBonus = whatCharacter.bonus;
+      var characterWeakness = whatCharacter.weakness;
 
-    var atkBonus = 0;
-    var defBonus = 0;
-    var evaBonus = 0;
-    var defDebuf = 0;
-    var healDebuf = 0;
-    var evaDebuf = 0;
+      var atkBonus = 0;
+      var defBonus = 0;
+      var evaBonus = 0;
+      var defDebuf = 0;
+      var healDebuf = 0;
+      var evaDebuf = 0;
 
-    switch(whatCharacter.firstName){
-
+      switch (whatCharacter.firstName) {
         case "Miko":
+          evaBonus = characterBonus;
+          healDebuf = characterWeakness;
 
-           evaBonus = characterBonus;
-           healDebuf = characterWeakness;
+          break;
 
-        break;  
-        
         case "Jack":
+          atkBonus = characterBonus;
+          defDebuf = characterWeakness;
 
-           atkBonus = characterBonus;
-           defDebuf = characterWeakness;
-           
-        break;
+          break;
 
         case "Tiger":
+          defBonus = characterBonus;
+          evaDebuf = characterWeakness;
 
-           defBonus = characterBonus;
-           evaDebuf = characterWeakness;
-           
-        break;
+          break;
+      }
 
-    }
+      let deepCopy;
 
-let deepCopy;
-
-    for( i = 0 ; i <= 4 ; i++ ){
- 
+      for (i = 0; i <= 4; i++) {
         const playerCard = cardChance();
-        
-        
-        switch(playerCard.cardName){
 
-            case "Attack" :
-
+        switch (playerCard.cardName) {
+          case "Attack":
             playerCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
             playerCard.hitPoints += atkBonus;
 
-            
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
 
             break;
 
-            case "Defence" : 
-
+          case "Defence":
             playerCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
             playerCard.hitPoints += defBonus;
             playerCard.hitPoints -= defDebuf;
 
-            if(playerCard.hitPoints < 0){
-            
-                playerCard.hitPoints = 0;
-            
+            if (playerCard.hitPoints < 0) {
+              playerCard.hitPoints = 0;
             }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
@@ -2069,15 +1677,12 @@ let deepCopy;
 
             break;
 
-            case "Heal" : 
-
+          case "Heal":
             playerCard.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
             playerCard.hitPoints -= healDebuf;
 
-            if(playerCard.hitPoints < 0){
-            
-                playerCard.hitPoints = 0;
-            
+            if (playerCard.hitPoints < 0) {
+              playerCard.hitPoints = 0;
             }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
@@ -2085,17 +1690,14 @@ let deepCopy;
 
             break;
 
-            case "Evasion" : 
-
+          case "Evasion":
             playerCard.hitPoints = Math.round(Math.random() * (10 - 3)) + 3;
 
             playerCard.hitPoints += evaBonus;
             playerCard.hitPoints -= evaDebuf;
 
-            if(playerCard.hitPoints < 0){
-            
-                playerCard.hitPoints = 0;
-            
+            if (playerCard.hitPoints < 0) {
+              playerCard.hitPoints = 0;
             }
 
             deepCopy = JSON.parse(JSON.stringify(playerCard));
@@ -2103,159 +1705,122 @@ let deepCopy;
 
             break;
 
-            case "Special" : 
-
+          case "Special":
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
 
             break;
 
-            case "Charge" :
-
+          case "Charge":
             deepCopy = JSON.parse(JSON.stringify(playerCard));
             playerCards.push(deepCopy);
 
             break;
-
-
         }
-        
-        
+
         // console.log(deepCopy);
-        
 
         let selector = document.createElement("div");
         drawnCards.appendChild(selector);
         selector.classList.add("card");
-        selector.addEventListener("click", function(event){
-
-            if(!event.target.classList.contains("selected-card") && threeCards.length < 3 ){
-        
-                this.classList.add("selected-card");
-                console.log(this);
-                addToSelection(this);
-        
-            }else if(event.target.classList.contains("selected-card")){
-        
-                this.classList.remove("selected-card");
-                console.log(this);
-                removeFromSelection();
-
-            }else{
-            
+        selector.addEventListener("click", function (event) {
+          if (
+            !event.target.classList.contains("selected-card") &&
+            threeCards.length < 3
+          ) {
+            this.classList.add("selected-card");
+            console.log(this);
+            addToSelection(this);
+          } else if (event.target.classList.contains("selected-card")) {
+            this.classList.remove("selected-card");
+            console.log(this);
+            removeFromSelection();
+          } else {
             resetPlayerHand();
             submitSelection.classList.add("hidden");
-        
-                /*selectedCards[0].classList.remove("selected-card");
+
+            /*selectedCards[0].classList.remove("selected-card");
                 selectedCards.shift();
                 threeCards.shift();*/
-
-            }
-        
+          }
         });
 
-        selector.innerHTML = playerCards[i].cardName + " " + playerCards[i].hitPoints;
-        
-        console.log( playerCards[i].cardName + " with  " + playerCards[i].hitPoints + " hitPoints" );
+        selector.innerHTML =
+          playerCards[i].cardName + " " + playerCards[i].hitPoints;
 
-        
+        console.log(
+          playerCards[i].cardName +
+            " with  " +
+            playerCards[i].hitPoints +
+            " hitPoints"
+        );
+      }
+
+      console.log(playerCards);
     }
 
-    console.log(playerCards);
+    function npcRandomCards() {
+      npcCards.length = 0;
 
-    
-}
-
-function npcRandomCards(){
-
-    npcCards.length = 0;
-
-    for( i = 0 ; i <= 2 ; i++ ){
-
- 
+      for (i = 0; i <= 2; i++) {
         const npcCard = npcCardChance();
-        
-        switch(npcCard.cardName){
 
-            case "Attack" :
-
+        switch (npcCard.cardName) {
+          case "Attack":
             npcCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
-
-            
 
             npcCards.push(npcCard);
 
             break;
 
-            case "Defence" : 
-
+          case "Defence":
             npcCard.hitPoints = Math.round(Math.random() * (10 - 1)) + 1;
-
-            
 
             npcCards.push(npcCard);
 
             break;
 
-            case "Heal" : 
-
+          case "Heal":
             npcCard.hitPoints = Math.round(Math.random() * (10 - 5)) + 5;
 
-            
-
             npcCards.push(npcCard);
 
             break;
 
-            case "Evasion" : 
-
+          case "Evasion":
             npcCard.hitPoints = Math.round(Math.random() * (10 - 3)) + 3;
 
-            
-
             npcCards.push(npcCard);
 
             break;
 
-            case "Special" : 
-
-           
-
+          case "Special":
             npcCards.push(npcCard);
 
             break;
-
-
         }
-    
-        console.log(npcCard);
 
+        console.log(npcCard);
+      }
     }
 
-}
+    function drawCards() {
+      sfx.selectSound.play();
 
+      npcRandomCards();
+      playerRandomCards();
 
+      // var submitSelection = document.createElement("div");
+      // drawnCards.appendChild(submitSelection);
+      // submitSelection.classList.add("submit-selection");
+      var submitSelection = document.querySelector(".submit-selection");
+      submitSelection.innerHTML = "Submit";
+      submitSelection.classList.add("hidden");
+      submitSelection.addEventListener("click", startRound);
+      draw.disabled = true;
+      draw.style.display = "none";
+    }
 
-function drawCards(){
-
-    sfx.selectSound.play();
-
-    npcRandomCards();
-    playerRandomCards();
-
-    // var submitSelection = document.createElement("div");
-    // drawnCards.appendChild(submitSelection);
-    // submitSelection.classList.add("submit-selection");
-    var submitSelection = document.querySelector(".submit-selection")
-    submitSelection.innerHTML = "Submit";
-    submitSelection.classList.add("hidden");
-    submitSelection.addEventListener("click", startRound);
-    draw.disabled = true;
-    draw.style.display = "none";
-
-}
-
-draw.addEventListener("click", drawCards);
-
-}
+    draw.addEventListener("click", drawCards);
+  }
 }

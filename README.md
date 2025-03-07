@@ -1,7 +1,7 @@
 # Super Cat Fighter
 
 <div align="center">
-  <img src="IMG/Not_Nintendo.png" alt="Not Nintendo Logo" loop>
+  <img src="IMG/Not_Nintendo2.gif" alt="Not Nintendo Logo" loop>
 </div>
 
 ![Super Cat Fighter](IMG/start.png)
@@ -91,7 +91,7 @@ What makes this project unique is that I:
     <h4>Miko - Stance, Attack & Defense</h4>
     <img src="IMG/miko_stance.png" width="180" alt="Miko Stance">
     <img src="IMG/miko_atk.png" width="180" alt="Miko Attack">
-    <img src="IMG/miko_def.png" width="180" alt="Miko Defense">
+    <img src="IMG/miko_def2.gif" width="180" alt="Miko Defense">
     
     <h4>Jack - Stance, Attack & Defense</h4>
     <img src="IMG/jack_stance.png" width="180" alt="Jack Stance">
